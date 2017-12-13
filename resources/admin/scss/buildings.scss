@@ -1,0 +1,72 @@
+.modal__data--input{
+	width:100%;
+	margin-bottom: 5px;
+
+
+	.modal__data--name{
+		width: 40%;
+		// float: right;
+		padding-right: 10px;
+		text-align: right;
+		vertical-align: top;
+	}
+	.modal__data--text{
+		width: 40%;
+		height: 24px;
+		border: 1px solid $borderInput;
+		padding-left: 1px;
+		outline: none;
+
+		// float:left;
+	}
+
+	.on_click_modal__select{
+		width: 40%;
+
+		option {
+			height: 30px;
+			text-align: left;
+
+		}
+
+		&:focus {
+			
+		}
+		&:active {
+			
+		}
+	}
+
+	.modal__select{
+		@extend .on_click_modal__select;
+
+		option {
+			height: 30px;
+			text-align: left;
+		}
+	}
+
+	.map__location{
+		width: 100%;
+		height: 250px;
+		background-color: #003;
+		position: relative;
+		text-align: center;
+		margin-top: 15px;
+	}
+
+	.error__details{
+		font-size:14px;
+		width:100%;
+		padding-left: 41%;
+		color: red;
+
+	}
+}
+
+.modal__buttons {
+	width: 100%;
+	text-align:right;
+	position: relative;
+}
+

@@ -1,0 +1,248 @@
+<div class="sub__body">
+	<div class="section__header">
+		<ul class="breadcrumb-with-details_element">
+			<li><router-link to="home">Home</router-link></li>
+			<li><router-link to="entries">Entries</router-link></li>
+			<li>Lesna B1 &rarr; Hyrja V/C1</li>
+		</ul>	
+	</div>
+
+	<div class="block__add">
+		<button class="button__add--item">+ Add access pouint</button>
+		<button class="button__add--item">+ Add Elevator</button>
+		<button class="button__add--item">+ Add Client</button>
+	</div>
+
+	<div class="all__block">
+		<div class="block__details">
+			<div class="block__details--header">
+				<h4 class="block__details--subtitle">Information Data / Address</h4>	
+				<button class="minimize" v-on:click="show__info_address()">-</button>
+			</div>
+
+			<div class="block__details--body" v-if="show__address_block">
+				<div class="block__details--body-left">
+					<div class="details__element">
+						<label class="element__label">City</label>
+						<input type="email" class="element__input" >
+					</div >
+					<div class="details__element">
+						<label class="element__label">Neighborhood</label>
+						<input type="email" class="element__input">
+					</div>
+					<div class="details__element">
+						<label class="element__label">Street</label>
+						<input type="email" class="element__input">
+					</div>
+					<div class="details__element">
+						<label class="element__label">Building</label>
+						<input type="email" class="element__input" >
+					</div>
+					<div class="details__element">
+						<label class="element__label">Entry</label>
+						<input type="email" class="element__input" >
+					</div>
+				</div>
+
+				<div class="block__details--body-right">
+					<div class="details__element">
+						<label class="element__label">Data 1</label>
+						<input type="email" class="element__input" >
+					</div >
+					<div class="details__element">
+						<label class="element__label">Data 2</label>
+						<input type="email" class="element__input">
+					</div>
+					<div class="details__element">
+						<label class="element__label">Data 3</label>
+						<input type="email" class="element__input">
+					</div>
+					<div class="details__element">
+						<label class="element__label">Data 1</label>
+						<input type="email" class="element__input" >
+					</div >
+					<div class="details__element">
+						<label class="element__label">Data 2</label>
+						<input type="email" class="element__input">
+					</div>
+					<div class="details__element">
+						<label class="element__label">Data 3</label>
+						<input type="email" class="element__input">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="block__details">
+			<div class="block__details--header">
+				<h4 class="block__details--subtitle">Access point and Elevator</h4>	
+				<button class="minimize" v-on:click="show__info_accessPoint()">-</button>
+			</div>
+
+			<div class="block__details--body" v-if="show__accessPoint_block">
+				<h5 class="subtitle-details">Access points</h5>
+				<div class="table__accessPoint">
+					<table class="table__model_2">
+						<tr class="table__header">
+							<td>IMEI</td>
+							<td>Elevator tel.</td>
+							<td>Note</td>
+							<td></td>
+						</tr>
+						<tr class="table__row">
+							<td>12341231234123</td>
+							<td>+38649123432</td>
+							<td>Pagesa mujore 10 euro</td>
+							<td class="td__button">
+								<button>Monitor</button>
+								<button>More</button>
+							</td>
+						</tr>
+						<tr class="table__row">
+							<td>12341231234123</td>
+							<td>+38649123432</td>
+							<td>Pagesa mujore 10 euro</td>
+							<td class="td__button">
+								<button>Monitor</button>
+								<button>More</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+				<h5 class="subtitle-details">Elevator</h5>
+				<div class="table__accessPoint">
+					<table class="table__model_2">
+						<tr class="table__header">
+							<td>Elevator identifer</td>
+							<td>Made In</td>
+							<td>Company</td>
+							<td>#</td>
+						</tr>
+						<tr class="table__row">
+							<td>aDASd1234123</td>
+							<td>Kosova</td>
+							<td>ElavatorKOS</td>
+							<td class="td__button"><button>View</button></td>
+						</tr>
+					</table>
+				</div>
+				<div class="table__elevator">
+
+				</div>
+			</div>
+		</div>
+
+		<div class="block__addEdit--accessPoint">
+			<div class="addEdit__accessPoint--header">
+				<h4 class="block__details--subtitle">Add/Edit Access point</h4>	
+				<button class="minimize" v-on:click="show__info_accessPoint_addEdit()">-</button>
+			</div>
+
+			<div class="addEdit__accessPoint--body" v-if="show__accessPoint_addEdit_block">
+				<div class="addEdit__accessPoint--mainData">
+					<div class="details__element" v-if="show__section_config_entry">
+						<label class="element__label">Entry/Adress</label>
+						<select class="element__input" >
+									<option>Lesna v1-Hyrja v1/c1-Fan noli </option>
+									<option>Lesna v1-Hyrja v1/c1-Fan noli</option>
+									<option>Lesna v1-Hyrja v1/c1-Fan noli</option>
+									<option>Lesna v1-Hyrja v1/c1-Fan noli</option>
+									<option>Lesna v1-Hyrja v1/c1-Fan noli</option>
+									<option>Lesna v1-Hyrja v1/c1-Fan noli</option>
+						</select>
+					</div >
+					<div class="details__element">
+						<label class="element__label">IMEI</label>
+						<input type="email" class="element__input">
+					</div>
+					<div class="details__element">
+						<label class="element__label">Elevator tel.</label>
+						<input type="email" class="element__input">
+					</div>
+					<div class="details__element">
+						<label class="element__label">Version</label>
+						<input type="email" class="element__input">
+					</div>
+					<div class="details__element">
+						<label class="element__label">Node</label>
+						<textarea cols="15" rows="5" class="element__textarea"></textarea> 
+					</div>
+				</div>
+
+				<div class="addEdit__accessPoint--relay">
+					<div class="relay__button">
+						<button class="button__realay">Relay 0</button>
+						<button class="button__realay">Relay 1</button>
+						<button class="button__realay">Relay 2</button>
+						<button class="button__realay">Relay 3</button>
+						<button class="button__realay">Relay 4</button>
+						<button class="button__realay">Relay 5</button>
+						<button class="button__realay">Relay 6</button>
+						<button class="button__realay">Relay 7</button>
+						<button class="button__realay">Relay 8</button>
+						<button class="button__realay">Relay 9</button>
+						<button class="button__realay">Relay 10</button>
+						<button class="button__realay">Relay 11</button>
+						<button class="button__realay">Relay 12</button>
+						<button class="button__realay">Relay 13</button>
+						<button class="button__realay">Relay 14</button>
+						<button class="button__realay">Relay 15</button>
+					</div>
+
+					<div class="relay__details">
+						<fieldset class="relay__details--space">
+							<legend class="relay__name">Relay 1</legend>
+
+						    <div class="details__element">
+								<label class="element__label">Name</label>
+								<select class="element__select">
+									<option>Floor 1</option>
+									<option>Floor 2</option>
+									<option>Floor 3</option>
+									<option>Floor 4</option>
+									<option>Floor 5</option>
+									<option>Floor 6</option>
+									<option>Other</option>
+								</select>
+
+								<input type="email" class="element__input-small">
+							</div>
+							<div class="details__element">
+								<label class="element__label">Pulse time</label>
+								<input type="email" class="element__input">
+							</div>
+							<div class="next_previous--element">
+								<button class="button__previous-relay">&laquo;</button>
+								<button class="button__next-relay">&raquo;</button>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+
+				<div class="addEdit__accessPoint--relation-relay">
+					<h3>Relaton of relays</h3>
+					<ul>
+						<li>Relay 0 &rarr; Garage</li>
+						<li>Relay 1 &rarr; Floor -1</li>
+						<li>Relay 2 &rarr; Floor 0</li>
+						<li>Relay 3 &rarr; Floor 1</li>
+						<li>Relay 4 &rarr; Floor 2</li>
+						<li>Relay 5 &rarr; Floor 3</li>
+						<li>Relay 6 &rarr; Floor 4</li>
+						<li>Relay 7 &rarr; Floor 5</li>
+						<li>Relay 8 &rarr; Floor 6</li>
+						<li>Relay 9 &rarr; Floor 7</li>
+						<li>Relay 10 &rarr; Floor 8</li>
+						<li>Relay 11 &rarr; Floor 9</li>
+						<li>Relay 12 &rarr; Floor 10</li>
+					</ul>
+				</div>
+				<div class="block__addEdit--accessPoint-footer">
+					<button>Save</button>
+					<button>Clear</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

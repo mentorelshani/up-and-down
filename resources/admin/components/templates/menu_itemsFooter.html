@@ -1,0 +1,24 @@
+	<div class="footer__paginat">
+		<!-- <input type="text" :value="show__items" @input="updateShowItems($event.target.value)"> -->
+		<div class="pagination-model">
+			<a  @click="Pagination('min')" v-bind:class="{ disabled__paginate: deactivate__min }">&Lang;</a>
+		    <a  @click="Pagination('prev')" v-bind:class="{ disabled__paginate: deactivate__prev }">&lang;</a>
+		    <a class="active" @click="Pagination('1')">1</a>
+		    <a href="#" @click="Pagination('2')">2</a>
+		   	<a href="#" @click="Pagination('3')">3</a>
+		   	<a href="#" @click="Pagination('4')">4</a>
+		   	<a href="#" @click="Pagination('5')">5</a>
+		    <a @click="Pagination('next')" v-bind:class="{ disabled__paginate: deactivate__next }">&rang;</a>
+		    <a @click="Pagination('max')" v-bind:class="{ disabled__paginate: deactivate__max }">&Rang;</a>
+		</div>
+
+		<div class="show__row"> 
+			<label>Show</label>
+			<select @change="setParams()" v-model="showItem">
+				<option>10</option>
+				<option>20</option>
+				<option>30</option>
+				<option value="10000">All</option>
+			</select>
+		</div>
+	</div>

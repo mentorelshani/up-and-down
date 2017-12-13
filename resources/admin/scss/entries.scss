@@ -1,0 +1,377 @@
+.all__block {
+    background-color: #ddd;
+    height: 35px;
+    float: left;
+    width: 100%;
+
+    .block__details {
+        float: left;
+        width: 100%;
+        position: relative;
+        background-color: #eee;
+        margin-bottom: 25px;
+
+        .block__details--header {
+            border-bottom:1px solid black;
+            position: relative;
+            width: 100%;
+            float: left;
+
+            .block__details--subtitle {
+                
+                margin-left: 10px;
+                float: left;
+                position: relative;
+
+            }
+
+            .minimize {
+                margin-right: 10px;
+                position: relative;           
+                float: right;
+                margin-top: 3px;
+            }
+        }
+
+        .block__details--body {
+            position: relative;
+            float: left;
+            width: 100%;
+            
+            .block__details--body-left {
+                position: relative;
+                width: 40%;
+                margin-right: 10%;
+                float: left;
+                margin-top: 15px;
+                margin-left:15px;
+
+                .details__element {
+                    float: left;
+                    width: 100%;
+                    margin-bottom: 5px;
+
+                    .element__label {
+                        width:40%;
+                        text-align: right;
+                        margin-right: 15px;
+                    }
+               
+                    .element__input {
+                        width:50%;
+                        outline: none;
+                        border: 0;
+                        outline: 0;
+                        background: transparent;
+                        border-bottom: 1px solid $borderInput;
+                        padding-left: 5px;
+
+                    }
+                }
+            }
+
+            .block__details--body-right {
+                float: left;
+                position: relative;
+                width: 40%;
+                margin-top: 15px;
+                text-align: left;
+
+                .details__element {
+                    float: left;
+                    width: 100%;
+                    margin-bottom: 5px;
+     
+                    .element__label {
+                        width:40%;
+                        text-align: right;
+                        margin-right: 15px;
+                    }
+               
+                    .element__input {
+                        width:50%;
+                        outline: none;
+                        border: 0;
+                        outline: 0;
+                        background: transparent;
+                        border-bottom: 1px solid $borderInput;
+                        padding-left: 5px;
+
+                    }
+                }
+            }
+
+            .subtitle-details{
+                margin-left: 2%;
+                float: left;
+                font-weight: 600;
+            }
+
+            .table__accessPoint {
+                width: 90%;
+                position: relative;
+                float: left;
+                margin-left: 5%;
+                margin-right: 10%;
+                border-botom:1px solid black;
+
+                .table__model_2 {
+                    text-align: center;
+                    width: 100%;
+
+                    >.table__header {
+                        >td {
+                            width: 10%;
+                            padding-top: 5px;
+                            padding-bottom: 5px;
+                        }
+                    }
+
+                    .table__header {
+                        text-align: left;
+                        border-bottom: 1px solid #555;
+                        font-size: 18px;
+                        font-weight: bold;
+                    }
+
+                    .table__row {
+                        text-align: left;
+
+                        >td {
+                            width: 10%;
+                            padding-top: 4px;
+                            padding-bottom: 4px;
+
+                        }
+
+                        .td__button {
+                            text-align: center;
+                        }
+                    }
+                }    
+            }
+        }
+    }
+
+    .block__addEdit--accessPoint {
+        float: left;
+        width: 100%;
+        position: relative;
+        background-color: #eee;
+        margin-bottom: 25px;
+
+        .addEdit__accessPoint--header {
+            border-bottom:1px solid black;
+            position: relative;
+            width: 100%;
+            float: left;
+
+            .block__details--subtitle {
+                
+                margin-left: 10px;
+                float: left;
+                position: relative;
+
+            }
+
+            .minimize {
+                margin-right: 10px;
+                position: relative;           
+                float: right;
+                margin-top: 3px;
+            }
+        }
+
+        .addEdit__accessPoint--body{
+            position: relative;
+            float: left;
+            width: 100%;
+            
+            .addEdit__accessPoint--mainData {
+                position: relative;
+                width: 30%;
+                // margin-right:;
+                float: left;
+                margin-top: 15px;
+                margin-left:15px;
+
+                .details__element {
+                    float: left;
+                    width: 100%;
+                    margin-bottom: 5px;
+                    top: 0;
+                    position: relative;
+
+                    .element__label {
+                        width:40%;
+                        text-align: right;
+                        margin-right: 15px;
+                        position: relative;
+                        float: left;
+                        top: 0;
+                    }
+               
+                    .element__input {
+                        width:50%;
+                        outline: none;
+                        border: 0;
+                        outline: 0;
+                        background: transparent;
+                        border-bottom: 1px solid $borderInput;
+                        padding-left: 5px;
+
+                    }
+
+                    .element__textarea {
+                        width:50%;
+                        outline: none;
+                        border: 0;
+                        border-bottom: 1px solid $borderInput;
+                        padding-left: 5px;
+                        resize: none;
+
+                    }
+                }
+            }
+
+            .addEdit__accessPoint--relay {
+                float: left;
+                width: 35%;
+                padding-bottom: 115px;
+                top: 0;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+
+                .relay__button {
+                    padding-top: 15px;
+                    text-align: center;
+
+                    .button__realay {
+                        background-color: #f1f1f1;
+                        min-width: 80px;
+                        width: 22%;
+                        margin: 3px;
+                        text-align: center;
+                        height: 30px;
+                    }
+
+                }
+
+                .relay__details {
+                    // text-align: center;
+                    width: 90%;
+                    margin-left: 5%;
+                    margin-right: 5%;
+                    margin-top: 15px;
+
+                    .relay__details--space {
+                        width: 100%;
+                        display: block;
+               
+                        border-width: 2px;
+                        border-style: groove;
+                        border-color: $borderInput;
+                        border-image: initial;
+
+                        .relay__name {
+                            display: block;
+                            width: auto;
+                            margin-left: 10px;
+                            border-style: none;
+                            border-color: $borderInput;
+                            font-size: 18px !important;
+
+                        }
+                        .details__element {
+                            float: left;
+                            width: 100%;
+                            margin-bottom: 10px;
+
+                            .element__label {
+                                width:25%;
+                                text-align: right;
+                                margin-right: 15px;
+                            }
+                       
+                            .element__input {
+                                width:61%;
+                                outline: none;
+                                border: 0;
+                                outline: 0;
+                                // background: transparent;
+                                border-bottom: 1px solid $borderInput;
+                                padding-left: 5px;
+                                height: 30px;
+
+                            }
+
+                            .element__input-small {
+                                width:30%;
+                                outline: none;
+                                border: 0;
+                                outline: 0;
+                                // background: transparent;
+                                border-bottom: 1px solid $borderInput;
+                                padding-left: 5px;
+                                height: 30px;
+                            }
+
+                            .element__select {
+                                width:30%;
+                                outline: none;
+                                border: 0;
+                                outline: 0;
+                                // background: transparent;
+                                border-bottom: 1px solid $borderInput;
+                                padding-left: 5px;
+                                height: 30px;
+                            }
+                        }
+
+                        .next_previous--element {
+                            width:auto;
+                            float: right;
+                            margin-right: 8%;
+                            margin-bottom: 20px; 
+
+                            .button__previous-relay {
+                                width: 40px;
+                            }
+
+                            .button__next-relay {
+                                width: 40px;
+                            }   
+                        } 
+                    }
+                }
+            }
+
+            .addEdit__accessPoint--relation-relay {
+                float: left;
+                width: 30%;
+                padding-left: 17px;
+                margin-top: 18px;
+                margin-left: 15px;
+                border:1px solid $borderInput;
+                font-size: 16px;
+            }
+
+            .block__addEdit--accessPoint-footer {
+                position: relative;
+                // width: 100%;
+                margin-top: 20px;
+                margin-right: 20px;
+                float: right;
+            }
+        }
+    }
+}
+
+
+
+            
+
+
+
+

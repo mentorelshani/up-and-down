@@ -1,0 +1,144 @@
+<div class="sub__body">
+	<div class="section__header">
+		<h2 class="menu__item-title">Buildings</h2>
+
+		<ul class="breadcrumb-with-root_element">
+		  <li><router-link to="home">Home</router-link></li>
+		  <li>Buildings</li>
+		</ul>
+
+		<input type="text" class="search__input" placeholder="Search" v-model="input__search"  @keyup='Buildings()'>
+
+		<select class="search__key" v-model="key__search" @change='Buildings()'>
+			<option value="buildings.company">Company</option>
+			<option value="buildings.name">Building</option>
+			<option value="cities.name">City</option>
+			<option value="addresses.street">Street</option>
+			<option value="addresses.neighborhood">Neighorhood</option>
+		</select>
+	</div>
+
+	<div class="block__add">
+		<button class="button__view-left">L</button>
+		<button class="button__view-left">B</button>
+
+		<button class="button__add--item" data-toggle="modal" data-target="#building__add-edit" @click="showFrmAdd()">+ Add Building</button>
+	</div>
+
+	<div class="block__table">
+		<table class="table__model_1 ">
+						
+			<tr class="table__header">
+				<td @click="Sort('buildings.company',ascending)">Comapny</td>
+				<td @click="Sort('buildings.name',ascending)">Building</td>
+				<td @click="Sort('cities.name',ascending)">City</td>
+				<td @click="Sort('addresses.street',ascending)">Street</td>
+				<td @click="Sort('addresses.neighborhood',ascending)">Neighborhood</td>
+				<td ></td>
+			</tr>
+			<tr class="table__row" v-for="building of objBuildings">
+				<td>{{building.company}}</td>
+				<td><a href="" data-toggle="modal" data-target="#buildingInfo" @click="detailsBuilding(building.id)">{{building.name}}</a></td>
+				<td>{{building.city}}</td>
+				<td>{{building.street}}</td>
+				<td>{{building.neighborhood}}</td>
+				<td>
+					<button @click="editBuilding(building.id)" data-toggle="modal" data-target="#building__add-edit">E</button>
+					<button @click="deleteBuilding(building.id)">D</button>
+				</td>
+
+			</tr>		
+		</table>
+	</div>
+
+	<menu-item-footer></menu-item-footer>
+
+	<div class="modal fade modal--padding-top" id="buildingInfo" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+	 	<div class="modal-dialog">
+		    <div class="modal-content">
+		      	<div class="modal-header">
+		        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        	<h4 class="modal-title" id="myModalLabel"><b>{{details__building.name}} Information</b></h4>
+		      	</div>
+		      	<div class="modal-body">
+			        <h3>Entries</h3>
+			        <ol type="I">
+			        	<li v-for="(entry,entryIndex) in details__building.entries">
+			        		{{entry.name}}
+			        		<ul>
+			        			<li v-for="(elevator,elevatorIndex) in entry.elevators">
+			        				Elevator {{elevatorIndex + 1}}: {{elevator.identifier}}
+			        				<ul>
+			        					<li  v-for="(accessPoints,accessPointsIndex) in elevator.access_points">
+			        						IMEI {{accessPointsIndex + 1}}: {{accessPoints.IMEI}}
+			        					</li>
+			        				</ul>
+			        			</li>
+			        		</ul>
+			        	</li>
+			        </ol>
+		      	</div>
+		    </div>
+	 	</div>
+	</div>
+
+	<div class="modal fade modal--padding-top" id="building__add-edit" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
+	 	<div class="modal-dialog" >
+		    <div class="modal-content" >
+		      	<div class="modal-header">
+		        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        	<h4 class="modal-title" id="myModalLabel"><b>Add new building</b></h4>
+		      	</div>
+		      	<div class="modal-body" >
+				    <div class="modal__data--input">
+				    	<label class="modal__data--name">Company</label>
+				    	<select onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1;' class="modal__select" v-model="details__building.company">
+				    		<option v-for="company in companies" >{{company.company}}</option>
+				    	</select>
+				    	<p v-if="error__add_objBuilding.company" class="error__details">{{error__add_objBuilding.company}}</p>
+				    </div>
+
+				    <div class="modal__data--input">
+				    	<label class="modal__data--name">Building name</label>
+				    	<input class="modal__data--text" :placeholder="error__add_objBuilding.a" type="text" name="" v-model="details__building.name">
+				    	<p v-if="error__add_objBuilding.building" class="error__details">{{error__add_objBuilding.building}}</p>
+				    </div>
+
+				    <div class="modal__data--input">
+				    	<label class="modal__data--name">City</label>
+						<select onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1;' class="modal__select" v-model="details__building.city_id">
+				    		<option v-for="city in cities" :value="city.id">{{city.name}}</option>
+				    	</select>
+				    </div>
+
+				    <div class="modal__data--input">
+				    	<label class="modal__data--name">Street</label>
+				    	<input class="modal__data--text" type="text" name=""  v-model="details__building.street">
+				    </div>
+
+				   	<div class="modal__data--input">
+				   		<label class="modal__data--name">Neighborhood</label>
+				    	<select onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1;' class="modal__select"  v-model="details__building.neighborhood">
+				    		<option v-for="neighborhood in neighborhoods">{{neighborhood.neighborhood}}</option>
+				    	</select>
+				   	</div>
+
+				   	<div class="modal__data--input">
+				   		<label class="modal__data--name">Location</label>
+				    	<input class="modal__data--text" type="checkbox" name="">
+				   		<div class="map__location">
+				   		</div>
+				   	</div>
+				
+				    
+				    <div class="modal__buttons">				 
+				       	<button @click="addBuilding()" v-if="addButton">Save</button>
+				       	<button @click="updateBuilding()" v-if="editButton">Edit</button>
+				       	<button @click="clearBuilding()" v-if="clearButton">Clear</button>
+				    </div>
+		      	</div>
+		    </div>
+	 	</div>
+	</div>
+
+</div>
