@@ -7,7 +7,7 @@ use App\Models\Apartment;
 
 class ApartmentController extends Controller
 {
-    public function addApartment(Request $request){
+    public function add(Request $request){
 
         $this->validate($request,[
             'entry_id' => 'required|integer',

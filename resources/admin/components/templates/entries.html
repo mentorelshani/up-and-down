@@ -22,7 +22,7 @@
 		<button class="button__view-left">L</button>
 		<button class="button__view-left">B</button>
 
-		<router-link to="entry"><button class="button__add--item" @click="addEntry()">+ Add Entries</button><router-link/>
+		<router-link to="entry"><button class="button__add--item" @click="addEntry()">+ Add Entries</button></router-link>
 	</div>
 
 	<div class="block__table">
@@ -32,7 +32,7 @@
 				<td @click="Sort('buildings.name',ascending)">Building</td>
 				<td @click="Sort('entries.name',ascending)">Entry</td>
 				<td @click="Sort('cities.name',ascending)">City</td>
-				<td @click="Sort('address.street',ascending)">Street</td>
+				<td @click="Sort('addresses.street',ascending)">Street</td>
 				<td @click="Sort('entries.number_of_floors',ascending)">Nr. of floor</td>
 				<td @click="Sort('entries.number_of_apartments',ascending)">Nr. of apartaments</td>
 				<td></td>

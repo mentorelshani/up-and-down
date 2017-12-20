@@ -7,7 +7,7 @@ use App\Models\Elevator;
 
 class ElevatorController extends Controller
 {
-    public function addElevator(Request $request){
+    public function add(Request $request){
 
         $this->validate($request,[
             'entry_id' => 'required|integer',

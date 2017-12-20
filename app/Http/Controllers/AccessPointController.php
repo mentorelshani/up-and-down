@@ -7,7 +7,7 @@ use App\Models\Access_point;
 
 class AccessPointController extends Controller
 {
-    public function addAccessPoint(Request $request){
+    public function add(Request $request){
 
         $this->validate($request,[
             'elevator_id' => 'required|integer',

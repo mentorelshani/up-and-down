@@ -138,7 +138,7 @@
 
                     this.orderBy = orderBy;
                 }
-                this.Buildings();
+                this.Entries();
             },
         },
     }
