@@ -1,0 +1,92 @@
+<div class="accessPoints tab__view">
+	<div class="tab__view--header">
+		<p class="subtitle">Access points List</p>
+		<button class="btn_add btn" data-toggle="modal" data-target="#addAccessPoint">Add new</button>
+	</div>
+
+	<div class="tab__view--body">
+		<table class="table tab__view-list">
+			<thead> 
+				<tr>
+					<th>IMEI</th>
+					<th>Access number</th>
+					<th>Version</th>
+					<th>Elevator</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>123412312331947</td>
+					<td>045123423</td>
+					<td>Version 1</td>
+					<td>C2/1</td>
+					<td>
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint"></span>	
+						<span class="glyphicon glyphicon-remove manipulate__button"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>123412312331947</td>
+					<td>045123423</td>
+					<td>Version 1</td>
+					<td>C2/1</td>
+					<td>
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint"></span>	
+						<span class="glyphicon glyphicon-remove manipulate__button"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>123412312331947</td>
+					<td>045123423</td>
+					<td>Version 1</td>
+					<td>C2/1</td>
+					<td>
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint"></span>	
+						<span class="glyphicon glyphicon-remove manipulate__button"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint"></span>
+					</td>
+				</tr>			
+			</tbody>
+
+		</table>
+	</div>
+
+	<div class="modal fade" id="addAccessPoint" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+  		<div class="modal-dialog modal-lg">
+    		<div class="modal-content">
+		      	<div class="modal-header">
+		        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        	<h4 class="modal-title" id="myModalLabel">Add new</h4>
+		      	</div>
+		      	<div class="modal-body">
+		        	<h3>Add form</h3>
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        	<button type="button" class="btn btn-default">Save changes</button>
+		      	</div>
+    		</div>
+  		</div>
+	</div>
+
+	<div class="modal fade" id="infoAccessPoint" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  		<div class="modal-dialog">
+    		<div class="modal-content">
+		      	<div class="modal-header">
+		        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        	<h4 class="modal-title" id="myModalLabel">Information</h4>
+		      	</div>
+		      	<div class="modal-body">
+		        	<h3>More information</h3>
+		      	</div>
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      	</div>
+    		</div>
+  		</div>
+	</div>
+
+</div>

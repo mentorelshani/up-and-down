@@ -4,13 +4,21 @@
 	import Vue from 'vue'
 
 
+
 	//Impost Component
 	import Menu_Header from '../components/includes/Menu-Header.vue'
 	import Menu_itemsFooter from '../components/includes/Menu-itemsFooter.vue'
+	import AccessPoints from '../components/AccessPoints.vue'
+	import Elevator from '../components/Elevators.vue'
+	import Clients from '../components/Clients.vue'
+
 
 	//Call Component
 	Vue.component('MenuHeader',Menu_Header);
 	Vue.component('MenuItemFooter',Menu_itemsFooter);
+	Vue.component('AccessPointsTab',AccessPoints);
+	Vue.component('ElevatorsTab',Elevator);
+	Vue.component('ClientsTab',Clients);
 
 
 	export default {
@@ -26,7 +34,6 @@
                 this.$emit('select',showItem);
             },
 		}
-		
 	}
 </script>
 

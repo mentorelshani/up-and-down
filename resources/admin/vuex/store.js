@@ -5,7 +5,12 @@ Vue.use(Vuex);
 
 const entryModule = {
     state: {
-        entrySection:{},
+        entrySection:{
+            address:true,
+            accessPointElevator:false,
+            addEditAccessPoint:false,
+        },
+        entryDetailsId:null,
     },
     getters: {
         getEntrySection: state => {

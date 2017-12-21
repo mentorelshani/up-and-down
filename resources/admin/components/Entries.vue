@@ -13,16 +13,6 @@
                 inputSearch: null,
                 ascending: true,
                 orderBy: 'buildings.name',
-
-                detailsEntry: {
-                    id: null,
-                    building: '',
-                    entry: '',
-                    city_id: '',
-                    street: '',
-                    nrFloor: '',
-                    nrApartaments: '',
-                },
             }
         },
         beforeCreate() {},
@@ -94,21 +84,21 @@
                 // route.push('entry');
                 // routes.push({ path: 'home' })
 
-                // this.$store.commit('entry/setEntrySection', {
-                //     address:true,
-                //     accessPointElevator:false,
-                //     addEditAccessPoint:false,
-                // });
+                this.$store.commit('setEntrySection', {
+                    address:true,
+                    accessPointElevator:false,
+                    addEditAccessPoint:false,
+                });
             },
 
             editEntry: function(paramId) {
                 console.log(paramId);
 
-                // this.$store.commit('entry/setEntrySection', {
-                //     address:true,
-                //     accessPointElevator:false,
-                //     addEditAccessPoint:true,
-                // });
+                this.$store.commit('setEntrySection', {
+                    address:true,
+                    accessPointElevator:false,
+                    addEditAccessPoint:true,
+                });
             },
 
             deleteEntry: function(paramId) {
@@ -138,7 +128,7 @@
 
                     this.orderBy = orderBy;
                 }
-                this.Buildings();
+                this.Entries();
             },
         },
     }

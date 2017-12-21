@@ -16,12 +16,12 @@
     <link rel="stylesheet" type="text/css" href="{{url('css/build.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{url('css/admin.min.css')}}">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.0/metisMenu.min.css">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+   
   
 
 
     <script src="{{url('js/base.min.js')}}"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> -->
     <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
 
     <script type="text/javascript">

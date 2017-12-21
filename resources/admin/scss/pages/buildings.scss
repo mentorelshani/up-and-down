@@ -1,0 +1,223 @@
+.modal__data--input{
+	width:100%;
+	margin-bottom: 5px;
+
+
+	.modal__data--name{
+		width: 40%;
+		// float: right;
+		padding-right: 10px;
+		text-align: right;
+		vertical-align: top;
+	}
+	.modal__data--text{
+		width: 40%;
+		height: 24px;
+		border: 1px solid $borderInput;
+		padding-left: 1px;
+		outline: none;
+
+		// float:left;
+	}
+
+	.on_click_modal__select{
+		width: 40%;
+
+		option {
+			height: 30px;
+			text-align: left;
+
+		}
+
+		&:focus {
+			
+		}
+		&:active {
+			
+		}
+	}
+
+	.modal__select{
+		@extend .on_click_modal__select;
+
+		option {
+			height: 30px;
+			text-align: left;
+		}
+	}
+
+	.map__location{
+		width: 100%;
+		height: 250px;
+		background-color: #003;
+		position: relative;
+		text-align: center;
+		margin-top: 15px;
+	}
+
+	.error__details{
+		font-size:14px;
+		width:100%;
+		padding-left: 41%;
+		color: red;
+
+	}
+}
+
+.modal__buttons {
+	width: 100%;
+	text-align:right;
+	position: relative;
+}
+
+
+.building__details--body {
+	
+	position: relativ;
+	width: 100%;
+	float: left;
+
+	.information {
+		width:20%;
+		background-color:#eee;
+		position: relative;
+    	float: left;
+
+		min-height: 100vh;
+		height: auto;
+		// position: fixed;
+	    
+	    .profile__building {
+	    	margin-bottom: 0px;
+	    	float: left;
+	    	
+	    	.building__logo{
+	    		padding: 20px;
+	    		width:100%;
+	    		height: 180px;
+	    	}
+
+	    	.building__name {
+	    		margin-left: 5px;
+	    	}
+
+	    	.building__subtitle {
+	    		margin-left: 5px;
+	    		margin-right: 5px;
+	    		font-size: 15px;
+	    		border-bottom: 1px solid $borderInput;
+	    	}
+	    	.address__item {
+	    		width: 100%;
+	    		float: left;
+
+	    		.building__address-left {
+	    			width:45%;
+	    			text-align: right;
+	    		}
+
+	    		.building__address-right {
+	    			width:45%;
+	    			// float: right;
+	    		}
+	    	}
+	    }
+
+	    .list__entry {
+	    	padding-top: 25px;
+	    	width: 100%;
+	    	float: left;
+
+	    	.building__subtitle {
+	    		margin-left: 5px;
+	    		margin-right: 5px;
+	    		font-size: 15px;
+	    		border-bottom: 1px solid $borderInput;
+	    	}
+
+	    	.entry__link {
+	    		width:100%;
+	    		padding-left: 20px;
+	    		padding-top: 5px;
+	    		cursor: pointer;
+	    		font-size: 20px;
+	    		height: 35px;
+	   			transition: all 100ms ;
+	    		&:hover, &:focus, &:active {
+	    			background-color: rgba($alphabeticalColor,0.1);
+					border-left: 3px solid $alphabeticalColor;
+    			}
+
+	    		.entry__name {
+	    			margin-left: 10px;
+	    		}
+	    	}
+	    }
+	}
+
+	.tabs__section {
+		width:75%;
+		position: relative;
+		float: left;
+		padding-left: 50px;
+		padding-top: 50px;
+
+		.tab__menu {
+			float: left;
+			width: 100%;
+			padding: 10px;
+
+			.tab__view--content {
+				overflow-y:auto; 
+				.tab__view {
+					.tab__view--header {
+						margin-top:20px;
+						margin-bottom: 20px;
+						padding-top:5px; 
+						width: 100%;
+						float: left;
+
+						.subtitle {
+							font-size: 20px;
+							margin-left: 25px;
+							margin-top:5px;
+							float: left;
+							width: 50%;
+							vertical-align: middle;
+						}
+						.btn_add {
+							float: right;
+							width: auto;
+							margin-right: 10px;
+						}
+					}
+
+					.tab__view--body {
+						margin-top:20px;
+						margin-bottom: 20px;
+						width: 100%;
+						float: left;
+						min-height: 50vh;
+
+						.tab__view-list {
+							width: 90%;
+							.manipulate__button{
+								width: 20px;
+								cursor: pointer;
+								color:$alphabeticalColor;
+
+
+								&:hover, &:focus {
+									opacity: 0.8;
+    							}
+							}
+
+						}
+					}
+				}
+			}
+
+		}
+	}
+}
+

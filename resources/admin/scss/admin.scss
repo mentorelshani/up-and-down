@@ -1,19 +1,10 @@
-@import 'variable.scss';
+@import 'pages/variable';
 @import 'pages/login';
-@import 'buildings.scss';
-@import 'entries.scss';
-
-@import url('https://fonts.googleapis.com/css?family=Sanchez');
-
+@import 'pages/buildings';
+@import 'pages/entries';
 
 // --------------------Login--------------------
 
-@font-face {
-    font-family: Sanchez;
-    font-style: normal;
-    font-weight: 400;
-    src: local('Sanchez'), local('Sanchez-Regular'), url(https://fonts.gstatic.com/s/sanchez/v5/Eh9ZVPLDFF2xhCIl_We4NA.ttf) format('truetype')
-}
 
 .login__body {
     font-family: 'Gilda Display', serif;
@@ -38,7 +29,7 @@
     width: 100%;
     height: 70px;
     background-color: $alphabeticalColor;
-    padding: 0px 10%;
+    padding: 0px 2%;
 }
 .header__logo {
     float: left;
@@ -80,7 +71,8 @@
     }
 }
 .card__layout--main {
-    margin: 0px 10%;
+    margin-left:2%;
+    margin-right: 2%;
 }
 .body__home {
     height: 100%;
