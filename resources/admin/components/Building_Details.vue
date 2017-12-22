@@ -2,33 +2,18 @@
     export default {
         data: function() {
             return {
-                show__address_block:null,
-                show__accessPoint_block:null,
-                show__accessPoint_addEdit_block:null,
-
+             
+                idBuilding:null,
                 detailsBuilding:{
                 },
 
-                //Config entry main data
-                show__section_config_entry:true,
 
                 detailsEntry: {
                     id: null,
                     building: null,
-                    entry: '',
-                    city_id: '',
-                    street: '',
-                    nrFloor: '',
-                    nrApartaments: '',
-                },
-
-                accessPoints: { 
-                    id:null,
-                    IMEI:null,
-                    elevatorTel:null,
-                    version:null,
-                    versionId:null,
-                    note:null,
+                    entry: null,
+                    nrFloor: null,
+                    nrApartaments: null,
                 },
 
                 relays: [],
@@ -72,10 +57,12 @@
         },
 
         created() {
+            this.idBuilding=this.$route.params.id;
+            console.log(this.$route.params.id);
         },
 
         mounted() {
-            
+            this.getBuildingDetails();
         },
 
         watch: {
@@ -86,10 +73,22 @@
         },
 
         methods: {
+            getBuildingDetails:function() {
+                this.$http.get('/getBuilding/'+this.idBuilding)
+                    .then(response => {
+                        this.detailsBuilding=response.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        this.errorDetailsBuilding="This building not found";
+                    });
+            },
+
             getEntryDetails:function(entryId) {
                 console.log(entryId);
             },
 
+            
         },
     }
 </script>

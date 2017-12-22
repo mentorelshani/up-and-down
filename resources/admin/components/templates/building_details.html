@@ -7,19 +7,19 @@
             <p class="building__subtitle">Address</p>
             <div class="address__item">
                 <label class="building__address-left">Company: </label>
-                <span class="building__address-right">Dumnica Grup</span>
+                <span class="building__address-right">{{detailsBuilding.company}}</span>
             </div>
             <div class="address__item">
                 <label class="building__address-left">City: </label>
-                <span class="building__address-right">Prishtine</span>
+                <span class="building__address-right">{{detailsBuilding.city}}</span>
             </div>
             <div class="address__item">
                 <label class="building__address-left">Neighborhood: </label>
-                <span class="building__address-right">Bregu i diellit</span>
+                <span class="building__address-right">{{detailsBuilding.neighborhood}}</span>
             </div>
             <div class="address__item">
                 <label class="building__address-left">Street: </label>
-                <span class="building__address-right">Muharrem Fejza</span>
+                <span class="building__address-right">{{detailsBuilding.street}}</span>
             </div>
             <div class="address__item">
                 <label class="building__address-left">Nrumber: </label>
@@ -28,19 +28,11 @@
         </div>
 
         <div class="list__entry">
-
             <p class="building__subtitle">Entries</p>
-            <div class="entry__link" @click="getEntryDetails(123)">
+            
+            <div class="entry__link" @click="getEntryDetails(123)" v-for="entry in detailsBuilding.entry">
                 <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                <span class="entry__name">Hyrja 1</span>
-            </div>
-            <div class="entry__link">
-                <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                <span class="entry__name">Hyrja 2</span>
-            </div>
-            <div class="entry__link">
-                <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                <span class="entry__name">Hyrja 3</span>
+                <span class="entry__name">Hyrja 1{{entry.name}}</span>
             </div>
         </div>
     </div>
