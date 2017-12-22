@@ -41,7 +41,7 @@ class BuildingController extends Controller
     }
 
     public function getBuilding($id){
-        return Building::whereHasAccess()->where('id',$id)->with('address.city','entries.elevators.access_points')->first();
+        return Building::whereHasAccess()->where('id',$id)->with('address.city','entries')->first();
     }
 
     public function getExistingAddresses(){

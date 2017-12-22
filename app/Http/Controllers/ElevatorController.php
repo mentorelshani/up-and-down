@@ -7,6 +7,10 @@ use App\Models\Elevator;
 
 class ElevatorController extends Controller
 {
+    public function getElevatorsByEntry($entry_id){
+        return Elevator::where('entry_id',$entry_id)->get();
+    }
+
     public function add(Request $request){
 
         $this->validate($request,[

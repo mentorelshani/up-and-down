@@ -7,6 +7,11 @@ use App\Models\Apartment;
 
 class ApartmentController extends Controller
 {
+    public function getApartmentsByEntry($entry_id){
+
+        return Apartment::where('entry_id',$entry_id)->get();
+    }
+
     public function add(Request $request){
 
         $this->validate($request,[
