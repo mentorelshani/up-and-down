@@ -40,7 +40,7 @@ class Building extends Model
     }
 
     public function scopeWhereHasAccess ($query){
-        if (Auth::user()->created_by == null)
+        if (true)//Auth::user()->created_by == null)
             return $query;
 
         else if (Auth::user()->creator->created_by == null)

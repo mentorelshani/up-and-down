@@ -41,18 +41,19 @@ class BuildingController extends Controller
     }
 
     public function getBuilding($id){
-        return Building::whereHasAccess()->where('id',$id)->with('address.city','entries.elevators.access_points')->first();
+        return Building::whereHasAccess()->where('id',$id)->with('address.city','entries')->first();
     }
 
     public function getExistingAddresses(){
+        $buildings = Building::select('id','name')->get();
     	$companies = DB::table('buildings')->distinct()->select('company')->orderBy('company')->get();
     	$cities = City::orderBy('name')->get(['id','name']);
     	$neighborhoods = DB::table('addresses')->distinct()->select('neighborhood')->orderBy('neighborhood')->get();
 
-    	return array('companies' => $companies, 'cities' => $cities, 'neighborhoods' => $neighborhoods );
+    	return array('buildings' => $buildings, 'companies' => $companies, 'cities' => $cities, 'neighborhoods' => $neighborhoods );
     }
 
-    public function addBuilding(Request $request){
+    public function add(Request $request){
 
         $this->validate($request,[
             'city_id' => 'required|integer',
@@ -97,7 +98,7 @@ class BuildingController extends Controller
 
     }
 
-    public function updateBuilding(Request $request){
+    public function update(Request $request){
 
 
         $this->validate($request,[

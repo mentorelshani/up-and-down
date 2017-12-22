@@ -8,7 +8,7 @@ use App\Models\City;
 
 class CityController extends Controller
 {
-    public function getCities(){
-    	return City::get(['id','name']);
+    public function getCities($asd = "asd"){
+    	return $asd;//City::get(['id','name']);
     }
 }
