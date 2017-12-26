@@ -58,7 +58,6 @@
 
         created() {
             this.idBuilding=this.$route.params.id;
-            console.log(this.$route.params.id);
         },
 
         mounted() {
@@ -76,6 +75,7 @@
             getBuildingDetails:function() {
                 this.$http.get('/getBuilding/'+this.idBuilding)
                     .then(response => {
+                        console.log(response.data);
                         this.detailsBuilding=response.data;
                     })
                     .catch(e => {
