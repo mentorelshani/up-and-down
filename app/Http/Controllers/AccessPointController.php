@@ -11,7 +11,7 @@ class AccessPointController extends Controller
     public function getAccessPointsByEntry($entry_id){
 
         $elevator_ids = Elevator::where('entry_id',$entry_id)->select('id')->get();
-        $access_points = Access_point::whereIn('elevator_id',$elevator_ids)->with('elevator')->get();
+        $access_points = Access_point::whereIn('elevator_id',$elevator_ids)->with('elevator','version')->get();
 
         return $access_points;
     }

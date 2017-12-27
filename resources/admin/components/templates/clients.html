@@ -1,7 +1,7 @@
 <div class="client tab__view">
 	<div class="tab__view--header">
 		<p class="subtitle">Access points List</p>
-		<button class="btn_add btn" data-toggle="modal" data-target="#addClient">Add new</button>
+		<button class="btn_add btn" data-toggle="modal" data-target="#addClient" @click="add()">Add new</button>
 	</div>
 
 	<div class="tab__view--body">
@@ -9,42 +9,24 @@
 			<thead> 
 				<tr>
 					<th>Client</th>
-					<th>Apartments</th>
 					<th>Phone number</th>
+					<th>Email</th>
+					<th>Door Apartment</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>Al Ali</td>
-					<td>Ap:A32</td>
-					<td>045123423</td>
+				<tr v-for="client in clients">
+					<td>{{client.firstname}} {{client.lastname}}</td>
+					<td>{{client.phone_number}}</td>
+					<td>{{client.email}}</td>
+					<td>{{client.apartment.door_number}}</td>
 					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addClient"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoClient"></span>
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addClient" @click="edit()"></span>	
+						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(client.id)"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoClient" @click=""></span>
 					</td>
 				</tr>
-				<tr>
-					<td>Ali Al</td>
-					<td>Ap:A33</td>
-					<td>045123423</td>
-					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addClient"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoClient"></span>
-					</td>
-				</tr>	
-				<tr>
-					<td>Ali Al</td>
-					<td>Ap:A34</td>
-					<td>045123423</td>
-					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addClient"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoClient"></span>
-					</td>
-				</tr>	
 			</tbody>
 
 		</table>

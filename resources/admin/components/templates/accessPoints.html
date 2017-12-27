@@ -16,39 +16,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>123412312331947</td>
-					<td>045123423</td>
-					<td>Version 1</td>
-					<td>C2/1</td>
+				<tr v-for="accessPoint in accessPoints">
+					<td>{{accessPoint.IMEI}}</td>
+					<td>{{accessPoint.phone_number}} </td>
+					<td>{{accessPoint.version.name}}</td>
+					<td>{{accessPoint.elevator.identifier}}</td>
 					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint"></span>
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click=""></span>	
+						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click=""></span>
 					</td>
 				</tr>
-				<tr>
-					<td>123412312331947</td>
-					<td>045123423</td>
-					<td>Version 1</td>
-					<td>C2/1</td>
-					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>123412312331947</td>
-					<td>045123423</td>
-					<td>Version 1</td>
-					<td>C2/1</td>
-					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint"></span>
-					</td>
-				</tr>			
+					
 			</tbody>
 
 		</table>

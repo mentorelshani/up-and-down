@@ -4,10 +4,11 @@
             return {
              
                 idBuilding:null,
-                detailsBuilding:{
-                },
+                idEntry:null,
+                detailsBuilding:null,
+                elevatorDetails:{},
 
-
+                firstId:null,
                 detailsEntry: {
                     id: null,
                     building: null,
@@ -22,13 +23,7 @@
                 relayfloor:null,
                 relayPulsTime:null,
 
-                elevatorDetails:{
-                    entry_id:null,
-                    identifier:null,
-                    type:null,
-                    company:null,
-                    madeIn:null,
-                },
+
 
                 versions:null,
                 versionAccessPoint:null,
@@ -58,13 +53,20 @@
 
         created() {
             this.idBuilding=this.$route.params.id;
+
         },
 
         mounted() {
-            this.getBuildingDetails();
+            this.idEntry=14;
+            this.getBuildingDetails(this.idBuilding);
+            console.log(this.firstId);
         },
 
         watch: {
+            idEntry:function() {
+                
+                
+            }
         },
 
         computed: {
@@ -72,22 +74,27 @@
         },
 
         methods: {
-            getBuildingDetails:function() {
-                this.$http.get('/getBuilding/'+this.idBuilding)
+            getBuildingDetails:function(param) {
+                console.log('fsdf');
+                this.$http.get('/getBuilding/'+param)
                     .then(response => {
-                        console.log(response.data);
                         this.detailsBuilding=response.data;
+                        if(this.idEntry != response.data.entries[0].id)
+                        {
+                            this.idEntry = response.data.entries[0].id;
+                        }
+                        
                     })
                     .catch(e => {
                         console.log(e);
-                        this.errorDetailsBuilding="This building not found";
+                        // this.errorDetailsBuilding="This building not found";
                     });
             },
 
             getEntryDetails:function(entryId) {
+                this.idEntry=entryId;
                 console.log(entryId);
             },
-
             
         },
     }

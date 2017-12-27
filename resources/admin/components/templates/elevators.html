@@ -8,7 +8,8 @@
 		<table class="table tab__view-list">
 			<thead> 
 				<tr>
-					<th>Identifer</th>
+					<th>Identifier</th>
+					<th>Type</th>
 					<th>Made in</th>
 					<th>Company</th>
 					<th>Action</th>
@@ -16,36 +17,17 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>123123123</td>
-					<td>Kosova</td>
-					<td>ElevatorKOS</td>
+				<tr v-for="elevator in elevators">
+					<td>{{elevator.identifier}}</td>
+					<td>{{elevator.type}}</td>
+					<td>{{elevator.made_in}}</td>
+					<td>{{elevator.company}}</td>
 					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator"></span>
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click=""></span>	
+						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(elevator.id)"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator" @click=""></span>
 					</td>
 				</tr>
-				<tr>
-					<td>123123123</td>
-					<td>Kosova</td>
-					<td>ElevatorKOS</td>
-					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>123123123</td>
-					<td>Kosova</td>
-					<td>ElevatorKOS</td>
-					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator"></span>
-					</td>
-				</tr>			
 			</tbody>
 
 		</table>
