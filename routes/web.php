@@ -41,37 +41,40 @@ Route::get('/getBuilding/{id}','BuildingController@getBuilding');
 Route::post('/updateBuilding','BuildingController@update');
 Route::delete('/deleteBuilding/{id}','BuildingController@destroy');
 
-Route::get('getEntry/{id}','EntryController@getEntry');
-Route::post('getEntries','EntryController@getEntries');
-Route::post('addEntry','EntryController@add');
-Route::post('updateEntry','EntryController@update');
-Route::delete('deleteEntry/{id}','EntryController@destroy');
+Route::get('/getEntry/{id}','EntryController@getEntry');
+Route::post('/getEntries','EntryController@getEntries');
+Route::post('/addEntry','EntryController@add');
+Route::post('/updateEntry','EntryController@update');
+Route::delete('/deleteEntry/{id}','EntryController@destroy');
 
-Route::get('getElevators/{entry_id}','ElevatorController@getElevatorsByEntry');
-Route::post('addElevator','ElevatorController@add');
+Route::get('/getElevators/{entry_id}','ElevatorController@getElevatorsByEntry');
+Route::get('/getElevator/{id}','ElevatorController@getElevator');
+Route::post('/addElevator','ElevatorController@add');
+Route::post('/updateElevator','ElevatorController@update');
+Route::delete('/deleteElevator/{id}','ElevatorController@destroy');
 
-Route::get('getVersions','VersionController@getVersions');
+Route::get('/getVersions','VersionController@getVersions');
 
-Route::post('addAccessPoint','AccessPointController@add');
-Route::get('getAccessPoints/{entry_id}','AccessPointController@getAccessPointsByEntry');
-Route::post('updateAccessPoint','AccessPointController@update');
+Route::post('/addAccessPoint','AccessPointController@add');
+Route::get('/getAccessPoints/{entry_id}','AccessPointController@getAccessPointsByEntry');
+Route::post('/updateAccessPoint','AccessPointController@update');
 Route::delete('/deleteAccessPoint/{id}','AccessPointController@destroy');
 
-Route::get('getRelays/{access_point_id}','RelayController@getRelays');
-Route::get('getRelay/{id}','RelayController@getRelay');
-Route::post('addRelay','RelayController@add');
-Route::post('updateRelay','RelayController@update');
-Route::delete('deleteRelay/{id}','RelayController@destroy');
+Route::get('/getRelays/{access_point_id}','RelayController@getRelays');
+Route::get('/getRelay/{id}','RelayController@getRelay');
+Route::post('/addRelay','RelayController@add');
+Route::post('/updateRelay','RelayController@update');
+Route::delete('/deleteRelay/{id}','RelayController@destroy');
 
-Route::get('getApartments/{entry_id}','ApartmentController@getApartmentsByEntry');
-Route::post('addApartment','ApartmentController@add');
+Route::get('/getApartments/{entry_id}','ApartmentController@getApartmentsByEntry');
+Route::post('/addApartment','ApartmentController@add');
 
-Route::get('getClient/{id}','ClientController@getClient');
-Route::post('getClients','ClientController@getClients');
-Route::get('getClients/{entry_id}','ClientController@getClientsByEntryId');
-Route::post('addClient','ClientController@add');
-Route::post('updateClient','ClientController@update');
-Route::delete('deleteClient/{id}','ClientController@destroy');
+Route::get('/getClient/{id}','ClientController@getClient');
+Route::post('/getClients','ClientController@getClients');
+Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId');
+Route::post('/addClient','ClientController@add');
+Route::post('/updateClient','ClientController@update');
+Route::delete('/deleteClient/{id}','ClientController@destroy');
 
 Route::get('test',function (){
 

@@ -81,23 +81,25 @@ class EntryController extends Controller
     public function update(Request $request){
 
         $this->validate($request,[
+            'id' => 'exists:entries',
             'building_id' => 'exists:buildings,id',
             'name' => 'required',
             'number_of_floors' => 'integer',
             'number_of_apartments' => 'integer'
         ]);
 
+        $id = $request->id;
         $building_id = $request->building_id;
         $name = $request->name;
         $number_of_floors = $request->number_of_floors;
         $number_of_apartments = $request->number_of_apartments;
 
-        $entry = new Entry();
+        $entry = Entry::whereId($id)->first();
         $entry->building_id = $building_id;
         $entry->name = $name;
         $entry->number_of_floors = $number_of_floors;
         $entry->number_of_apartments = $number_of_apartments;
-        $entry->save();
+        $entry->update();
 
         return $entry;
 
