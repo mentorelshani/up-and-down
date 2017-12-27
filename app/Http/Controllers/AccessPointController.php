@@ -8,6 +8,11 @@ use App\Models\Elevator;
 
 class AccessPointController extends Controller
 {
+    public function getAccessPoint($id){
+
+        return Access_point::whereId($id)->first();
+    }
+
     public function getAccessPointsByEntry($entry_id){
 
         $elevator_ids = Elevator::where('entry_id',$entry_id)->select('id')->get();
