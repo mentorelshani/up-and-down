@@ -26,11 +26,10 @@
 		option {
 			height: 30px;
 			text-align: left;
-
 		}
 
 		&:focus {
-			
+
 		}
 		&:active {
 			
@@ -153,6 +152,11 @@
 	    			margin-left: 10px;
 	    		}
 	    	}
+	    	.entry__link-active {
+	    		background-color: rgba($alphabeticalColor,0.1);
+				border-left: 3px solid $alphabeticalColor;
+	    	}
+
 	    }
 	}
 

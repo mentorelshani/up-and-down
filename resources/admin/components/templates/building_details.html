@@ -32,7 +32,7 @@
             
             <div class="entry__link" @click="getEntryDetails(entry.id)" v-for="entry in detailsBuilding.entries">
                 <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                <span class="entry__name">Hyrja {{entry.name}}</span>
+                <span class="entry__name" :class="">Hyrja {{entry.name}}</span>
             </div>
         </div>
     </div>
