@@ -8,6 +8,8 @@
                 detailsBuilding:null,
                 elevatorDetails:{},
 
+                activeEntry:null,
+
                 firstId:null,
                 detailsEntry: {
                     id: null,
@@ -94,6 +96,7 @@
             getEntryDetails:function(entryId) {
                 this.idEntry=entryId;
                 console.log(entryId);
+                this.activeEntry=true;
             },
             
         },
