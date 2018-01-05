@@ -8,9 +8,8 @@
                 detailsBuilding:null,
                 elevatorDetails:{},
 
-                activeEntry:null,
 
-                firstId:null,
+
                 detailsEntry: {
                     id: null,
                     building: null,
@@ -44,8 +43,6 @@
                 active_SaveAccessPoint:false,
 
                 btnConfigRelays:true,
-                active:false,
-
             }
         },
 
@@ -59,9 +56,7 @@
         },
 
         mounted() {
-            this.idEntry=14;
             this.getBuildingDetails(this.idBuilding);
-            console.log(this.firstId);
         },
 
         watch: {
@@ -96,7 +91,6 @@
             getEntryDetails:function(entryId) {
                 this.idEntry=entryId;
                 console.log(entryId);
-                this.activeEntry=true;
             },
             
         },

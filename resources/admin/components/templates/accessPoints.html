@@ -24,7 +24,7 @@
 					<td>
 						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click=""></span>	
 						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click=""></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
 					</td>
 				</tr>
 					
@@ -40,13 +40,88 @@
 		        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        	<h4 class="modal-title" id="myModalLabel">Add new</h4>
 		      	</div>
-		      	<div class="modal-body">
-		        	<h3>Add form</h3>
+		      	<div class="modal-body body_modal">
+		      		<div class="addEdit__accessPoint--mainData">
+		                <div class="details__element" v-if="show__section_config_entry">
+		                    <label class="element__label">Entry</label>
+		                    <select class="element__input" v-model="eeee">
+		                        <option>Hyrja v1/c1</option>
+		                    </select>
+		                </div>
+		                    
+		                <div class="details__element">
+		                    <label class="element__label">IMEI</label>
+		                    <input type="email" class="element__input" v-model="details.IMEI">
+		                </div>
+		                    
+		                <div class="details__element">
+		                    <label class="element__label">Elevator tel.</label>
+		                    <input type="text" class="element__input" v-model="details.phone_number">
+		                </div>
+
+		                <div class="details__element">
+		                    <label class="element__label">Version</label>
+		                    <select class="element__input" v-model="details.version" @change="chooseVersion()">
+		                        <option v-for="version in versions" :value="version.id" >{{version.name}}</option>
+		                    </select>
+		                </div>
+
+		                <div class="details__element">
+		                    <label class="element__label">Elevator</label>
+		                    <select class="element__input" v-model="details.elevator" @change="">
+		                           <!--  <option v-for="version in versions" :value="version.id" >{{elevator.name}}</option> -->
+		                    </select>
+		                </div>
+
+		                <div class="details__element">
+		                    <label class="element__label">Note</label>
+		                    <textarea cols="15" rows="5" class="element__textarea" v-model="details.notes"></textarea>
+		                </div>
+
+		                <!-- <div class="config__relays">
+                        	<button class="button__config" @click="configRelays()" >Config relays</button>
+                    	</div> -->
+		            </div>
+
+		            <div class="addEdit__accessPoint--relay">
+                    	<div class="relay__button">
+                        	<button class="button__realay" v-for="n in numberOfRelays" @click="setRelayDetails(n)">Relay {{n}}</button>
+                    	</div>
+
+                   		<div class="relay__details">
+	                        <fieldset class="relay__details--space" >
+	                            <legend class="relay__name">{{relayName}}</legend>
+
+	                            <div class="details__element">
+	                                <label class="element__label">Name</label>
+	                                <select class="element__select" v-model="relayfloor">
+	                                    <option>Garage</option>
+	                                    <option v-for="n in 6">Floor {{n}}</option>
+	                                    <option>Vip floor</option>
+	                                    <option>Other</option>
+	                                </select>
+
+	                                <input type="text" class="element__input-small">
+	                            </div>
+	                            <div class="details__element">
+	                                <label class="element__label">Pulse time</label>
+	                                <input type="email" v-model="relayPulsTime" class="element__input">
+	                            </div>
+	                            <div class="next_previous--element">
+	                                <button class="button__previous-relay" @click="previousRelay()">&laquo;</button>
+	                                <button class="button__next-relay" @click="nextRelay()">&raquo;</button>
+	                            </div>
+	                        </fieldset>
+                    	</div>
+		            </div>
+
+
 		      	</div>
-		      	<div class="modal-footer">
-		        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        	<button type="button" class="btn btn-default">Save changes</button>
-		      	</div>
+
+			    <div class="modal-footer footer_modal">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-default">Save</button >
+    			</div>
     		</div>
   		</div>
 	</div>
@@ -59,41 +134,49 @@
 		        	<h4 class="modal-title" id="myModalLabel">Information</h4>
 		      	</div>
 		      	<div class="modal-body">
-		        	<h3>More information</h3>
-		        	<div>
-		        		<label>IMEI:</label>
-		        		<span>12312</span>
-		        	</div>
+		        	<div class="details--accessPoint">
+		        		<div class="element">
+		        			<label class="name">IMEI:</label>
+		        			<span class="value">{{details.IMEI}}</span>
+		        		</div>
+		        	
+			        	<div class="element">
+			        		<label class="name">Access number:</label>
+			        		<span class="value">{{details.phone_number}}</span>
+			        	</div>
 
-		        	<div>
-		        		<label>Access number:</label>
-		        		<span></span>
-		        	</div>
+			        	<div class="element">
+			        		<label class="name">Elevator:</label>
+			        		<span class="value">{{}}MENTORI</span>
+			        	</div>
 
-		        	<div>
-		        		<label>Elevator:</label>
-		        		<span></span>
-		        	</div>
+			        	<div class="element">
+			        		<label class="name">Version:</label>
+			        		<span class="value">{{}}MENTORI</span>
+			        	</div>
 
-		        	<div>
-		        		<label>Version:</label>
-		        		<span></span>
-		        	</div>
+			        	<div class="element"> 
+			        		<label class="name">Nr. of relays:</label>
+			        		<span class="value">{{}}MENTORI</span>
+			        	</div>
 
-		        	<div>
-		        		<label>Nr. of relays:</label>
-		        		<span></span>
-		        	</div>
+			        	<div class="element">
+			        		<label class="name">Notes:</label>
+			        		<span class="value">{{details.notes}}</span>
+			        	</div>
 
-		        	<div>
-		        		<label>Nodes:</label>
-		        		<span></span>
-		        	</div>
-
+			        	<div class="element">
+		        			<label class="name">created in:</label>
+		        			<span class="value">{{}}</span>
+		        		</div>
+		        		<div class="element">
+		        			<label class="name">Updata in:</label>
+		        			<span class="value">{{}}</span>
+		        		</div>
+		        		
+			        </div>
 		      	</div>
-		      	<div class="modal-footer">
-		        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		      	</div>
+		      	
     		</div>
   		</div>
 	</div>
