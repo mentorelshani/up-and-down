@@ -30,9 +30,9 @@
         <div class="list__entry">
             <p class="building__subtitle">Entries</p>
             
-            <div class="entry__link" @click="getEntryDetails(entry.id)" v-for="entry in detailsBuilding.entries">
+            <div :class="{'entry__link':true, 'entry__link-active':( entry.id === idEntry )}"  @click="getEntryDetails(entry.id)" v-for="entry in detailsBuilding.entries">
                 <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-                <span class="entry__name" :class="">Hyrja {{entry.name}}</span>
+                <span class="entry__name">Hyrja {{entry.name}}</span>
             </div>
         </div>
     </div>

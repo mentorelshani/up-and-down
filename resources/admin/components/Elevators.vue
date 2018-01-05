@@ -3,6 +3,9 @@
         data() {
             return {
             	elevators:{},
+                details:{
+                    entry_id:null,
+                },
             }
         },
 
@@ -15,7 +18,8 @@
         },
 
         created() {
-
+            this.getAll();
+            this.details.entry_id=this.entryId;
         },
 
         mounted() {
@@ -44,25 +48,39 @@
                     });
             },
 
-            // add:function() {
-            //     this.$http.post('/addEntry',this.details)
-            //         .then(response => {
-            //             console.log(response.data);
-            //         })
-            //         .catch(e => {
-            //             console.log(e);
-            //         });
-            // },
+            add:function() {
+                this.details.entry_id=this.entryId;
+                this.$http.post('/addElevator',this.details)
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
 
-            // edit:function() {
-            //     this.$http.post('/updateEntry',this.details)
-            //         .then(response => {
-            //             console.log(response.data);
-            //         })
-            //         .catch(e => {
-            //             console.log(e);
-            //         });
-            // },
+            edit:function() {
+                this.$http.post('/updateElevator',this.details)
+                    .then(response => {
+                        console.log(response.data);
+                        this.getAll();
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+
+            getDetails:function(idElevator) {
+                console.log('asd');
+                this.$http.get(`/getElevator/`+idElevator)
+                .then(response => {
+                    this.details=response.data;
+                    this.getAll();
+                })
+                .catch(e => {
+                    console.log(e.respone);
+                });
+            },
 
             destroy:function(idElevator) {
                 this.$http.delete(`/deleteEntry/`+idElevator)
@@ -73,7 +91,15 @@
                 .catch(e => {
                     console.log(e.respone);
                 });
-            }
+            },
+            
+            addForm:function(){
+                this.clearDetails();
+            },
+            
+            clearDetails:function(){
+                this.details={};
+            },
         },
     }
 
