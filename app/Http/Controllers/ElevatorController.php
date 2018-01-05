@@ -12,9 +12,7 @@ class ElevatorController extends Controller
     }
 
     public function getElevator($id){
-        return Elevator::whereId($id)->first(
-
-        );
+        return Elevator::whereId($id)->first();
     }
 
     public function add(Request $request){

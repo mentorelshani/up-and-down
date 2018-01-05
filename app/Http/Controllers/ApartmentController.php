@@ -7,6 +7,10 @@ use App\Models\Apartment;
 
 class ApartmentController extends Controller
 {
+    public function getApartment($id){
+        return Apartment::whereId($id)->first();
+    }
+
     public function getApartmentsByEntry($entry_id){
 
         return Apartment::where('entry_id',$entry_id)->get();
@@ -28,5 +32,16 @@ class ApartmentController extends Controller
         $apartment->save();
 
         return $apartment;
+    }
+
+    public function delete($id){
+
+        $a = Apartment::find($id);
+
+        if ($a != null) {
+            $a->delete();
+            return "u fshi";
+        }
+        return "Nuk ekziston";
     }
 }

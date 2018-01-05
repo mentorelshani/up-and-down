@@ -68,8 +68,10 @@ Route::post('/addRelay','RelayController@add');
 Route::post('/updateRelay','RelayController@update');
 Route::delete('/deleteRelay/{id}','RelayController@destroy');
 
+Route::get('/getApartment/{id}','ApartmentController@getApartment');
 Route::get('/getApartments/{entry_id}','ApartmentController@getApartmentsByEntry');
 Route::post('/addApartment','ApartmentController@add');
+Route::delete('/deleteApartment/{id}','ApartmentController@destroy');
 
 Route::get('/getClient/{id}','ClientController@getClient');
 Route::post('/getClients','ClientController@getClients');
@@ -77,6 +79,12 @@ Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId');
 Route::post('/addClient','ClientController@add');
 Route::post('/updateClient','ClientController@update');
 Route::delete('/deleteClient/{id}','ClientController@destroy');
+
+Route::get('/getPayment/{id}','PaymentController@getPayment');
+Route::get('/getPayments/{entry_id}','PaymentController@getPaymentsByEntryId');
+Route::post('/addPayment','PaymentController@add');
+Route::post('/updatePayment','PaymentController@update');
+Route::delete('/deletePayment/{id}','PaymentController@destroy');
 
 Route::get('test',function (){
 

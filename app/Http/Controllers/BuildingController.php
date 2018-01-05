@@ -22,10 +22,7 @@ class BuildingController extends Controller
     	$value = $request->value;
     	$asc = (bool)$request->asce  ? 'asc' : 'desc';
 
-
     	$skip = ($page - 1) * $limit;
-
-
 
     	$buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
                         ->join('cities','cities.id','=','addresses.city_id')
@@ -37,7 +34,6 @@ class BuildingController extends Controller
         $result = $buildings->skip($skip)->take($limit)
                             ->get(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood']);
         return array('count' => $count, 'buildings' => $result);
-
     }
 
     public function getBuilding($id){

@@ -10,7 +10,7 @@ class AccessPointController extends Controller
 {
     public function getAccessPoint($id){
 
-        return Access_point::whereId($id)->first();
+        return Access_point::whereId($id)->with('elevator','version')->first();
     }
 
     public function getAccessPointsByEntry($entry_id){
@@ -45,7 +45,6 @@ class AccessPointController extends Controller
         $access_point->save();
 
         return $access_point;
-
     }
 
     public function update(Request $request){
