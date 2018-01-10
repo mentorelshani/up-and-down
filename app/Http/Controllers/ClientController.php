@@ -11,7 +11,6 @@ class ClientController extends Controller
 {
     public function getClient($id){
         return Client::where('id',$id)->with('apartment')->first();
-    }
 
     public function getClients(Request $request){
 

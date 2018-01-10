@@ -3,11 +3,20 @@
         data() {
             return {
                 accessPoints:{},
-                details:{},
+                details:{
+                    elevator:{},
+                    version:{},
+                },
 
                 versions:{},
                 numberOfRelays:16,
                 index:1,
+
+                modal:{
+                    title:null,
+                    btnEdit:false,
+                    btnAdd:false,
+                },
             }
         },
 
@@ -168,7 +177,33 @@
 
                 // this.relayName = "Relay " + this.index++;
                 // this.setRelayDetails(this.index);
+            },
 
+            modalAdd:function() {
+                this.clearDetails();
+
+                this.modal.title="Add new access points!";
+                this.modal.btnAdd=true;
+                this.modal.btnEdit=false;
+            },
+
+            modalEdit:function(IMEI) {
+                this.modal.title="Edit access points: "+ IMEI;
+                this.modal.btnAdd=false;
+                this.modal.btnEdit=true;
+            },
+
+            clearDetails:function() {
+                this.details.IMEI=null;
+                this.details.created_at=null;
+                this.details.elevator={};
+                this.details.elevator_id=null;
+                this.details.id=null;
+                this.details.notes=null;
+                this.details.phone_number=null;
+                this.details.updated_at=null;
+                this.details.version={};
+                this.details.version_id=null;
             },
         },
     }
