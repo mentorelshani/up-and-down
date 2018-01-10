@@ -54,6 +54,7 @@ Route::post('/updateElevator','ElevatorController@update');
 Route::delete('/deleteElevator/{id}','ElevatorController@destroy');
 
 Route::get('/getVersions','VersionController@getVersions');
+Route::post('/addVersion','VersionController@add');
 
 
 Route::get('/getAccessPoint/{id}','AccessPointController@getAccessPoint');
@@ -86,7 +87,13 @@ Route::post('/addPayment','PaymentController@add');
 Route::post('/updatePayment','PaymentController@update');
 Route::delete('/deletePayment/{id}','PaymentController@destroy');
 
+Route::get('getUsers','UserController@index');
+
 Route::get('test',function (){
+
+    return Auth::user()->creator;
+
+    return Building::whereRaw("cast(id as text) like '1%'")->get();
 
 //    return Auth::user()->id;
 //    return Building::find(2)->creator->id;

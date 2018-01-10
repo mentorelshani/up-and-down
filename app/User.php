@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -45,5 +46,34 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Building','created_by');
     }
 
+    protected $appends = ['canEdit', 'canDelete'];
+
+    public function getCanEditAttribute(){
+        if (true){//Auth::user()->created_by == null) {
+            return true;
+        }
+        else if (Auth::user()->id == $this->created_by){
+            return true;
+        }
+        else if (Auth::user()->id == $this->id){
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public function getCanDeleteAttribute(){
+        return true;
+    }
+
+    public function scopeWhereHasAccess($query){
+        if (true)//Auth::user()->created_by == null)
+            return $query;
+
+        else if (Auth::user()->creator->created_by == null)
+            return $query->where('created_by' , Auth::user()->id);
+
+        return $query->where('created_by', Auth::user()->creator->id);
+    }
 
 }
