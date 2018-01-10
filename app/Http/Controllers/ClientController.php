@@ -10,7 +10,6 @@ use App\Models\Card;
 class ClientController extends Controller
 {
     public function getClient($id){
-
         return Client::where('id',$id)->with('apartment')->first();
     }
 
@@ -28,9 +27,9 @@ class ClientController extends Controller
         $skip = ($page - 1) * $limit;
 
         $clients = Client::join('apartments','apartments.id','=','clients.apartment_id')
-                         ->join('entries','entries.id','=','apartments.entry_id')
-                         ->join('buildings','buildings.id','=','entries.building_id')
-                         ->orderBy($orderBy,$asc);
+            ->join('entries','entries.id','=','apartments.entry_id')
+            ->join('buildings','buildings.id','=','entries.building_id')
+            ->orderBy($orderBy,$asc);
 
         if (strpos($relation, 'card') !== false){
             $client_ids = Card::where($relation,'ilike',"$value%")->select('client_id')->get();
@@ -43,33 +42,18 @@ class ClientController extends Controller
         $count = $clients->get()->count();
 
         $result = $clients->skip($skip)->take($limit)
-                          ->get(['clients.*','apartments.door_number','entries.name as entry','buildings.name as building']);
+            ->get(['clients.*','apartments.door_number','entries.name as entry','buildings.name as building']);
 
         return array('count' => $count , 'result' => $result);
     }
 
-    public function getClientsByEntryId(Request $request, $entry_id){
-
-        $orderBy = $request->orderBy;
-        $limit = $request->limit;
-        $page = $request->page;
-        $relation = $request->relation;
-        $value = $request->value;
-        $asc = (bool) $request->asce  ? 'asc' : 'desc';
-
-        $skip = ($page - 1) * $limit;
-
-        $clients = Client::join('apartments','apartments.id','=','clients.apartment_id')
-                ->where('entry_id','=', $entry_id)
-                ->with('apartment')
-                ->orderBy($orderBy,$asc)
-                ->where($relation,'ilike',"$value%");
-
-        $count = $clients->get()->count();
-
-        $result = $clients->skip($skip)->take($limit)->get(['clients.*']);
-
-        return array('count' => $count,'result' => $result);
+    public function getClientsByEntryId($entry_id){
+        //returns clients where Auth::user() has access
+        return Client::join('apartments','apartments.id','=','clients.apartment_id')
+            ->where('entry_id','=', $entry_id)
+            ->with('apartment')
+            ->orderBy('firstname')
+            ->get(['clients.*']);
     }
 
     public function add(Request $request){
