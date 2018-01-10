@@ -1,7 +1,7 @@
 <div class="elevators tab__view">
 	<div class="tab__view--header">
 		<p class="subtitle">Elevators List</p>
-		<button class="btn_add btn" data-toggle="modal" data-target="#addElevator" @click="addForm()">Add new</button>
+		<button class="btn_add btn" data-toggle="modal" data-target="#addElevator" @click="modalAdd()">Add new</button>
 	</div>
 
 	<div class="tab__view--body">
@@ -13,7 +13,6 @@
 					<th>Made in</th>
 					<th>Company</th>
 					<th>Action</th>
-					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -23,7 +22,7 @@
 					<td>{{elevator.made_in}}</td>
 					<td>{{elevator.company}}</td>
 					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click="getDetails(elevator.id)"></span>	
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click="getDetails(elevator.id); modalEdit(elevator.identifier)"></span>	
 						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(elevator.id)"></span>
 						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator" @click="getDetails(elevator.id)"></span>
 					</td>
@@ -38,10 +37,10 @@
     		<div class="modal-content">
 		      	<div class="modal-header">
 		        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        	<h4 class="modal-title" id="myModalLabel">Add new</h4>
+		        	<h4 class="modal-title" id="myModalLabel">{{modal.title}}</h4>
 		      	</div>
 		      	<div class="modal-body body_modal">
-		        	<div class="form--elevator">
+		        	<div class="form--elevator ">
 
 		        		<div class="element">
 							<span class="name">Identifier</span>
@@ -62,10 +61,10 @@
 		        		
 		        	</div>
 		      	</div>
-		      	<div class="modal-footer">
+		      	<div class="modal-footer footer_modal">
 		        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        	<button type="button" class="btn btn-default" @click="edit()">Save</button>
-		        	<button type="button" class="btn btn-default" @click="add()">Add</button>
+		        	<button type="button" class="btn btn-default" @click="edit()" v-if="modal.btnEdit" >Update</button>
+		        	<button type="button" class="btn btn-default" @click="add()" v-if="modal.btnAdd" >Add</button>
 		      	</div>
     		</div>
   		</div>
@@ -108,7 +107,7 @@
 
 		        	</div>
 		      	</div>
-		      	<div class="modal-footer">
+		      	<div class="modal-footer footer_modal">
 		        	<button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
 		      	</div>
     		</div>

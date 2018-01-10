@@ -9,7 +9,7 @@ use App\Models\Card;
 class ClientController extends Controller
 {
     public function getClient($id){
-        return Client::where('id',$id)->with('apartment.entry.building.address.city')->get();
+        return Client::where('id',$id)->with('apartment')->get();
     }
 
     public function getClients(Request $request){

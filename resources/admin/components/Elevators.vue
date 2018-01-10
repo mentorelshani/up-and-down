@@ -6,6 +6,12 @@
                 details:{
                     entry_id:null,
                 },
+
+                modal:{
+                    title:null,
+                    btnEdit:false,
+                    btnAdd:false,
+                },
             }
         },
 
@@ -92,13 +98,31 @@
                     console.log(e.respone);
                 });
             },
-            
-            addForm:function(){
+
+            modalAdd:function() {
                 this.clearDetails();
+
+                this.modal.title="Add new elevator!";
+                this.modal.btnAdd=true;
+                this.modal.btnEdit=false;
+            },
+
+            modalEdit:function(identifier) {
+                this.modal.title="Edit elevator: "+ identifier;
+                this.modal.btnAdd=false;
+                this.modal.btnEdit=true;
             },
             
             clearDetails:function(){
-                this.details={};
+
+                this.details.company=null;
+                this.details.created_at=null;
+                this.details.entry_id=null;
+                this.details.id=null;
+                this.details.identifier=null;
+                this.details.made_in=null;
+                this.details.type=null;
+                this.details.updated_at=null;
             },
         },
     }
