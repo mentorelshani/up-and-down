@@ -47,13 +47,28 @@ class ClientController extends Controller
         return array('count' => $count , 'result' => $result);
     }
 
-    public function getClientsByEntryId($entry_id){
-        //returns clients where Auth::user() has access
-        return Client::join('apartments','apartments.id','=','clients.apartment_id')
+    public function getClientsByEntryId(Request $request, $entry_id){
+
+        $orderBy = $request->orderBy;
+        $limit = $request->limit;
+        $page = $request->page;
+        $relation = $request->relation;
+        $value = $request->value;
+        $asc = (bool) $request->asce  ? 'asc' : 'desc';
+
+        $skip = ($page - 1) * $limit;
+
+        $clients = Client::join('apartments','apartments.id','=','clients.apartment_id')
                 ->where('entry_id','=', $entry_id)
                 ->with('apartment')
-                ->orderBy('firstname')
-                ->get(['clients.*']);
+                ->orderBy($orderBy,$asc)
+                ->where($relation,'ilike',"$value%");
+
+        $count = $clients->get()->count();
+
+        $result = $clients->skip($skip)->take($limit)->get(['clients.*']);
+
+        return array('count' => $count,'result' => $result);
     }
 
     public function add(Request $request){
