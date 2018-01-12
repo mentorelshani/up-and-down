@@ -29,10 +29,8 @@
         },
 
         created() {
-            this.details.entry_id=this.entryId;
-            this.clearDetails()
-            this.getAll();
-            this.getApartment();
+            this.clearDetails();
+
         },
 
         mounted() {
@@ -46,6 +44,8 @@
         watch: {
             entryId:function() {
                 this.getAll();
+                this.getApartment();
+                this.details.entry_id=this.entryId;
             },
         },
 
@@ -63,6 +63,7 @@
             add:function() {
                 this.$http.post('/addClient',this.details)
                     .then(response => {
+                        console.log(this.details);
                         console.log("Klienti u regjistrua me sukses = !false");
                         this.getAll();
                     })
@@ -100,7 +101,7 @@
                 console.log(idClient);
                 this.$http.get(`/getClient/`+idClient)
                 .then(response => {
-                    this.details=response.data[0];
+                    this.details=response.data;
                     this.getAll();
                 })
                 .catch(e => {

@@ -12,7 +12,7 @@
 					<th>Access number</th>
 					<th>Version</th>
 					<th>Elevator</th>
-					<th>Action</th>
+					<th class="action">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -21,7 +21,7 @@
 					<td>{{accessPoint.phone_number}} </td>
 					<td>{{accessPoint.version.name}}</td>
 					<td>{{accessPoint.elevator.identifier}}</td>
-					<td>
+					<td class="action">
 						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click="getDetails(accessPoint.id); modalEdit(accessPoint.IMEI)"></span>	
 						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
 						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>

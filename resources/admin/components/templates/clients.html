@@ -12,7 +12,7 @@
 					<th>Phone number</th>
 					<th>Email</th>
 					<th>Door Apartment</th>
-					<th>Action</th>
+					<th class="action">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -21,7 +21,7 @@
 					<td>{{client.phone_number}}</td>
 					<td>{{client.email}}</td>
 					<td>{{client.apartment.door_number}}</td>
-					<td>
+					<td class="action">
 						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addClient" @click="getDetails(client.id); modalEdit(client.firstname,client.lastname)"></span>	
 						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(client.id)"></span>
 						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoClient" @click="getDetails(client.id)"></span>
@@ -32,7 +32,7 @@
 		</table>
 	</div>
 
-	<div class="modal fade" id="addClient" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+	<div class="modal fade" id="addClient" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
   		<div class="modal-dialog ">
     		<div class="modal-content">
 		      	<div class="modal-header">
@@ -77,7 +77,7 @@
 		        		</div>
 		        	</div>
 		      	</div>
-		      	<div class="modal-footer footer_modal">
+		      	<div class="modal-footer footer_modal ">
 		        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 		        	<button type="button" class="btn btn-default" @click="edit()" v-if="modal.btnEdit">Update</button>
 		        	<button type="button" class="btn btn-default" @click="add()" v-if="modal.btnAdd">Add</button>
@@ -87,7 +87,7 @@
   		</div>
 	</div>
 
-	<div class="modal fade" id="infoClient" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+	<div class="modal fade" id="infoClient" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" v-if="details">
   		<div class="modal-dialog">
     		<div class="modal-content">
 		      	<div class="modal-header">
@@ -118,7 +118,7 @@
 		        			<span class="value">{{details.birthday}}</span>
 		        		</div>
 		        		<div class="element">
-		        			<label class="name">Apartment:</label>
+		        			<label class="name">Apartment door:</label>
 		        			<span class="value">{{details.apartment.door_number}}</span>
 		        		</div>
 		        		<div class="element">

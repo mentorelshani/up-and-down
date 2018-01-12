@@ -24,8 +24,7 @@
         },
 
         created() {
-            this.getAll();
-            this.details.entry_id=this.entryId;
+            this.clearDetails();
         },
 
         mounted() {
@@ -39,7 +38,8 @@
         watch: {
            	entryId:function() {
                 this.getAll();
-                console.log('u ndryshua Id e hyrjes');
+                this.details.entry_id=this.entryId;
+
             }
         },
 

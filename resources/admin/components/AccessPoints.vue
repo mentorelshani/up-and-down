@@ -32,12 +32,6 @@
 
         mounted() {
             this.getVersion();
-            if(this.entryId != null) {
-                this.getAll();
-            }
-            else {
-                console.log('hej nuk osht mire');
-            }
         },
 
         computed: {
@@ -47,7 +41,7 @@
         watch: {
             entryId:function() {
                 this.getAll();
-                console.log('u ndryshua Id e entrit');
+                this.clearDetails();
             }           
         },
 
@@ -122,15 +116,11 @@
             },
             
             getVersion: function() {
-                console.log('a');
-
                 this.$http.get(`/getVersions`)
                 .then(response => {
                     this.versions=response.data;
                     this.details.version=this.versions[0];
                     this.chooseVersion();
-
-                console.log('a1');
 
                 })
                 .catch(e => {
@@ -145,7 +135,6 @@
                 this.relayName=null;
 
                 this.versionAccessPoint=this.details.version.name;
-                console.log(this.details.version.name);
             },
 
             getRelayNumber:function(relayName) {

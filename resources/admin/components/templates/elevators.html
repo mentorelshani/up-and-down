@@ -4,7 +4,7 @@
 		<button class="btn_add btn" data-toggle="modal" data-target="#addElevator" @click="modalAdd()">Add new</button>
 	</div>
 
-	<div class="tab__view--body">
+	<div class="tab__view--body" v-if="elevators">
 		<table class="table tab__view-list">
 			<thead> 
 				<tr>
@@ -12,7 +12,7 @@
 					<th>Type</th>
 					<th>Made in</th>
 					<th>Company</th>
-					<th>Action</th>
+					<th class="action">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -21,7 +21,7 @@
 					<td>{{elevator.type}}</td>
 					<td>{{elevator.made_in}}</td>
 					<td>{{elevator.company}}</td>
-					<td>
+					<td class="action">
 						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click="getDetails(elevator.id); modalEdit(elevator.identifier)"></span>	
 						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(elevator.id)"></span>
 						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator" @click="getDetails(elevator.id)"></span>
@@ -32,7 +32,7 @@
 		</table>
 	</div>
 
-	<div class="modal fade" id="addElevator" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
+	<div class="modal fade" id="addElevator" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" v-if="details">
   		<div class="modal-dialog">
     		<div class="modal-content">
 		      	<div class="modal-header">
@@ -70,7 +70,7 @@
   		</div>
 	</div>
 
-	<div class="modal fade" id="infoElevator" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+	<div class="modal fade" id="infoElevator" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" v-if="details">
   		<div class="modal-dialog ">
     		<div class="modal-content">
 		      	<div class="modal-header">
