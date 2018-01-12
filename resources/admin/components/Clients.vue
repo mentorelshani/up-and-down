@@ -29,23 +29,23 @@
         },
 
         created() {
-            this.details.entry_id=this.entryId;
-            this.clearDetails()
-            this.getAll();
-            this.getApartment();
+            this.clearDetails();
+
         },
 
         mounted() {
-   
+
         },
 
         computed: {
-            
+
         },
 
         watch: {
             entryId:function() {
                 this.getAll();
+                this.getApartment();
+                this.details.entry_id=this.entryId;
             },
         },
 
@@ -63,6 +63,7 @@
             add:function() {
                 this.$http.post('/addClient',this.details)
                     .then(response => {
+                        console.log(this.details);
                         console.log("Klienti u regjistrua me sukses = !false");
                         this.getAll();
                     })
@@ -86,36 +87,36 @@
 
             destroy:function(idClient) {
                 this.$http.delete(`/deleteClient/`+idClient)
-                .then(response => {
-                    console.log("Klienti u fshi me sukses = !false");
-                    this.getAll();
-                })
-                .catch(e => {
-                    console.log("Klienti u fshi me sukses = false");
-                    console.log(e.body);
-                });
+                    .then(response => {
+                        console.log("Klienti u fshi me sukses = !false");
+                        this.getAll();
+                    })
+                    .catch(e => {
+                        console.log("Klienti u fshi me sukses = false");
+                        console.log(e.body);
+                    });
             },
 
             getDetails:function(idClient) {
                 console.log(idClient);
                 this.$http.get(`/getClient/`+idClient)
-                .then(response => {
-                    this.details=response.data[0];
-                    this.getAll();
-                })
-                .catch(e => {
-                    console.log(e.body);
-                });
+                    .then(response => {
+                        this.details=response.data;
+                        this.getAll();
+                    })
+                    .catch(e => {
+                        console.log(e.body);
+                    });
             },
 
             getApartment:function() {
                 this.$http.get(`/getApartments/`+this.entryId)
-                .then(response => {
-                    this.apartments=response.data;
-                })
-                .catch(e => {
-                    console.log(e.body);
-                })
+                    .then(response => {
+                        this.apartments=response.data;
+                    })
+                    .catch(e => {
+                        console.log(e.body);
+                    })
             },
 
             otherOptionApartment:function() {
@@ -159,4 +160,3 @@
 
 <template src="./templates/clients.html">
 </template>
-

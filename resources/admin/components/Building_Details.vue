@@ -72,7 +72,6 @@
 
         methods: {
             getBuildingDetails:function(param) {
-                console.log('fsdf');
                 this.$http.get('/getBuilding/'+param)
                     .then(response => {
                         this.detailsBuilding=response.data;

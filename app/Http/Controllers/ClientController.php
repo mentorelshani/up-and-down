@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Apartment;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Card;
@@ -9,7 +10,8 @@ use App\Models\Card;
 class ClientController extends Controller
 {
     public function getClient($id){
-        return Client::where('id',$id)->with('apartment')->get();
+
+        return Client::where('id',$id)->with('apartment')->first();
     }
 
     public function getClients(Request $request){
@@ -45,16 +47,21 @@ class ClientController extends Controller
 
         return array('count' => $count , 'result' => $result);
     }
+
     public function getClientsByEntryId($entry_id){
         //returns clients where Auth::user() has access
         return Client::join('apartments','apartments.id','=','clients.apartment_id')
-                     ->where('entry_id','=', $entry_id)->with('apartment')->get(['clients.*']);
+                ->where('entry_id','=', $entry_id)
+                ->with('apartment')
+                ->orderBy('firstname')
+                ->get(['clients.*']);
     }
 
     public function add(Request $request){
 
         $this->validate($request,[
-            'apartment_id' => 'exists:apartments,id',
+            'entry_id' => 'exists:entries,id',
+            'door_number' => 'integer',
             'firstname' => 'required',
             'lastname' => 'required',
             'gender' => 'alpha|size:1',
@@ -63,13 +70,28 @@ class ClientController extends Controller
             'phone_number' => 'required',
         ]);
 
-        $apartment_id = $request->apartment_id;
+        $entry_id = $request->entry_id;
+        $door_number = $request->door_number;
         $firstname = $request->firstname;
         $lastname = $request->lastname;
         $gender = $request->gender;
         $birthday = $request->birthday;
         $email = $request->email;
         $phone_number = $request->phone_number;
+
+        $apartment = Apartment::where('entry_id',$entry_id)->where('door_number', $door_number)->first();
+
+        if($apartment != null)
+            $apartment_id = $apartment->id;
+
+        else {
+            $apartment = new Apartment();
+            $apartment->entry_id = $entry_id;
+            $apartment->door_number = $door_number;
+            $apartment->save();
+
+            $apartment_id = $apartment->id;
+        }
 
         $client = new Client();
         $client->apartment_id = $apartment_id;

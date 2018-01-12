@@ -4,113 +4,113 @@
 		<button class="btn_add btn" data-toggle="modal" data-target="#addElevator" @click="modalAdd()">Add new</button>
 	</div>
 
-	<div class="tab__view--body">
+	<div class="tab__view--body" v-if="elevators">
 		<table class="table tab__view-list">
-			<thead> 
-				<tr>
-					<th>Identifier</th>
-					<th>Type</th>
-					<th>Made in</th>
-					<th>Company</th>
-					<th>Action</th>
-				</tr>
+			<thead>
+			<tr>
+				<th>Identifier</th>
+				<th>Type</th>
+				<th>Made in</th>
+				<th>Company</th>
+				<th class="action">Action</th>
+			</tr>
 			</thead>
 			<tbody>
-				<tr v-for="elevator in elevators">
-					<td>{{elevator.identifier}}</td>
-					<td>{{elevator.type}}</td>
-					<td>{{elevator.made_in}}</td>
-					<td>{{elevator.company}}</td>
-					<td>
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click="getDetails(elevator.id); modalEdit(elevator.identifier)"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(elevator.id)"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator" @click="getDetails(elevator.id)"></span>
-					</td>
-				</tr>
+			<tr v-for="elevator in elevators">
+				<td>{{elevator.identifier}}</td>
+				<td>{{elevator.type}}</td>
+				<td>{{elevator.made_in}}</td>
+				<td>{{elevator.company}}</td>
+				<td class="action">
+					<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click="getDetails(elevator.id); modalEdit(elevator.identifier)"></span>
+					<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(elevator.id)"></span>
+					<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator" @click="getDetails(elevator.id)"></span>
+				</td>
+			</tr>
 			</tbody>
 
 		</table>
 	</div>
 
-	<div class="modal fade" id="addElevator" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
-  		<div class="modal-dialog">
-    		<div class="modal-content">
-		      	<div class="modal-header">
-		        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        	<h4 class="modal-title" id="myModalLabel">{{modal.title}}</h4>
-		      	</div>
-		      	<div class="modal-body body_modal">
-		        	<div class="form--elevator ">
+	<div class="modal fade" id="addElevator" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" v-if="details">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">{{modal.title}}</h4>
+				</div>
+				<div class="modal-body body_modal">
+					<div class="form--elevator ">
 
-		        		<div class="element">
+						<div class="element">
 							<span class="name">Identifier</span>
-							<input class="value" v-model="details.identifier">		     		
-		        		</div>
-		        		<div class="element">
+							<input class="value" v-model="details.identifier">
+						</div>
+						<div class="element">
 							<span class="name">Type</span>
-							<input class="value" v-model="details.type">		     		
-		        		</div>
-		        		<div class="element">
+							<input class="value" v-model="details.type">
+						</div>
+						<div class="element">
 							<span class="name">Made in</span>
-							<input class="value" v-model="details.made_in">		     		
-		        		</div>
-		        		<div class="element">
+							<input class="value" v-model="details.made_in">
+						</div>
+						<div class="element">
 							<span class="name">Company</span>
-							<input class="value" v-model="details.company">		     		
-		        		</div>
-		        		
-		        	</div>
-		      	</div>
-		      	<div class="modal-footer footer_modal">
-		        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        	<button type="button" class="btn btn-default" @click="edit()" v-if="modal.btnEdit" >Update</button>
-		        	<button type="button" class="btn btn-default" @click="add()" v-if="modal.btnAdd" >Add</button>
-		      	</div>
-    		</div>
-  		</div>
+							<input class="value" v-model="details.company">
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer footer_modal">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default" @click="edit()" v-if="modal.btnEdit" >Update</button>
+					<button type="button" class="btn btn-default" @click="add()" v-if="modal.btnAdd" >Add</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<div class="modal fade" id="infoElevator" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-  		<div class="modal-dialog ">
-    		<div class="modal-content">
-		      	<div class="modal-header">
-		        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        	<h4 class="modal-title" id="myModalLabel">Information</h4>
-		      	</div>
-		      	<div class="modal-body body_modal">
-		        	<div class="details--elevator">
+	<div class="modal fade" id="infoElevator" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" v-if="details">
+		<div class="modal-dialog ">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Information</h4>
+				</div>
+				<div class="modal-body body_modal">
+					<div class="details--elevator">
 
-		        		<div class="element">
-		        			<label class="name">Identifier:</label>
-		        			<span class="value">{{details.identifier}}</span>
-		        		</div>
-		        		<div class="element">
-		        			<label class="name">Type:</label>
-		        			<span class="value">{{details.type}}</span>
-		        		</div>
-		        		<div class="element">
-		        			<label class="name">Made in:</label>
-		        			<span class="value">{{details.made_in}}</span>
-		        		</div>
-		        		<div class="element">
-		        			<label class="name">Company:</label>
-		        			<span class="value">{{details.company}}</span>
-		        		</div>
-		        		<div class="element">
-		        			<label class="name">Created at:</label>
-		        			<span class="value">{{details.created_at}}</span>
-		        		</div>
-		        		<div class="element">
-		        			<label class="name">Updated at:</label>
-		        			<span class="value">{{details.updated_at}}</span>
-		        		</div>
+						<div class="element">
+							<label class="name">Identifier:</label>
+							<span class="value">{{details.identifier}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Type:</label>
+							<span class="value">{{details.type}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Made in:</label>
+							<span class="value">{{details.made_in}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Company:</label>
+							<span class="value">{{details.company}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Created at:</label>
+							<span class="value">{{details.created_at}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Updated at:</label>
+							<span class="value">{{details.updated_at}}</span>
+						</div>
 
-		        	</div>
-		      	</div>
-		      	<div class="modal-footer footer_modal">
-		        	<button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
-		      	</div>
-    		</div>
-  		</div>
+					</div>
+				</div>
+				<div class="modal-footer footer_modal">
+					<button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

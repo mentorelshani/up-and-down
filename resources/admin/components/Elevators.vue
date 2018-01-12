@@ -2,7 +2,7 @@
     export default {
         data() {
             return {
-            	elevators:{},
+                elevators:{},
                 details:{
                     entry_id:null,
                 },
@@ -24,12 +24,11 @@
         },
 
         created() {
-            this.getAll();
-            this.details.entry_id=this.entryId;
+            this.clearDetails();
         },
 
         mounted() {
-   
+
         },
 
         computed: {
@@ -37,9 +36,10 @@
         },
 
         watch: {
-           	entryId:function() {
+            entryId:function() {
                 this.getAll();
-                console.log('u ndryshua Id e hyrjes');
+                this.details.entry_id=this.entryId;
+
             }
         },
 
@@ -79,24 +79,24 @@
             getDetails:function(idElevator) {
                 console.log('asd');
                 this.$http.get(`/getElevator/`+idElevator)
-                .then(response => {
-                    this.details=response.data;
-                    this.getAll();
-                })
-                .catch(e => {
-                    console.log(e.respone);
-                });
+                    .then(response => {
+                        this.details=response.data;
+                        this.getAll();
+                    })
+                    .catch(e => {
+                        console.log(e.respone);
+                    });
             },
 
             destroy:function(idElevator) {
                 this.$http.delete(`/deleteEntry/`+idElevator)
-                .then(response => {
-                    console.log('U fshi me sukses');
-                    this.getAll();
-                })
-                .catch(e => {
-                    console.log(e.respone);
-                });
+                    .then(response => {
+                        console.log('U fshi me sukses');
+                        this.getAll();
+                    })
+                    .catch(e => {
+                        console.log(e.respone);
+                    });
             },
 
             modalAdd:function() {
@@ -112,7 +112,7 @@
                 this.modal.btnAdd=false;
                 this.modal.btnEdit=true;
             },
-            
+
             clearDetails:function(){
 
                 this.details.company=null;
@@ -131,4 +131,3 @@
 
 <template src="./templates/elevators.html">
 </template>
-

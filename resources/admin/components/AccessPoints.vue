@@ -32,23 +32,17 @@
 
         mounted() {
             this.getVersion();
-            if(this.entryId != null) {
-                this.getAll();
-            }
-            else {
-                console.log('hej nuk osht mire');
-            }
         },
 
         computed: {
-           
+
         },
 
         watch: {
             entryId:function() {
                 this.getAll();
-                console.log('u ndryshua Id e entrit');
-            }           
+                this.clearDetails();
+            }
         },
 
         methods:{
@@ -94,13 +88,13 @@
 
             destroy:function(idAccessPoint) {
                 this.$http.delete(`/deleteAccessPoint/`+idAccessPoint)
-                .then(response => {
-                    console.log('U fshi me sukses');
-                    this.getAll();
-                })
-                .catch(e => {
-                    console.log(e.respone);
-                });
+                    .then(response => {
+                        console.log('U fshi me sukses');
+                        this.getAll();
+                    })
+                    .catch(e => {
+                        console.log(e.respone);
+                    });
             },
 
             setRelayDetails: function(param){
@@ -120,24 +114,20 @@
                 console.log(this.index);
 
             },
-            
+
             getVersion: function() {
-                console.log('a');
-
                 this.$http.get(`/getVersions`)
-                .then(response => {
-                    this.versions=response.data;
-                    this.details.version=this.versions[0];
-                    this.chooseVersion();
+                    .then(response => {
+                        this.versions=response.data;
+                        this.details.version=this.versions[0];
+                        this.chooseVersion();
 
-                console.log('a1');
-
-                })
-                .catch(e => {
-                    console.log(e);
-                });
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
             },
-            
+
             chooseVersion:function() {
                 // this.relays = [];
                 this.details.versionId=this.details.version.id;
@@ -145,7 +135,6 @@
                 this.relayName=null;
 
                 this.versionAccessPoint=this.details.version.name;
-                console.log(this.details.version.name);
             },
 
             getRelayNumber:function(relayName) {
@@ -212,4 +201,3 @@
 
 <template src="./templates/accessPoints.html">
 </template>
-
