@@ -76,6 +76,7 @@ Route::delete('/deleteApartment/{id}','ApartmentController@destroy');
 Route::get('/getClient/{id}','ClientController@getClient');
 Route::post('/getClients','ClientController@getClients');
 Route::post('/getClients/{entry_id}','ClientController@getClientsByEntryId');
+Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId1');//to be deleted
 Route::post('/addClient','ClientController@add');
 Route::post('/updateClient','ClientController@update');
 Route::delete('/deleteClient/{id}','ClientController@destroy');
