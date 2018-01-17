@@ -34,8 +34,14 @@ use App\User;
 |
 */
 
+Route::get('/getExistingAddresses','CityController@getExistingAddresses');
+Route::get('/getCities','CityController@getCities');
+Route::get('/getCompanies','CityController@getCompanies');
+Route::get('/getNeighborhoods','CityController@getNeighborhoods');
+
+
 Route::post('/getBuildings','BuildingController@getBuildings');
-Route::get('/getExistingAddresses','BuildingController@getExistingAddresses');
+Route::post('/getBuildings1','BuildingController@index'); // new
 Route::post('/addBuilding','BuildingController@add');
 Route::get('/getBuilding/{id}','BuildingController@getBuilding');
 Route::post('/updateBuilding','BuildingController@update');
@@ -71,6 +77,7 @@ Route::delete('/deleteRelay/{id}','RelayController@destroy');
 Route::get('/getApartment/{id}','ApartmentController@getApartment');
 Route::get('/getApartments/{entry_id}','ApartmentController@getApartmentsByEntry');
 Route::post('/addApartment','ApartmentController@add');
+Route::post('/updateApartment','ApartmentController@update');
 Route::delete('/deleteApartment/{id}','ApartmentController@destroy');
 
 Route::get('/getClient/{id}','ClientController@getClient');

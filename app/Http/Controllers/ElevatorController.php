@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\addElevatorRequest;
+use App\Http\Services\ElevatorService;
 use Illuminate\Http\Request;
 use App\Models\Elevator;
 
 class ElevatorController extends Controller
 {
+    private $elevatorService;
+
+    public function __construct(ElevatorService $elevatorService){
+
+        $this->elevatorService = $elevatorService;
+    }
+
     public function getElevatorsByEntry($entry_id){
         return Elevator::where('entry_id',$entry_id)->get();
     }
@@ -15,52 +24,20 @@ class ElevatorController extends Controller
         return Elevator::whereId($id)->first();
     }
 
-    public function add(Request $request){
-
-        $this->validate($request,[
-            'entry_id' => 'exists:entries,id',
-            'identifier' => 'required'
-        ]);
-
-        $entry_id = $request->entry_id;
-        $identifier = $request->identifier;
-        $type = $request->type;
-        $made_in = $request->made_in;
-        $company = $request->company;
+    public function add(addElevatorRequest $request){
 
         $elevator = new Elevator();
-        $elevator->entry_id = $entry_id;
-        $elevator->identifier = $identifier;
-        $elevator->type = $type;
-        $elevator->made_in = $made_in;
-        $elevator->company = $company;
-        $elevator->save();
+
+        $this->elevatorService->add($request, $elevator);
 
         return $elevator;
     }
 
     public function update(Request $request){
 
-        $this->validate($request,[
-            'id' => 'exists:elevators',
-            'entry_id' => 'exists:entries,id',
-            'identifier' => 'required'
-        ]);
+        $elevator = Elevator::find($request->id);
 
-        $id = $request->id;
-        $entry_id = $request->entry_id;
-        $identifier = $request->identifier;
-        $type = $request->type;
-        $made_in = $request->made_in;
-        $company = $request->company;
-
-        $elevator = Elevator::whereId($id)->first();
-        $elevator->entry_id = $entry_id;
-        $elevator->identifier = $identifier;
-        $elevator->type = $type;
-        $elevator->made_in = $made_in;
-        $elevator->company = $company;
-        $elevator->update();
+        $this->elevatorService->update($request, $elevator);
 
         return $elevator;
     }

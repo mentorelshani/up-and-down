@@ -93,7 +93,7 @@ gulp.task('cssPlugins', function () {
       'bower_components/wow/css/libs/animate.css'
     ])
     .pipe(concat('build.min.css'))
-    .pipe(gulp.dest('public/css'));
+    .pipe(gulp.dest('public/css'))
 });
 
 gulp.task('jsPlugins', function () {
