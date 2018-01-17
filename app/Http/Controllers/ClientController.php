@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\addClientRequest;
+use App\Http\Requests\PaginateRequest;
+use App\Http\Requests\updateClientRequest;
+use App\Http\Services\ClientService;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
 use App\Models\Client;
@@ -9,11 +13,19 @@ use App\Models\Card;
 
 class ClientController extends Controller
 {
-    public function getClient($id){
-        return Client::where('id',$id)->with('apartment')->first();
+    private $clientService;
+
+    public function __construct(ClientService $clientService){
+
+        $this->clientService = $clientService;
     }
 
-    public function getClients(Request $request){
+    public function getClient($id){
+
+        return Client::whereId($id)->with('apartment')->first();
+    }
+
+    public function getClients(PaginateRequest $request){
 
         //returns clients where Auth::user() has access
 
@@ -22,14 +34,14 @@ class ClientController extends Controller
         $page = $request->page;
         $relation = $request->relation;
         $value = $request->value;
-        $asc = (bool)$request->asce  ? 'asc' : 'desc';
+        $asc = $request->asce  ? 'asc' : 'desc';
 
-        $skip = ($page - 1) * $limit;
 
         $clients = Client::join('apartments','apartments.id','=','clients.apartment_id')
             ->join('entries','entries.id','=','apartments.entry_id')
             ->join('buildings','buildings.id','=','entries.building_id')
-            ->orderBy($orderBy,$asc);
+            ->orderBy($orderBy,$asc)
+            ->select();
 
         if (strpos($relation, 'card') !== false){
             $client_ids = Card::where($relation,'ilike',"$value%")->select('client_id')->get();
@@ -39,12 +51,7 @@ class ClientController extends Controller
             $clients = $clients->where($relation, 'ILIKE', "$value%");
         }
 
-        $count = $clients->get()->count();
-
-        $result = $clients->skip($skip)->take($limit)
-            ->get(['clients.*','apartments.door_number','entries.name as entry','buildings.name as building']);
-
-        return array('count' => $count , 'result' => $result);
+        return $clients->paginate($limit);
     }
 
     public function getClientsByEntryId1($entry_id){
@@ -56,111 +63,39 @@ class ClientController extends Controller
             ->get(['clients.*']);
     }
 
-    public function getClientsByEntryId(Request $request, $entry_id){
+    public function getClientsByEntryId(PaginateRequest $request, $entry_id){
 
         $orderBy = $request->orderBy;
         $limit = $request->limit;
         $page = $request->page;
         $relation = $request->relation;
         $value = $request->value;
-        $asc = (bool) $request->asce  ? 'asc' : 'desc';
-
-        $skip = ($page - 1) * $limit;
+        $asc = $request->asce  ? 'asc' : 'desc';
 
         $clients = Client::join('apartments','apartments.id','=','clients.apartment_id')
-            ->where('entry_id','=', $entry_id)
-            ->with('apartment')
-            ->orderBy($orderBy,$asc)
-            ->where($relation,'ilike',"$value%");
+                        ->where('entry_id','=', $entry_id)
+                        ->with('apartment')
+                        ->orderBy($orderBy,$asc)
+                        ->select(['clients.*'])
+                        ->where($relation,'ilike',"$value%");
 
-
-        $count = $clients->get()->count();
-
-        $result = $clients->skip($skip)->take($limit)->get(['clients.*']);
-
-        return array('count' => $count,'result' => $result);
+        return $clients->paginate($limit);
     }
 
-    public function add(Request $request){
-
-        $this->validate($request,[
-            'entry_id' => 'exists:entries,id',
-            'door_number' => 'integer',
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'gender' => 'alpha|size:1',
-            'birthday' => 'date',
-            'email' => 'email',
-            'phone_number' => 'required',
-        ]);
-
-        $entry_id = $request->entry_id;
-        $door_number = $request->door_number;
-        $firstname = $request->firstname;
-        $lastname = $request->lastname;
-        $gender = $request->gender;
-        $birthday = $request->birthday;
-        $email = $request->email;
-        $phone_number = $request->phone_number;
-
-        $apartment = Apartment::where('entry_id',$entry_id)->where('door_number', $door_number)->first();
-
-        if($apartment != null)
-            $apartment_id = $apartment->id;
-
-        else {
-            $apartment = new Apartment();
-            $apartment->entry_id = $entry_id;
-            $apartment->door_number = $door_number;
-            $apartment->save();
-
-            $apartment_id = $apartment->id;
-        }
+    public function add(addClientRequest $request){
 
         $client = new Client();
-        $client->apartment_id = $apartment_id;
-        $client->firstname = $firstname;
-        $client->lastname = $lastname;
-        $client->gender = strtoupper($gender);
-        $client->birthday = $birthday;
-        $client->email = $email;
-        $client->phone_number = $phone_number;
-        $client->type = "Client";
-        $client->save();
+
+        $this->clientService->add($request, $client);
 
         return $client;
     }
 
-    public function update(Request $request){
+    public function update(updateClientRequest $request){
 
-        $this->validate($request,[
-            'id' => 'exists:clients',
-            'apartment_id' => 'exists:apartments,id',
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'gender' => 'alpha',
-            'birthday' => 'date',
-            'email' => 'email',
-        ]);
+        $client = Client::find($request->id);
 
-        $id = $request->id;
-        $apartment_id = $request->apartment_id;
-        $firstname = $request->firstname;
-        $lastname = $request->lastname;
-        $gender = $request->gender;
-        $birthday = $request->birthday;
-        $email = $request->email;
-        $phone_number = $request->phone_number;
-
-        $client = Client::whereId($id)->first();
-        $client->apartment_id = $apartment_id;
-        $client->firstname = $firstname;
-        $client->lastname = $lastname;
-        $client->gender = strtoupper($gender);
-        $client->birthday = $birthday;
-        $client->email = $email;
-        $client->phone_number = $phone_number;
-        $client->update();
+        $this->clientService->add($request, $client);
 
         return $client;
     }

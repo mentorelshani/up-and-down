@@ -2,13 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ApartmentRequest;
+use App\Http\Requests\updateApartmentRequest;
 use Illuminate\Http\Request;
 use App\Models\Apartment;
+use App\Http\Services\ApartmentService;
 
 class ApartmentController extends Controller
 {
+    private $apartmentService;
+
+    public function __construct(ApartmentService $apartmentService){
+
+        $this->apartmentService = $apartmentService;
+    }
+
     public function getApartment($id){
-        return Apartment::whereId($id)->first();
+
+        return Apartment::find($id);
     }
 
     public function getApartmentsByEntry($entry_id){
@@ -16,25 +27,25 @@ class ApartmentController extends Controller
         return Apartment::where('entry_id',$entry_id)->get();
     }
 
-    public function add(Request $request){
-
-        $this->validate($request,[
-            'entry_id' => 'required|integer',
-            'door_number' => 'required|integer'
-        ]);
-
-        $entry_id = $request->entry_id;
-        $door_number = $request->door_number;
+    public function add(ApartmentRequest $request){
 
         $apartment = new Apartment();
-        $apartment->entry_id = $entry_id;
-        $apartment->door_number = $door_number;
-        $apartment->save();
+
+        $this->apartmentService->add($request, $apartment);
 
         return $apartment;
     }
 
-    public function delete($id){
+    public function update(updateApartmentRequest $request){
+
+        $apartment = Apartment::find($request->id);
+
+        $this->apartmentService->update($request, $apartment);
+
+        return $apartment;
+    }
+
+    public function destroy($id){
 
         $a = Apartment::find($id);
 
