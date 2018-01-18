@@ -9,16 +9,35 @@
 	 	data: function() {
 	        return {
 	            
-	        	showItem:"10",
+	        	showItem:20,
 	        	paginatePage:1,
+                totalPage:null,
+                activePage:true,
+                minPage:1,
+                maxPage:5,
 	        }
 	    },
+
+        props: {
+            lengthBuilding:null,
+        },
+
 	    created() {
             this.setParams();
 	    	this.$store.commit('setPaginatePage', this.paginatePage);
 	    },
 
         mounted() {
+        },
+
+        watch: {
+            lengthBuilding:function() {
+                this.totalPage=Math.ceil(this.lengthBuilding/this.$store.getters.getShowItem);
+            },
+
+            showItem:function() {
+                this.totalPage=Math.ceil(this.lengthBuilding/this.$store.getters.getShowItem);
+            }
         },
 
 	    methods:{
@@ -31,77 +50,67 @@
                 {
                     this.paginatePage=1;
                     this.paginationControll();
+
+                    this.minPage=1;
+                    this.maxPage=5;
                 }
 
-                if(page == 'prev')
+                else if(page == 'prev')
                 {
                     this.paginatePage--;
                     this.paginationControll();
+
+                    this.minPage--;
+                    this.maxPage--;
+
+                    if(this.minPage <1)
+                    {
+                        this.maxPage = 5;
+                        this.minPage = 1;
+                    }
                 }
 
-                if(page == 'next')
+                else if(page == 'next')
                 {
                     this.paginatePage++;
                     this.paginationControll();
+
+                    this.minPage++;
+                    this.maxPage++;
+
+                    if(this.maxPage >this.totalPage)
+                    {
+                        this.maxPage = this.totalPage;
+                        this.minPage = this.totalPage-5;
+                    }
                 }
 
-                if(page == 'max')
+                else if(page == 'max')
                 {
-                    this.paginatePage=Math.ceil(this.lenght__building/this.show__items);
+                    this.paginatePage=Math.ceil(this.lengthBuilding/this.$store.getters.getShowItem);
                     this.paginationControll();
-                    console.log(this.lenght__building);
-                    console.log(this.show__items);
+                    
+                    this.minPage=this.totalPage-5;
+                    this.maxPage=this.totalPage;
                 }
-
-                if(page == 1)
+                else
                 {
-                    this.paginatePage=1;
-                    this.paginationControll();
-                }
-                if(page == 2)
-                {
-                    this.paginatePage=2;
+                    this.paginatePage=page;
                     this.paginationControll();
                 }
-                if(page == 3)
-                {
-                    this.paginatePage=3;
-                    this.paginationControll();
-                }
-                if(page == 4)
-                {
-                    this.paginatePage=4;
-                    this.paginationControll();
-                }
-
+                
                 this.$store.commit('setPaginatePage', this.paginatePage);
             },
             paginationControll:function(){
 
-                if(this.paginatePage == 1)
+                if(this.paginatePage == 1 || this.paginatePage < 1 )
                 {
-                    this.deactivate__min=true;
-                    this.deactivate__prev=true;
-                    this.deactivate__max=false;
-                    this.deactivate__next=false;
+                    this.paginatePage =1;
                 }
-
-                else if ( this.paginatePage == this.lenght__building/this.show__items) 
+                else if ( this.paginatePage == this.totalPage || this.paginatePage > this.totalPage ) 
                 {
-                    this.deactivate__min=false;
-                    this.deactivate__prev=false;
-                    this.deactivate__max=true;
-                    this.deactivate__next=true;
+                    this.paginatePage=this.totalPage;
                 }
-
-                else 
-                {
-                    this.deactivate__min=false;
-                    this.deactivate__prev=false;
-                    this.deactivate__max=false;
-                    this.deactivate__next=false;
-                }
-
                 this.$store.commit('setPaginatePage', this.paginatePage);
             },
 	    }

@@ -3,11 +3,36 @@
 		<h2 class="menu__item-title">Buildings</h2>
 
 		<ul class="breadcrumb-with-root_element">
-		  <li><router-link to="home">Home</router-link></li>
-		  <li>Buildings</li>
+		    <li><router-link to="home">Home</router-link></li>
+		    <li>Buildings</li>
 		</ul>
 
-		<input type="text" class="search__input" placeholder="Search" v-model="input__search"  @keyup='Buildings()'>
+		<div class="row search_by">    
+	        <div class="col-xs-8 col-xs-offset-2 col-right">
+			    <div class="input-group ">
+	                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="input__search"  @keyup='Buildings()'>
+	                <div class="input-group-btn search-panel search_key">
+	                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+	                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
+	                    </button>
+	                    <ul class="dropdown-menu " role="menu">
+	                      	<li @click="changeSearchKey('buildings.company')" >Company</li>
+	                      	<li @click="changeSearchKey('buildings.name')" >Building</li>
+	                      	<li @click="changeSearchKey('cities.name')" >City</li>
+	                      	<li @click="changeSearchKey('addresses.street')" >Street</li>
+	                      	<li @click="changeSearchKey('addresses.neighborhood')" >Neighorhood</li>
+	                      	<li class="divider"></li>
+	                      	<li >Anything</li> <!-- -->
+	                    </ul>
+	                </div>     
+	                <span class="input-group-btn">
+	                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+	                </span>
+	            </div>
+	        </div>
+		</div>
+
+<!-- 	<input type="text" class="search__input" placeholder="Search" v-model="input__search"  @keyup='Buildings()'>
 
 		<select class="search__key" v-model="key__search" @change='Buildings()'>
 			<option value="buildings.company">Company</option>
@@ -15,44 +40,49 @@
 			<option value="cities.name">City</option>
 			<option value="addresses.street">Street</option>
 			<option value="addresses.neighborhood">Neighorhood</option>
-		</select>
+		</select> -->
 	</div>
 
 	<div class="block__add">
-		<button class="button__view-left">L</button>
-		<button class="button__view-left">B</button>
+		<span class="glyphicon glyphicon-th-list button__view-left "></span>
+		<span class="glyphicon glyphicon-th button__view-left "></span>
 
-		<button class="button__add--item" data-toggle="modal" data-target="#building__add-edit" @click="showFrmAdd()">+ Add Building</button>
+		<button class="button__add--item btn btn-default" data-toggle="modal" data-target="#building__add-edit" @click="showFrmAdd()">
+			<span class="glyphicon glyphicon-plus-sign"></span> Add Building
+		</button>
 	</div>
 
 	<div class="block__table">
-		<table class="table__model_1 ">
-						
-			<tr class="table__header">
-				<td @click="Sort('buildings.company',ascending)">Comapny</td>
-				<td @click="Sort('buildings.name',ascending)">Building</td>
-				<td @click="Sort('cities.name',ascending)">City</td>
-				<td @click="Sort('addresses.street',ascending)">Street</td>
-				<td @click="Sort('addresses.neighborhood',ascending)">Neighborhood</td>
-				<td ></td>
-			</tr>
-			<tr class="table__row" v-for="building of objBuildings">
-				<td>{{building.company}}</td>
-				<td><router-link :to="{ name: 'buildingDetails', params: { id: building.id } }">{{building.name}}</router-link></td>
-				<!-- <td><a href="" data-toggle="modal" data-target="#buildingInfo" @click="detailsBuilding(building.id)">{{building.name}}</a></td> -->
-				<td>{{building.city}}</td>
-				<td>{{building.street}}</td>
-				<td>{{building.neighborhood}}</td>
-				<td>
-					<button @click="editBuilding(building.id)" data-toggle="modal" data-target="#building__add-edit">E</button>
-					<button @click="deleteBuilding(building.id)">D</button>
-				</td>
-
-			</tr>		
+		<table class="table__model_1 table">
+			<thead>
+				<tr>
+					<th @click="Sort('buildings.company',ascending)">Company</th>
+					<th @click="Sort('buildings.name',ascending)">Building</th>
+					<th @click="Sort('cities.name',ascending)">City</th>
+					<th @click="Sort('addresses.street',ascending)">Street</th>
+					<th @click="Sort('addresses.neighborhood',ascending)">Neighborhood</th>
+					<th class="action">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="table__row" v-for="building of objBuildings">
+					<td>{{building.company}}</td>
+					<td><router-link :to="{ name: 'buildingDetails', params: { id: building.id } }">{{building.name}}</router-link></td>
+					<!-- <td><a href="" data-toggle="modal" data-target="#buildingInfo" @click="detailsBuilding(building.id)">{{building.name}}</a></td> -->
+					<td>{{building.city}}</td>
+					<td>{{building.street}}</td>
+					<td>{{building.neighborhood}}</td>
+					<td class="action">
+						<span @click="editBuilding(building.id)" data-toggle="modal" data-target="#building__add-edit" class="glyphicon glyphicon-pencil btn_action"></span>
+						<span @click="deleteBuilding(building.id)" class="glyphicon glyphicon-remove btn_action"></span>
+					</td>
+				</tr>	
+			</tbody>	
 		</table>
 	</div>
 
-	<menu-item-footer></menu-item-footer>
+
+	<menu-item-footer :lengthBuilding="setLengthBuildings"></menu-item-footer>
 
 	<div class="modal fade" id="buildingInfo" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 	 	<div class="modal-dialog">
@@ -141,5 +171,4 @@
 		    </div>
 	 	</div>
 	</div>
-
 </div>
