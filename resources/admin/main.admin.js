@@ -26,6 +26,7 @@ Vue.use(Resource)
 Vue.use(date)
 // Vue.use(axios)
 
+// new BuildingDetails({ el: '.list__entry'})
 
 
 
@@ -57,7 +58,7 @@ var routes = [
     },
     {   
         path:'*',
-        redirect:'/building/37/details'
+        redirect:'/buildings'
     },
     // {
     //   path: '/admin/products/brand/:id',

@@ -3,11 +3,40 @@ $logoColor: #FF0000;
 $headerGrey: #ecf0f1;
 $pageGrey: #F5F5FA;
 $orangeColor: #e74c3c;
-$alphabeticalColor: #34495e;
+$alphabeticalColor: #2980b9;
 $borderInput: #aaa;
 $ButtonBlue: #2980b9;
 $menuItem:#aaa;
 $menuItem__hover:#ecf0f1;
 $dashbordColorAlph:#2f2f2f;
 $asbestos:#7f8c8d;
-$infoSector:#dbdee0;
+$infoSector:#34495e;
+
+$hoverSearchKey:#d6d4d4;
+$fontColorMenu:#fff;
+$fontColorInfoSection:#ddd;
+$tabsSection:#eeeeee;
+
+$mainColor1: #ecf0f1;
+$logoColor1: #FF0000;
+$headerGrey1: #ecf0f1;
+$pageGrey1: #F5F5FA;
+$orangeColor1: #e74c3c;
+$alphabeticalColor1: #34495e;
+$borderInput1: #aaa;
+$ButtonBlue1: #2980b9;
+$menuItem1:#aaa;
+$menuItem__hover1:#ecf0f1;
+$dashbordColorAlph1:#2f2f2f;
+$asbestos1:#7f8c8d;
+$infoSector1:#dbdee0;
+
+$heightInfo: #123;
+
+@mixin lookInfo($state)  {
+	@if ($state) {
+		width: 77%;
+	} @else {
+		width: 100%;
+	}
+}

@@ -8,41 +8,17 @@
                 detailsBuilding:null,
                 elevatorDetails:{},
 
+                buildings:{},
 
+                detailsEntry: {},
 
-                detailsEntry: {
-                    id: null,
-                    building: null,
-                    entry: null,
-                    nrFloor: null,
-                    nrApartaments: null,
+                modalEntry: {
+                    title:null,
+                    btnEdit:null,
+                    btnAdd:null,
                 },
 
-                relays: [],
-
-                relayName:null,
-                relayfloor:null,
-                relayPulsTime:null,
-
-
-
-                versions:null,
-                versionAccessPoint:null,
-                numberOfRelays:null,
-
-                relayDetails:null,
-
-                addButton:true,
-                editButton:false,
-                clearButton:true,
-                relayName:null,
-                index:1,
-
-                active_relay:false,
-                active_relationRelays:false,
-                active_SaveAccessPoint:false,
-
-                btnConfigRelays:true,
+                show:true,
             }
         },
 
@@ -52,6 +28,7 @@
 
         created() {
             this.idBuilding=this.$route.params.id;
+            this.getAllBuilding();
 
         },
 
@@ -60,15 +37,14 @@
         },
 
         watch: {
-            idEntry:function() {
-                
-                
-            }
+            detailsBuilding:function() {
+                // this.getBuildingDetails(this.idBuilding);
+            },
         },
 
         computed: {
 
-        },
+        }, 
 
         methods: {
             getBuildingDetails:function(param) {
@@ -87,11 +63,91 @@
                     });
             },
 
+            getAllBuilding:function() {
+                this.detailsEntry.building_id=parseInt(this.$route.params.id);
+                this.$http.get(`/getExistingAddresses`)
+                .then(response => {
+                    this.buildings=response.data.buildings;
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            },
+
             getEntryDetails:function(entryId) {
                 this.idEntry=entryId;
                 console.log(entryId);
+                this.$http.get(`/getEntry/`+entryId)
+                .then(response => {
+                    this.detailsEntry=response.data;
+                })
+                .catch(e => {
+                    console.log(e.body);
+                });
             },
             
+            addEntry:function() {
+
+                this.$http.post(`/addEntry`,this.detailsEntry)
+                .then(response => {
+                    this.getBuildingDetails(this.idBuilding);
+                    this.clearDetailsEntry();
+                    console.log("Klienti u shtua me sukses = !false");
+                })
+                .catch(e => {
+                    console.log(e.body);
+                });
+            },
+
+            clearDetailsEntry:function(){
+                this.detailsEntry.building_id=null;
+                this.detailsEntry.name= null;
+                this.detailsEntry.number_of_floors=null;
+                this.detailsEntry.number_of_apartments= null;
+            },
+
+            modalAdd:function() {
+                this.detailsEntry={};
+                this.detailsEntry.building_id=parseInt(this.$route.params.id);
+
+                this.modalEntry.title="Add new Entry!";
+                this.modalEntry.btnAdd=true;
+                this.modalEntry.btnEdit=false;
+            },
+
+            modalEdit:function(name) {
+                this.modalEntry.title="Edit entry: "+ name;
+                this.modalEntry.btnAdd=false;
+                this.modalEntry.btnEdit=true;
+            },
+
+            setMenu: function(top, left) {
+                largestHeight = window.innerHeight - this.$$.right.offsetHeight - 25;
+                largestWidth = window.innerWidth - this.$$.right.offsetWidth - 25;
+
+                if (top > largestHeight) top = largestHeight;
+
+                if (left > largestWidth) left = largestWidth;
+
+                this.top = top + 'px';
+                this.left = left + 'px';
+            },
+
+            closeMenu: function() {
+                this.viewMenu = false;
+            },
+
+            openMenu: function(e) {
+                this.viewMenu = true;
+
+                Vue.nextTick(function() {
+                    this.$$.right.focus();
+
+                    this.setMenu(e.y, e.x)
+                }.bind(this));
+                e.preventDefault();
+            },
+
         },
     }
 </script>

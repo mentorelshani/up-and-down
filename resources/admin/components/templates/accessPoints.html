@@ -16,20 +16,18 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr v-for="accessPoint in accessPoints">
-				<td>{{accessPoint.IMEI}}</td>
-				<td>{{accessPoint.phone_number}} </td>
-				<td>{{accessPoint.version.name}}</td>
-				<td>{{accessPoint.elevator.identifier}}</td>
-				<td class="action">
-					<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click="getDetails(accessPoint.id); modalEdit(accessPoint.IMEI)"></span>
-					<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
-					<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
-				</td>
-			</tr>
-
+				<tr v-for="accessPoint in accessPoints">
+					<td>{{accessPoint.IMEI}}</td>
+					<td>{{accessPoint.phone_number}} </td>
+					<td>{{accessPoint.version.name}}</td>
+					<td>{{accessPoint.elevator.identifier}}</td>
+					<td class="action">
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click="getDetails(accessPoint.id); modalEdit(accessPoint.IMEI)"></span>	
+						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
+					</td>
+				</tr>
 			</tbody>
-
 		</table>
 	</div>
 

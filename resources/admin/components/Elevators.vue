@@ -77,7 +77,6 @@
             },
 
             getDetails:function(idElevator) {
-                console.log('asd');
                 this.$http.get(`/getElevator/`+idElevator)
                     .then(response => {
                         this.details=response.data;
