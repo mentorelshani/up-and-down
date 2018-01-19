@@ -56,7 +56,6 @@ Route::delete('/deleteElevator/{id}','ElevatorController@destroy');
 Route::get('/getVersions','VersionController@getVersions');
 Route::post('/addVersion','VersionController@add');
 
-
 Route::get('/getAccessPoint/{id}','AccessPointController@getAccessPoint');
 Route::post('/addAccessPoint','AccessPointController@add');
 Route::get('/getAccessPoints/{entry_id}','AccessPointController@getAccessPointsByEntry');

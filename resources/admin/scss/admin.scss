@@ -29,12 +29,13 @@
     width: 100%;
     height: 70px;
     background-color: $alphabeticalColor;
-    padding: 0px 0px 0px 2%;
+    padding: 0px ;
 }
 .header__logo {
     float: left;
     position: relative;
-    
+    width: 23%;
+    // text-align: center;
     img {
         height: 58px;
         margin: 6px 0px;
@@ -46,7 +47,8 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    >li {
+    // width: 77%;
+    >a {
         float: left;
         display: block;
         position: relative;
@@ -55,13 +57,15 @@
         padding: 21px 10px;
         text-align: center;
         vertical-align: middle;
-        color: #aaa;
+        color: $fontColorMenu;
+        text-decoration: none;
         &:hover {
             text-decoration: none;
-            color: $menuItem__hover;
+            background: rgba(0,0,0,0.1);
         }
-        >a  {
-            color: $menuItem;
+        >li {
+            display:block;
+            color: $fontColorMenu;
 
             &:hover {
                 text-decoration: none;
@@ -76,8 +80,8 @@
     }
 }
 .card__layout--main {
-    margin-left:2%;
-    // margin-right: 2%;
+    // margin-left:1%;
+    // margin-right: 1%;
 }
 .body__home {
     height: 100%;
@@ -88,69 +92,8 @@
     background-color: #ddd;
     text-align: center;
 }
-.sub__body{
-    position: relative;
-    background-color: #eee;
 
-    .section__header {
-    // background-color: #eee;
-        position: relative;
-        width: 100%;
-        float: left;
 
-        .menu__item-title {
-            padding-top: 30px;
-            padding-left: 15px;
-            padding-bottom: 10px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .search__input {
-            float: right;
-            height: 41px;
-            font-size: 18px;
-            width: 15%;
-            position: relative;
-        }
-        .search__key {
-            float: right;
-            height: 41px;
-            width: 9%;
-            position: relative;
-        }
-    }
-}
-
-.breadcrumb-with-root_element {
-    padding: 8px 16px;
-    list-style: none;
-    background-color: #eee;
-    width: auto;
-    margin-bottom: 10px;
-    position: relative;
-    float: left;
-    z-index: 1;
-    li {
-        display: inline;
-        font-size: 18px;
-        a {
-            color: $dashbordColorAlph;
-            text-decoration: none;
-            &:hover {
-                color: $dashbordColorAlph;
-                text-decoration: underline;
-            }
-        }
-    }
-    li+li {
-        &:before {
-            padding: 7px;
-            color: black;
-            content: "/\00a0";
-        }
-    }
-}
 
 .breadcrumb-with-details_element {
     @extend .breadcrumb-with-root_element;
@@ -159,17 +102,7 @@
 }
 
 
-.block__add {
-    margin-bottom: 30px;
-    width: 100%;
-    float: left;
 
-    .button__add--item{
-        float: right;
-        width: 15%;
-        margin-left: 5px;
-    }
-}
 
 .block__table {
     width: 100%;
@@ -179,25 +112,56 @@
         text-align: center;
         width: 90%;
         margin-left: 5%;
-        border-bottom: 1px solid #555;
+        font-size: 15px;
 
-        >.table__header {
-            >td {
-                width: 15%;
-                cursor: pointer;
-            }
-        }
-
+        //te dhenat per klasen table_header duhet me i FSHI
         .table__header {
             text-align: left;
             border-bottom: 1px solid #555;
             font-size: 18px;
             font-weight: bold;
+
+            td {
+                width: 15%;
+                cursor: pointer;
+            }
+
+            .action {
+                text-align: center;
+                cursor: context-menu;
+            }
         }
+        //->->->->->->->->->->->->->->->->
+        thead {
+            width: 100%;
+            // margin-right: 10px;
+
+            tr {
+                width: 100%;
+                // display: inline-table;
+                th {
+                    min-width: 20%;
+                    max-width: auto;
+                    cursor: pointer;
+                }
+                
+                .action {
+                    width: 20%;
+                    text-align: center;
+                    cursor: default;
+                }
+            }
+        }
+
 
         .table__row {
             text-align: left;
-            border-bottom: 1px solid #555;
+            .action {
+                text-align: center;
+                .btn_action {
+                    cursor: pointer;
+                }
+            }
         }
     }  
 }
@@ -221,9 +185,10 @@ td {
 
 .footer__paginat{
     border-top: 1px solid #123;
+    margin: 5px 20px 5px 20px;
     padding-top: 10px;
     display: inline-block;
-    width: 100%;
+    width: calc( 100% - 40px);
         a {
         color: black;
         float: left;

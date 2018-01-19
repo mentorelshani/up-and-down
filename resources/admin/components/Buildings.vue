@@ -9,7 +9,7 @@
                 setLengthBuildings:null,
 
                 //data for list of buildings
-                show__items:"10",
+                show__items:"20",
                 paginate__page:1,
                 key__search:'buildings.company',
                 input__search:null,
@@ -280,6 +280,11 @@
                     this.orderBy = orderBy;   
                 }
                 this.Buildings();
+            },
+
+            changeSearchKey:function(searchKey) {
+                console.log(searchKey);
+                this.key__search=searchKey;
             },
 
             showFrmAdd:function(){

@@ -33,6 +33,7 @@ const mainModule = {
     state: {
         paginatePage:null,
         showItem:null,
+        totalPage:null,
     },
 
     getters: {
@@ -42,16 +43,21 @@ const mainModule = {
         getShowItem: state => {
             return state.showItem;
         },
+        // getTotalPage: state => {
+        //     return state.totalPage;
+        // },
     },  
 
     mutations: {
         setShowItem(state,showItem){
             state.showItem=showItem;
         },
-
         setPaginatePage(state,paginatePage){
             state.paginatePage=paginatePage;
         },
+        // setTotalPage(state,totalPage){
+        //     state.totalPage=totalPage;
+        // },
     },
 }
 
