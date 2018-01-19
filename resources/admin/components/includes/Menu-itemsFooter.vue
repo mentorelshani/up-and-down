@@ -1,11 +1,5 @@
 <script>
     export default {
-  //   	props: {
-		//   show__items: {
-		//     default:10,
-		//     type: Number
-		//   }
-		// },
 	 	data: function() {
 	        return {
 	            
@@ -15,28 +9,52 @@
                 activePage:true,
                 minPage:1,
                 maxPage:5,
+
+                showPaginate:true,
 	        }
 	    },
 
         props: {
-            lengthBuilding:null,
+            lengthBuildings:null,
+            lengthEntries:null,
+            sitePage:null,
         },
 
 	    created() {
             this.setParams();
 	    	this.$store.commit('setPaginatePage', this.paginatePage);
+            console.log(this.lengthBuildings);
+            console.log(this.$store.getters.getShowItem);
 	    },
 
         mounted() {
+            this.totalPage=Math.ceil(this.lengthBuildings/this.$store.getters.getShowItem);
         },
 
         watch: {
-            lengthBuilding:function() {
-                this.totalPage=Math.ceil(this.lengthBuilding/this.$store.getters.getShowItem);
+            lengthBuildings:function() {
+                this.totalPage=Math.ceil(this.lengthBuildings/this.$store.getters.getShowItem);
+            },
+
+            lengthEntries:function() {
+                this.totalPage=Math.ceil(this.lengthEntries/this.$store.getters.getShowItem);
             },
 
             showItem:function() {
-                this.totalPage=Math.ceil(this.lengthBuilding/this.$store.getters.getShowItem);
+                this.totalPage=Math.ceil(this.lengthBuildings/this.$store.getters.getShowItem);
+                this.minPage=1;
+                this.maxPage=5;
+                this.paginatePage=1;
+
+                if(this.showItem=="10000") 
+                {
+                    console.log('Paginate is not1!1')
+                    this.showPaginate=false;
+                }
+                else
+                {
+                    this.showPaginate=true;
+                }
             }
         },
 
@@ -80,6 +98,7 @@
 
                     if(this.maxPage >this.totalPage)
                     {
+                        console.log('aasd');
                         this.maxPage = this.totalPage;
                         this.minPage = this.totalPage-5;
                     }
@@ -87,7 +106,7 @@
 
                 else if(page == 'max')
                 {
-                    this.paginatePage=Math.ceil(this.lengthBuilding/this.$store.getters.getShowItem);
+                    this.paginatePage=Math.ceil(this.lengthBuildings/this.$store.getters.getShowItem);
                     this.paginationControll();
                     
                     this.minPage=this.totalPage-5;
@@ -98,7 +117,7 @@
                     this.paginatePage=page;
                     this.paginationControll();
                 }
-                
+ 
                 this.$store.commit('setPaginatePage', this.paginatePage);
             },
             paginationControll:function(){

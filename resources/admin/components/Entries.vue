@@ -7,9 +7,9 @@
                 setLengthEntries: null,
 
                 //data for list of entries
-                showItems: "10",
+                showItems: "20",
                 paginatePage: 1,
-                keySearch: 'buildings.name',
+                keySearch: ['buildings.name'],
                 inputSearch: null,
                 ascending: true,
                 orderBy: 'buildings.name',
@@ -129,6 +129,18 @@
                     this.orderBy = orderBy;
                 }
                 this.Entries();
+            },
+
+            changeSearchKey:function(searchKey) {
+                console.log(searchKey);
+                this.keySearch=[];
+
+                if(searchKey=="anything") {
+                    this.keySearch=['buildings.name','entry.name','cities.name','addresses.street','IMEI'];
+                } 
+                else {
+                    this.keySearch=[searchKey];
+                }
             },
         },
     }
