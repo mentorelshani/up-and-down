@@ -49,6 +49,7 @@ Route::delete('/deleteBuilding/{id}','BuildingController@destroy');
 
 Route::get('/getEntry/{id}','EntryController@getEntry');
 Route::post('/getEntries','EntryController@getEntries');
+Route::post('/getEntries1','EntryController@index');// new
 Route::post('/addEntry','EntryController@add');
 Route::post('/updateEntry','EntryController@update');
 Route::delete('/deleteEntry/{id}','EntryController@destroy');

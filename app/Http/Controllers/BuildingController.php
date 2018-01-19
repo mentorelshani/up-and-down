@@ -48,6 +48,7 @@ class BuildingController extends Controller
 
         return array('count' => $count, 'buildings' => $result);
     }
+
     public function index(PaginateRequest $request){
 
         $orderBy = $request->orderBy;
@@ -58,9 +59,13 @@ class BuildingController extends Controller
         $asc = $request->asce  ? 'asc' : 'desc';
 
         $buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
-            ->join('cities','cities.id','=','addresses.city_id')
-            ->where($relation,'ilike','%'.$value.'%')
-            ->whereHasAccess()
+            ->join('cities','cities.id','=','addresses.city_id');
+
+            foreach ($relation as $i) {
+                $buildings = $buildings->orWhere($i,'ilike','%'.$value.'%');
+            }
+
+            $buildings = $buildings->whereHasAccess()
             ->orderBy($orderBy,$asc)
             ->select(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood'])
             ->paginate($limit);
