@@ -7,47 +7,80 @@
 		  <li>Entries</li>
 		</ul>
 
-		<input type="text" name="search" class="search__input" placeholder="Search" v-model="inputSearch" @keyup="Entries()">
+		<div class="row search_by">    
+	        <div class="col-xs-8 col-xs-offset-2 col-right">
+			    <div class="input-group ">
+	                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="input__search"  @keyup='Buildings()'>
+	                <div class="input-group-btn search-panel search_key">
+	                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+	                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
+	                    </button>
+	                    <ul class="dropdown-menu " role="menu">
+	                      	<li @click="changeSearchKey('buildings.name')">Buildings</li>
+	                      	<li @click="changeSearchKey('entry.name')">Entries</li>
+	                      	<li @click="changeSearchKey('cities.name')">City</li>
+	                      	<li @click="changeSearchKey('addresses.street')">Street</li>
+	                      	<li @click="changeSearchKey('IMEI')">IMEI</li>
+	                      	<li class="divider"></li>
+	                      	<li >Anything</li> <!-- -->
+	                    </ul>
+	                </div>     
+	                <span class="input-group-btn">
+	                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+	                </span>
+	            </div>
+	        </div>
+		</div>
 
-		<select class="search__key" v-model="keySearch">
+		<!-- <input type="text" name="search" class="search__input" placeholder="Search" v-model="inputSearch" @keyup="Entries()"> -->
+
+<!-- 		<select class="search__key" v-model="keySearch">
 			<option value="buildings.name">Building</option>
 			<option value="entries.name">Entries</option>
 			<option value="cities.name">City</option>
 			<option value="addresses.street">Street</option>
 			<option value="IMEI">IMEI</option>
-		</select>
+		</select> -->
 	</div>
 
 	<div class="block__add">
-		<button class="button__view-left">L</button>
-		<button class="button__view-left">B</button>
+		<span class="glyphicon glyphicon-th-list button__view-left "></span>
+		<span class="glyphicon glyphicon-th button__view-left "></span>
 
-		<router-link to="entry"><button class="button__add--item" @click="addEntry()">+ Add Entries</button></router-link>
+		<!-- <button class="button__add--item btn btn-default" data-toggle="modal" data-target="#building__add-edit" @click="addEntry()">
+			<span class="glyphicon glyphicon-plus-sign"></span> Add Entry
+		</button> -->
+
+		<!-- <router-link to="entry"><button class="button__add--item" @click="addEntry()">+ Add Entries</button></router-link> -->
 	</div>
 
 	<div class="block__table">
-		<table class="table__model_1 ">			
-			<tr class="table__header">
-				<td @click="Sort('buildings.name',ascending)">Building</td>
-				<td @click="Sort('entries.name',ascending)">Entry</td>
-				<td @click="Sort('cities.name',ascending)">City</td>
-				<td @click="Sort('addresses.street',ascending)">Street</td>
-				<td @click="Sort('entries.number_of_floors',ascending)">Nr. of floor</td>
-				<td @click="Sort('entries.number_of_apartments',ascending)">Nr. of apartaments</td>
-				<td></td>
-			</tr>	
-			<tr class="table__row" v-for="entry in objEntries">
-				<td>{{entry.building}}</td>
-				<td><router-link :to="{ name: 'entryDetails', params: { id: entry.id }}">{{entry.name}}</router-link></td>
-				<td>{{entry.city}}</td>
-				<td>{{entry.street}}</td>
-				<td>{{entry.number_of_floors}}</td>
-				<td>{{entry.number_of_apartments}}</td>
-				<td>
-					<button @click="editEntry(entry.id)">E</button>
-					<button @click="deleteEntry(entry.id)">D</button>
-				</td>
-			</tr>
+		<table class="table__model_1 table">
+			<thead>
+				<tr>
+					<th @click="Sort('buildings.name',ascending)">Building</th>
+					<th @click="Sort('entries.name',ascending)">Entry</th>
+					<th @click="Sort('cities.name',ascending)">City</th>
+					<th @click="Sort('addresses.street',ascending)">Street</th>
+					<th @click="Sort('entries.number_of_floors',ascending)">Nr. of floor</th>
+					<th @click="Sort('entries.number_of_apartments',ascending)">Nr. of apartaments</th>
+					<th class="action" >Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="table__row" v-for="entry in objEntries">
+					<td>{{entry.building}}</td>
+					<td><router-link :to="{ name: 'entryDetails', params: { id: entry.id }}">{{entry.name}}</router-link></td>
+					<td>{{entry.city}}</td>
+					<td>{{entry.street}}</td>
+					<td>{{entry.number_of_floors}}</td>
+					<td>{{entry.number_of_apartments}}</td>
+					<td class="action"> 
+						<span @click="editEntry(entry.id)" class="glyphicon glyphicon-pencil btn_action"></span>
+						<span @click="deleteEntry(entry.id)" class="glyphicon glyphicon-remove btn_action"></span>
+					</td>
+				</tr>
+			</tbody>				
 		</table>
 	</div>
 
