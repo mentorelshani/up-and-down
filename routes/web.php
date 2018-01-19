@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Seeder;
 use Illuminate\Http\Request;
 use App\Models\Access_point; 
@@ -19,8 +20,9 @@ use App\Models\Product;
 use App\Models\Relay; 
 use App\Models\Role_Access;
 use App\Models\Role;
-use App\Models\Version;  
+use App\Models\Version;
 use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,36 +34,79 @@ use App\User;
 |
 */
 
+Route::get('/getExistingAddresses','CityController@getExistingAddresses');
+Route::get('/getCities','CityController@getCities');
+Route::get('/getCompanies','CityController@getCompanies');
+Route::get('/getNeighborhoods','CityController@getNeighborhoods');
+
+
 Route::post('/getBuildings','BuildingController@getBuildings');
-Route::get('/getExistingAddresses','BuildingController@getExistingAddresses');
-Route::post('/getBuildings','BuildingController@getBuildings');
-Route::post('/addBuilding','BuildingController@addBuilding');
+Route::post('/getBuildings1','BuildingController@index'); // new
+Route::post('/addBuilding','BuildingController@add');
 Route::get('/getBuilding/{id}','BuildingController@getBuilding');
-Route::post('/updateBuilding','BuildingController@updateBuilding');
+Route::post('/updateBuilding','BuildingController@update');
 Route::delete('/deleteBuilding/{id}','BuildingController@destroy');
 
-Route::post('getEntries','EntryController@getEntries');
-Route::post('addEntry','EntryController@addEntry');
-Route::post('updateEntry','EntryController@updateEntry');
-Route::delete('deleteEntry/{id}','EntryController@destroy');
+Route::get('/getEntry/{id}','EntryController@getEntry');
+Route::post('/getEntries','EntryController@getEntries');
+Route::post('/addEntry','EntryController@add');
+Route::post('/updateEntry','EntryController@update');
+Route::delete('/deleteEntry/{id}','EntryController@destroy');
 
-Route::post('addApartment','ApartmentController@addApartment');
+Route::get('/getElevators/{entry_id}','ElevatorController@getElevatorsByEntry');
+Route::get('/getElevator/{id}','ElevatorController@getElevator');
+Route::post('/addElevator','ElevatorController@add');
+Route::post('/updateElevator','ElevatorController@update');
+Route::delete('/deleteElevator/{id}','ElevatorController@destroy');
 
-Route::post('addElevator','ElevatorController@addElevator');
+Route::get('/getVersions','VersionController@getVersions');
+Route::post('/addVersion','VersionController@add');
 
-Route::get('getVersions','VersionController@getVersions');
 
-Route::post('addAccessPoint','AccessPointController@addAccessPoint');
+Route::get('/getAccessPoint/{id}','AccessPointController@getAccessPoint');
+Route::post('/addAccessPoint','AccessPointController@add');
+Route::get('/getAccessPoints/{entry_id}','AccessPointController@getAccessPointsByEntry');
+Route::post('/updateAccessPoint','AccessPointController@update');
+Route::delete('/deleteAccessPoint/{id}','AccessPointController@destroy');
 
-Route::post('addRelays','RelayController@addRelays');
+Route::get('/getRelays/{access_point_id}','RelayController@getRelays');
+Route::get('/getRelay/{id}','RelayController@getRelay');
+Route::post('/addRelay','RelayController@add');
+Route::post('/updateRelay','RelayController@update');
+Route::delete('/deleteRelay/{id}','RelayController@destroy');
+
+Route::get('/getApartment/{id}','ApartmentController@getApartment');
+Route::get('/getApartments/{entry_id}','ApartmentController@getApartmentsByEntry');
+Route::post('/addApartment','ApartmentController@add');
+Route::post('/updateApartment','ApartmentController@update');
+Route::delete('/deleteApartment/{id}','ApartmentController@destroy');
+
+Route::get('/getClient/{id}','ClientController@getClient');
+Route::post('/getClients','ClientController@getClients');
+Route::post('/getClients/{entry_id}','ClientController@getClientsByEntryId');
+Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId1');//to be deleted
+Route::post('/addClient','ClientController@add');
+Route::post('/updateClient','ClientController@update');
+Route::delete('/deleteClient/{id}','ClientController@destroy');
+
+Route::get('/getPayment/{id}','PaymentController@getPayment');
+Route::get('/getPayments/{entry_id}','PaymentController@getPaymentsByEntryId');
+Route::post('/addPayment','PaymentController@add');
+Route::post('/updatePayment','PaymentController@update');
+Route::delete('/deletePayment/{id}','PaymentController@destroy');
+
+Route::get('getUsers','UserController@index');
 
 Route::get('test',function (){
-    $a = User::find(3);
-//    return Auth::user()->id;
 
+    return Auth::user()->creator;
+
+    return Building::whereRaw("cast(id as text) like '1%'")->get();
+
+//    return Auth::user()->id;
 //    return Building::find(2)->creator->id;
-    return Building::get();
-    return $a->buildings()->with('address')->get();
+//    return Building::get();
+//    return $a->buildings()->with('address')->get();
 
 });
 

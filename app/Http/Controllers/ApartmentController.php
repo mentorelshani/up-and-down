@@ -2,26 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ApartmentRequest;
+use App\Http\Requests\updateApartmentRequest;
 use Illuminate\Http\Request;
 use App\Models\Apartment;
+use App\Http\Services\ApartmentService;
 
 class ApartmentController extends Controller
 {
-    public function addApartment(Request $request){
+    private $apartmentService;
 
-        $this->validate($request,[
-            'entry_id' => 'required|integer',
-            'door_number' => 'required|integer'
-        ]);
+    public function __construct(ApartmentService $apartmentService){
 
-        $entry_id = $request->entry_id;
-        $door_number = $request->door_number;
+        $this->apartmentService = $apartmentService;
+    }
+
+    public function getApartment($id){
+
+        return Apartment::find($id);
+    }
+
+    public function getApartmentsByEntry($entry_id){
+
+        return Apartment::where('entry_id',$entry_id)->get();
+    }
+
+    public function add(ApartmentRequest $request){
 
         $apartment = new Apartment();
-        $apartment->entry_id = $entry_id;
-        $apartment->door_number = $door_number;
-        $apartment->save();
+
+        $this->apartmentService->add($request, $apartment);
 
         return $apartment;
+    }
+
+    public function update(updateApartmentRequest $request){
+
+        $apartment = Apartment::find($request->id);
+
+        $this->apartmentService->update($request, $apartment);
+
+        return $apartment;
+    }
+
+    public function destroy($id){
+
+        $a = Apartment::find($id);
+
+        if ($a != null) {
+            $a->delete();
+            return "u fshi";
+        }
+        return "Nuk ekziston";
     }
 }

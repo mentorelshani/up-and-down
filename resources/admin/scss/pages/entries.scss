@@ -37,6 +37,7 @@
             position: relative;
             float: left;
             width: 100%;
+            padding-bottom: 30px;
             
             .block__details--body-left {
                 position: relative;
@@ -141,6 +142,7 @@
                             width: 10%;
                             padding-top: 4px;
                             padding-bottom: 4px;
+                            // border: 1px solid black;
 
                         }
 
@@ -182,7 +184,7 @@
             }
         }
 
-        .addEdit__accessPoint--body{
+        .addEdit__accessPoint--body {
             position: relative;
             float: left;
             width: 100%;
@@ -190,6 +192,8 @@
             .addEdit__accessPoint--mainData {
                 position: relative;
                 width: 30%;
+                // opacity: 0;
+                // cursor: default;
                 // margin-right:;
                 float: left;
                 margin-top: 15px;
@@ -232,6 +236,31 @@
 
                     }
                 }
+
+                .config__relays {
+                    float: left;
+                    width: 100%;
+                    margin-bottom: 5px;
+                    top: 0;
+                    position: relative;
+                    padding-right: 5%;
+
+                    .button__config {
+                        float: right;
+                    }
+                }
+            }
+            .disable__accessPoints_relay-disabled {
+                background-color: rgba(255, 0, 0, 0.5);
+                z-index:10000;
+                // @extend .addEdit__accessPoint--relay;
+                float: left;
+                width: 66%;
+                padding-bottom: 115px;
+                top: 0;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
             }
 
             .addEdit__accessPoint--relay {

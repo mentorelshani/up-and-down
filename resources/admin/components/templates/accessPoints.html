@@ -1,0 +1,184 @@
+<div class="accessPoints tab__view">
+	<div class="tab__view--header">
+		<p class="subtitle">Access points List</p>
+		<button class="btn_add btn" data-toggle="modal" data-target="#addAccessPoint" @click="modalAdd()" >Add new</button>
+	</div>
+
+	<div class="tab__view--body">
+		<table class="table tab__view-list">
+			<thead>
+			<tr>
+				<th>IMEI</th>
+				<th>Access number</th>
+				<th>Version</th>
+				<th>Elevator</th>
+				<th class="action">Action</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr v-for="accessPoint in accessPoints">
+				<td>{{accessPoint.IMEI}}</td>
+				<td>{{accessPoint.phone_number}} </td>
+				<td>{{accessPoint.version.name}}</td>
+				<td>{{accessPoint.elevator.identifier}}</td>
+				<td class="action">
+					<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click="getDetails(accessPoint.id); modalEdit(accessPoint.IMEI)"></span>
+					<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
+					<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
+				</td>
+			</tr>
+
+			</tbody>
+
+		</table>
+	</div>
+
+	<div class="modal fade" id="addAccessPoint" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">{{modal.title}}</h4>
+				</div>
+				<div class="modal-body body_modal">
+					<div class="addEdit__accessPoint--mainData">
+						<div class="details__element" v-if="show__section_config_entry">
+							<label class="element__label">Entry</label>
+							<select class="element__input" v-model="eeee">
+								<option>Hyrja v1/c1</option>
+							</select>
+						</div>
+
+						<div class="details__element">
+							<label class="element__label">IMEI</label>
+							<input type="email" class="element__input" v-model="details.IMEI">
+						</div>
+
+						<div class="details__element">
+							<label class="element__label">Elevator tel.</label>
+							<input type="text" class="element__input" v-model="details.phone_number">
+						</div>
+
+						<!--  <div class="details__element">
+                             <label class="element__label">Version</label>
+                             <select class="element__input" v-model="details.version" @change="chooseVersion()">
+                                 <option v-for="version in versions" :value="version.id" >{{details.version.name}}</option>
+                             </select>
+                         </div> -->
+
+						<div class="details__element">
+							<label class="element__label">Elevator</label>
+							<select class="element__input" v-model="details.elevator" @change="">
+								<option v-for="version in versions" :value="version.id" >{{details.elevator.identifier}}</option>
+							</select>
+						</div>
+
+						<div class="details__element">
+							<label class="element__label">Note</label>
+							<textarea cols="15" rows="5" class="element__textarea" v-model="details.notes"></textarea>
+						</div>
+
+						<!-- <div class="config__relays">
+                            <button class="button__config" @click="configRelays()" >Config relays</button>
+                        </div> -->
+					</div>
+
+					<div class="addEdit__accessPoint--relay">
+						<div class="relay__button">
+							<button class="button__realay" v-for="n in numberOfRelays" @click="setRelayDetails(n)">Relay {{n}}</button>
+						</div>
+
+						<div class="relay__details">
+							<fieldset class="relay__details--space" >
+								<legend class="relay__name">{{relayName}}</legend>
+
+								<div class="details__element">
+									<label class="element__label">Name</label>
+									<select class="element__select" v-model="relayfloor">
+										<option>Garage</option>
+										<option v-for="n in 6">Floor {{n}}</option>
+										<option>Vip floor</option>
+										<option>Other</option>
+									</select>
+
+									<input type="text" class="element__input-small">
+								</div>
+								<div class="details__element">
+									<label class="element__label">Pulse time</label>
+									<input type="email" v-model="relayPulsTime" class="element__input">
+								</div>
+								<div class="next_previous--element">
+									<button class="button__previous-relay" @click="previousRelay()">&laquo;</button>
+									<button class="button__next-relay" @click="nextRelay()">&raquo;</button>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="modal-footer footer_modal">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default">Save</button >
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="infoAccessPoint" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Information</h4>
+				</div>
+				<div class="modal-body">
+					<div class="details--accessPoint">
+						<div class="element">
+							<label class="name">IMEI:</label>
+							<span class="value">{{details.IMEI}}</span>
+						</div>
+
+						<div class="element">
+							<label class="name">Access number:</label>
+							<span class="value">{{details.phone_number}}</span>
+						</div>
+
+						<div class="element">
+							<label class="name">Elevator:</label>
+							<span class="value">{{details.elevator.identifier}}</span>
+						</div>
+
+						<!-- <div class="element">
+                            <label class="name">Version:</label>
+                            <span class="value">{{details.version.name}}</span>
+                        </div> -->
+
+						<!-- <div class="element">
+                            <label class="name">Nr. of relays:</label>
+                            <span class="value">{{details.version.number_of_relay}}</span>
+                        </div> -->
+
+						<div class="element">
+							<label class="name">Notes:</label>
+							<span class="value">{{details.notes}}</span>
+						</div>
+
+						<div class="element">
+							<label class="name">Created at:</label>
+							<span class="value">{{details.created_at}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Updata at:</label>
+							<span class="value">{{details.updated_at}}</span>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -38,7 +38,8 @@
 			</tr>
 			<tr class="table__row" v-for="building of objBuildings">
 				<td>{{building.company}}</td>
-				<td><a href="" data-toggle="modal" data-target="#buildingInfo" @click="detailsBuilding(building.id)">{{building.name}}</a></td>
+				<td><router-link :to="{ name: 'buildingDetails', params: { id: building.id } }">{{building.name}}</router-link></td>
+				<!-- <td><a href="" data-toggle="modal" data-target="#buildingInfo" @click="detailsBuilding(building.id)">{{building.name}}</a></td> -->
 				<td>{{building.city}}</td>
 				<td>{{building.street}}</td>
 				<td>{{building.neighborhood}}</td>
@@ -53,7 +54,7 @@
 
 	<menu-item-footer></menu-item-footer>
 
-	<div class="modal fade modal--padding-top" id="buildingInfo" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+	<div class="modal fade" id="buildingInfo" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 	 	<div class="modal-dialog">
 		    <div class="modal-content">
 		      	<div class="modal-header">
@@ -82,7 +83,7 @@
 	 	</div>
 	</div>
 
-	<div class="modal fade modal--padding-top" id="building__add-edit" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
+	<div class="modal fade" id="building__add-edit" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
 	 	<div class="modal-dialog" >
 		    <div class="modal-content" >
 		      	<div class="modal-header">

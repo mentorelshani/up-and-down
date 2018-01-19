@@ -1,0 +1,146 @@
+<div class="client tab__view">
+	<div class="tab__view--header">
+		<p class="subtitle">Clients List</p>
+		<button class="btn_add btn" data-toggle="modal" data-target="#addClient" @click="modalAdd()">Add new</button>
+	</div>
+
+	<div class="tab__view--body">
+		<table class="table tab__view-list">
+			<thead>
+			<tr>
+				<th>Client</th>
+				<th>Phone number</th>
+				<th>Email</th>
+				<th>Door Apartment</th>
+				<th class="action">Action</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr v-for="client in clients">
+				<td>{{client.firstname}} {{client.lastname}}</td>
+				<td>{{client.phone_number}}</td>
+				<td>{{client.email}}</td>
+				<td>{{client.apartment.door_number}}</td>
+				<td class="action">
+					<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addClient" @click="getDetails(client.id); modalEdit(client.firstname,client.lastname)"></span>
+					<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(client.id)"></span>
+					<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoClient" @click="getDetails(client.id)"></span>
+				</td>
+			</tr>
+			</tbody>
+
+		</table>
+	</div>
+
+	<div class="modal fade" id="addClient" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
+		<div class="modal-dialog ">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">{{modal.title}}</h4>
+				</div>
+				<div class="modal-body ">
+					<div class="form--client">
+
+						<div class="element">
+							<span class="name">First name</span>
+							<input class="value" v-model="details.firstname">
+						</div>
+						<div class="element">
+							<span class="name">Last name</span>
+							<input class="value" v-model="details.lastname">
+						</div>
+						<div class="element">
+							<span class="name">Phone number</span>
+							<input class="value" v-model="details.phone_number">
+						</div>
+						<div class="element">
+							<span class="name">Email</span>
+							<input class="value" type="email" v-model="details.email">
+						</div>
+						<div class="element">
+							<span class="name">Apartment door number</span>
+							<input class="value" v-model="details.door_number" >
+						</div>
+						<div class="element">
+							<span class="name">Birthday</span>
+							<input class="value " type="date" v-model="details.birthday">
+						</div>
+						<div class="element">
+							<span class="name">Gender</span>
+							<div class="value">
+								<input type="radio" value="M" v-model="details.gender" class="value-radio">
+								<span>M</span>
+								<input type="radio" value="F" v-model="details.gender">
+								<span>F</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer footer_modal ">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default" @click="edit()" v-if="modal.btnEdit">Update</button>
+					<button type="button" class="btn btn-default" @click="add()" v-if="modal.btnAdd">Add</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="infoClient" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" v-if="details">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Information</h4>
+				</div>
+				<div class="modal-body body_modal">
+					<div class="details--client">
+
+						<div class="element">
+							<label class="name">First name:</label>
+							<span class="value">{{details.firstname}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Last name:</label>
+							<span class="value">{{details.lastname}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Phone number:</label>
+							<span class="value">{{details.phone_number}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Email:</label>
+							<span class="value">{{details.email}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Birthday:</label>
+							<span class="value">{{details.birthday}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Apartment door:</label>
+							<span class="value">{{details.apartment.door_number}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Gender:</label>
+							<span class="value">{{details.gender}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Created at:</label>
+							<span class="value">{{details.created_at}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Updated at:</label>
+							<span class="value">{{details.updated_at}}</span>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer footer_modal">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

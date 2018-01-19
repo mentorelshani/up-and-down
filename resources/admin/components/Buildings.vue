@@ -67,19 +67,19 @@
 
             this.$store.watch(
                 (state)=>{
-                    return this.$store.getters.main.getShowItem
+                    return this.$store.getters.getShowItem
                 },
                 (val)=>{
-                    this.show__items=this.$store.getters.main.getShowItem;
+                    this.show__items=this.$store.getters.getShowItem;
                     this.Buildings();
                 });
 
             this.$store.watch(
                 (state)=>{
-                    return this.$store.getters.main.getPaginatePage
+                    return this.$store.getters.getPaginatePage
                 },
                 (val)=>{
-                    this.paginate__page=this.$store.getters.main.getPaginatePage;
+                    this.paginate__page=this.$store.getters.getPaginatePage;
                     this.Buildings();
                 });
         },
@@ -285,8 +285,7 @@
             showFrmAdd:function(){
                 this.addButton=true;
                 this.editButton=false;
-                this.clearButton=true
-                ;
+                this.clearButton=true;
 
                 this.clearBuilding();
             }, 

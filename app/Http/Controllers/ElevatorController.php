@@ -2,32 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\addElevatorRequest;
+use App\Http\Services\ElevatorService;
 use Illuminate\Http\Request;
 use App\Models\Elevator;
 
 class ElevatorController extends Controller
 {
-    public function addElevator(Request $request){
+    private $elevatorService;
 
-        $this->validate($request,[
-            'entry_id' => 'required|integer',
-            'identifier' => 'required'
-        ]);
+    public function __construct(ElevatorService $elevatorService){
 
-        $entry_id = $request->entry_id;
-        $identifier = $request->identifier;
-        $type = $request->type;
-        $made_in = $request->made_in;
-        $company = $request->company;
+        $this->elevatorService = $elevatorService;
+    }
+
+    public function getElevatorsByEntry($entry_id){
+        return Elevator::where('entry_id',$entry_id)->get();
+    }
+
+    public function getElevator($id){
+        return Elevator::whereId($id)->first();
+    }
+
+    public function add(addElevatorRequest $request){
 
         $elevator = new Elevator();
-        $elevator->entry_id = $entry_id;
-        $elevator->identifier = $identifier;
-        $elevator->type = $type;
-        $elevator->made_in = $made_in;
-        $elevator->company = $company;
-        $elevator->save();
+
+        $this->elevatorService->add($request, $elevator);
 
         return $elevator;
+    }
+
+    public function update(Request $request){
+
+        $elevator = Elevator::find($request->id);
+
+        $this->elevatorService->update($request, $elevator);
+
+        return $elevator;
+    }
+
+    public function destroy($id){
+
+        $a = Elevator::find($id);
+
+        if ($a != null) {
+            $a->delete();
+            return "u fshi";
+        }
+        return "Nuk ekziston";
     }
 }

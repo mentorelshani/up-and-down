@@ -26,20 +26,19 @@
 	</div>
 
 	<div class="block__table">
-		<table class="table__model_1 ">
-						
+		<table class="table__model_1 ">			
 			<tr class="table__header">
 				<td @click="Sort('buildings.name',ascending)">Building</td>
 				<td @click="Sort('entries.name',ascending)">Entry</td>
 				<td @click="Sort('cities.name',ascending)">City</td>
-				<td @click="Sort('address.street',ascending)">Street</td>
+				<td @click="Sort('addresses.street',ascending)">Street</td>
 				<td @click="Sort('entries.number_of_floors',ascending)">Nr. of floor</td>
 				<td @click="Sort('entries.number_of_apartments',ascending)">Nr. of apartaments</td>
 				<td></td>
 			</tr>	
 			<tr class="table__row" v-for="entry in objEntries">
 				<td>{{entry.building}}</td>
-				<td><router-link to="entry">{{entry.name}}</router-link></td>
+				<td><router-link :to="{ name: 'entryDetails', params: { id: entry.id }}">{{entry.name}}</router-link></td>
 				<td>{{entry.city}}</td>
 				<td>{{entry.street}}</td>
 				<td>{{entry.number_of_floors}}</td>
@@ -49,8 +48,6 @@
 					<button @click="deleteEntry(entry.id)">D</button>
 				</td>
 			</tr>
-
-
 		</table>
 	</div>
 

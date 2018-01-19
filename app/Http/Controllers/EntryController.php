@@ -11,7 +11,7 @@ use App\Models\Elevator;
 class EntryController extends Controller
 {
 	public function getEntry($id){
-		return Entry::where('id',$id)->with('building.address.city','elevators','apartments')->first();
+		return Entry::where('id',$id)->with('building.address.city','elevators','apartments.clients')->first();
 	}
 
     public function getEntries(Request $request){
@@ -54,10 +54,10 @@ class EntryController extends Controller
 
     }
 
-    public function addEntry(Request $request){
+    public function add(Request $request){
 
         $this->validate($request,[
-            'building_id' => 'required|integer',
+            'building_id' => 'exists:buildings,id',
             'name' => 'required',
             'number_of_floors' => 'integer',
             'number_of_apartments' => 'integer'
@@ -78,26 +78,28 @@ class EntryController extends Controller
         return $entry;
     }
 
-    public function updateEntry(Request $request){
+    public function update(Request $request){
 
         $this->validate($request,[
-            'building_id' => 'required|integer',
+            'id' => 'exists:entries',
+            'building_id' => 'exists:buildings,id',
             'name' => 'required',
             'number_of_floors' => 'integer',
             'number_of_apartments' => 'integer'
         ]);
 
+        $id = $request->id;
         $building_id = $request->building_id;
         $name = $request->name;
         $number_of_floors = $request->number_of_floors;
         $number_of_apartments = $request->number_of_apartments;
 
-        $entry = new Entry();
+        $entry = Entry::whereId($id)->first();
         $entry->building_id = $building_id;
         $entry->name = $name;
         $entry->number_of_floors = $number_of_floors;
         $entry->number_of_apartments = $number_of_apartments;
-        $entry->save();
+        $entry->update();
 
         return $entry;
 

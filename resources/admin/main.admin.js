@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Resource from 'vue-resource'
 import Router from 'vue-router'
 import axios from 'axios'
+import date from 'vue-date-filter'
+ 
 
 
 import notification from './services/notification';
@@ -12,7 +14,8 @@ import App from './components/App.vue'
 import Home from './components/Home.vue'
 import Buildings from './components/Buildings.vue'
 import Entries from './components/Entries.vue'
-import Entry_Details from './components/Entry_Details.vue'
+import EntryDetails from './components/Entry_Details.vue'
+import BuildingDetails from './components/Building_Details.vue'
 
 import { store } from './vuex/store.js';
 
@@ -20,6 +23,7 @@ import { store } from './vuex/store.js';
 // Install plugins
 Vue.use(Router)
 Vue.use(Resource)
+Vue.use(date)
 // Vue.use(axios)
 
 
@@ -37,18 +41,23 @@ var routes = [
         component: Buildings
     },
     {
+        path: '/building/:id/details',
+        name: 'buildingDetails',
+        component: BuildingDetails
+    },
+    {
         path: '/entries',
         name: 'entries',
         component: Entries
     },
     {
-        path: '/entry',//me shtu entry ID
-        name: 'entry_details',
-        component: Entry_Details
+        path: '/entry/:id/details',//me shtu entry ID
+        name: 'entryDetails',
+        component: EntryDetails
     },
     {   
         path:'*',
-        redirect:'/home'
+        redirect:'/building/37/details'
     },
     // {
     //   path: '/admin/products/brand/:id',
