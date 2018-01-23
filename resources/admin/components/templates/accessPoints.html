@@ -31,7 +31,71 @@
 		</table>
 	</div>
 
-	<div class="modal fade" id="addAccessPoint" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+	<div class="modal fade" id="addAccessPoint" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">{{modal.title}}</h4>
+				</div>
+				<div class="modal-body body_modal">
+					<div class="form--accessPoint">
+
+						<!-- <div class="element" v-if="show__section_config_entry">
+							<label class="element__label">Entry</label>
+							<select class="element__input" v-model="eeee">
+								<option>Hyrja v1/c1</option>
+							</select>
+							<span class="error_message" v-if="error.entry_id">Errror{{}}</span>
+						</div> -->
+
+						<div class="element">
+							<label class="name">IMEI</label>
+							<input type="email" :class="{value:true, error_value:errorAccessPoint.IMEI}" v-model="details.IMEI">
+							<span class="error_message" v-if="errorAccessPoint.IMEI">{{errorAccessPoint.IMEI[0]}}</span>
+						</div>
+
+						<div class="element">
+							<label class="name">SIM number</label>
+							<input type="text"  :class="{value:true, error_value:errorAccessPoint.phone_number}" v-model="details.phone_number">
+							<span class="error_message" v-if="errorAccessPoint.phone_number">{{errorAccessPoint.phone_number[0]}}</span>
+						</div>
+
+						<div class="element" v-if="versions">
+	                        <label class="name">Version</label>
+	                        <select :class="{value__select:true, error_value:errorAccessPoint.version_id}" v-model="details.version" @change="chooseVersion()">
+	                            <option v-for="version in versions" :value="version">{{version.name}}</option>
+	                        </select>
+	                        <span class="error_message" v-if="errorAccessPoint.version_id">{{errorAccessPoint.version_id[0]}}</span>
+	                    </div>
+
+						<div class="element">
+							<label class="name">Elevator</label>
+							<select :class="{value__select:true, error_value:errorAccessPoint.elevator_id}" v-model="details.elevator" @change="chooseElevator()">
+								<option v-for="elevator in elevators" :value="elevator" >{{elevator.identifier}}</option>
+							</select>
+							<span class="error_message" v-if="errorAccessPoint.elevator_id">{{errorAccessPoint.elevator_id[0]}}</span>
+						</div>
+
+						<div class="element">
+							<label class="name">Note</label>
+							<textarea :class="{value_textarea:true, error_value:errorAccessPoint.notes}" rows="5" v-model="details.notes"></textarea>
+							<span class="error_message" v-if="errorAccessPoint.notes">{{errorAccessPoint.notes[0]}}</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer footer_modal ">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default" @click="" v-if="modal.btnEdit">Update</button>
+					<button type="button" class="btn btn-default" @click="add()" v-if="modal.btnAdd">Add</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#config__relays" @click="modalConfigRelay()" v-if="modal.btnConfigRelay">Config relay</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="config__relays" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -39,46 +103,39 @@
 					<h4 class="modal-title" id="myModalLabel">{{modal.title}}</h4>
 				</div>
 				<div class="modal-body body_modal">
-					<div class="addEdit__accessPoint--mainData">
+					<div class="addEdit__accessPoint--mainData" v-if="details">
+
 						<div class="details__element" v-if="show__section_config_entry">
 							<label class="element__label">Entry</label>
-							<select class="element__input" v-model="eeee">
+							<select class="content" v-model="eeee">
 								<option>Hyrja v1/c1</option>
 							</select>
 						</div>
 
 						<div class="details__element">
-							<label class="element__label">IMEI</label>
-							<input type="email" class="element__input" v-model="details.IMEI">
+							<label class="element__label">IMEI:</label>
+							<span class="content" >{{details.IMEI}}</span>
 						</div>
 
 						<div class="details__element">
-							<label class="element__label">Elevator tel.</label>
-							<input type="text" class="element__input" v-model="details.phone_number">
+							<label class="element__label">SIM number:</label>
+							<span class="content">{{details.phone_number}}</span>
 						</div>
 
-						<!--  <div class="details__element">
-                             <label class="element__label">Version</label>
-                             <select class="element__input" v-model="details.version" @change="chooseVersion()">
-                                 <option v-for="version in versions" :value="version.id" >{{details.version.name}}</option>
-                             </select>
-                         </div> -->
+						<div class="details__element" v-if="versions">
+                             <label class="element__label">Version:</label>
+                             <span class="content">{{details.version.name}}</span>
+                         </div>
 
 						<div class="details__element">
-							<label class="element__label">Elevator</label>
-							<select class="element__input" v-model="details.elevator" @change="">
-								<option v-for="version in versions" :value="version.id" >{{details.elevator.identifier}}</option>
-							</select>
+							<label class="element__label">Elevator:</label>
+							<span class="content">{{details.elevator.identifier}}</span>
 						</div>
 
 						<div class="details__element">
-							<label class="element__label">Note</label>
-							<textarea cols="15" rows="5" class="element__textarea" v-model="details.notes"></textarea>
+							<label class="element__label">Notes:</label>
+							<span cols="15" rows="5" class="content">{{details.notes}}</span>
 						</div>
-
-						<!-- <div class="config__relays">
-                            <button class="button__config" @click="configRelays()" >Config relays</button>
-                        </div> -->
 					</div>
 
 					<div class="addEdit__accessPoint--relay">
@@ -92,18 +149,19 @@
 
 								<div class="details__element">
 									<label class="element__label">Name</label>
-									<select class="element__select" v-model="relayfloor">
-										<option>Garage</option>
-										<option v-for="n in 6">Floor {{n}}</option>
-										<option>Vip floor</option>
+									<select class="element__select" v-model="relayFloor">
+										<option :value="garage">Garage</option>
+										<option v-for="n in 6" :value="floor">Floor {{n}}</option>
+										<option :value="vip_floor">Vip floor</option>
 										<option>Other</option>
 									</select>
 
 									<input type="text" class="element__input-small">
 								</div>
+
 								<div class="details__element">
 									<label class="element__label">Pulse time</label>
-									<input type="email" v-model="relayPulsTime" class="element__input">
+									<input type="email" v-model="relayPulseTime" class="element__input">
 								</div>
 								<div class="next_previous--element">
 									<button class="button__previous-relay" @click="previousRelay()">&laquo;</button>
@@ -143,7 +201,7 @@
 							<span class="value">{{details.phone_number}}</span>
 						</div>
 
-						<div class="element">
+						<div class="element" v-if="details.elevator">
 							<label class="name">Elevator:</label>
 							<span class="value">{{details.elevator.identifier}}</span>
 						</div>

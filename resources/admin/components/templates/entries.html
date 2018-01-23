@@ -10,7 +10,7 @@
 		<div class="row search_by">    
 	        <div class="col-xs-8 col-xs-offset-2 col-right">
 			    <div class="input-group ">
-	                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="input__search"  @keyup='Buildings()'>
+	                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="inputSearch"  @keyup='Entries()'>
 	                <div class="input-group-btn search-panel search_key">
 	                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 	                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
@@ -52,7 +52,7 @@
 					<th @click="Sort('entries.name',ascending)">Entry</th>
 					<th @click="Sort('cities.name',ascending)">City</th>
 					<th @click="Sort('addresses.street',ascending)">Street</th>
-					<th @click="Sort('entries.number_of_floors',ascending)">Nr. of floor</th>
+					<th @click="Sort('entries.number_of_floors',ascending)">Nr. of floors</th>
 					<th @click="Sort('entries.number_of_apartments',ascending)">Nr. of apartaments</th>
 					<th class="action" >Action</th>
 				</tr>

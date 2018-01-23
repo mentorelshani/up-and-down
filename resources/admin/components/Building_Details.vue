@@ -18,7 +18,14 @@
                     btnAdd:null,
                 },
 
-                show:true,
+                show_info:true,
+
+                error_entry:{
+                    building_id:null,
+                    name:null,
+                    number_of_apartments:null,
+                    number_of_floors:null,
+                }
             }
         },
 
@@ -93,9 +100,11 @@
                     this.getBuildingDetails(this.idBuilding);
                     this.clearDetailsEntry();
                     console.log("Klienti u shtua me sukses = !false");
+                    this.error_entry={}; 
                 })
                 .catch(e => {
                     console.log(e.body);
+                    this.error_entry=e.body;
                 });
             },
 

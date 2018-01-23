@@ -10,7 +10,7 @@
 		<div class="row search_by">    
 	        <div class="col-xs-8 col-xs-offset-2 col-right">
 			    <div class="input-group ">
-	                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="input__search"  @keyup='Buildings()'>
+	                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="inputSearch"  @keyup='Buildings()'>
 	                <div class="input-group-btn search-panel search_key">
 	                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 	                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
@@ -72,7 +72,7 @@
 	</div>
 
 
-	<menu-item-footer :lengthBuildings="setLengthBuildings" sitePage="buildings" v-if="setLengthBuildings"></menu-item-footer>
+	<menu-item-footer :lengthBuildings="setLengthBuildings" sitePage="buildings" v-if="setLengthBuildings" :paginationBuilding="pagination"></menu-item-footer>
 
 	<div class="modal fade" id="buildingInfo" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 	 	<div class="modal-dialog">

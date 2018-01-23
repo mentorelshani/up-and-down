@@ -12,7 +12,7 @@
                 show__items:"20",
                 paginate__page:1,
                 keySearch:['buildings.company'],
-                input__search:null,
+                inputSearch:null,
                 ascending:true,
                 orderBy:'buildings.company',
                 
@@ -31,19 +31,16 @@
                     neighborhood:'',
                     location:'(42,21)',
                     entries:[],
-
                 },  
+
+                pagination:{},
 
                 error__add_objBuilding:{
                     company:null,
                     building:null
-
                 },
 
                 success__add_building:null,
-                
-                //class css params
-
 
                 //button show and hide
                 addButton:false,
@@ -91,7 +88,7 @@
 
         watch: {
             keySearch: function() {
-                this.input__search=null;
+                this.inputSearch=null;
                 this.paginate__page=1;
                 this.Buildings();
             },
@@ -108,16 +105,23 @@
                     limit:this.show__items,
                     page:this.paginate__page,
                     relation:this.keySearch,
-                    value:this.input__search,
+                    value:this.inputSearch,
                     asce:this.ascending,
                     orderBy:this.orderBy, 
 
                 };     
 
-                this.$http.post(`/getBuildings`,this.buildingsSite)
+                this.$http.post(`/getBuildings1`,this.buildingsSite)
                 .then(response => {
-                    this.setBuildings=response.data.buildings;
-                    this.setLengthBuildings=response.data.count;
+                    this.setBuildings=response.data.data;
+                    this.setLengthBuildings=response.data.total;
+
+                    this.pagination.current_page=response.data.current_page;
+                    this.pagination.from=response.data.from;
+                    this.pagination.last_page=response.data.last_page;
+                    this.pagination.per_page=response.data.per_page;
+                    this.pagination.to=response.data.to;
+                    this.pagination.total=response.data.total;
                 })
                 .catch(e => {
                     console.log(e);
