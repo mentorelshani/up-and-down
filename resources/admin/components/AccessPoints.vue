@@ -4,19 +4,30 @@
             return {
                 accessPoints:{},
                 details:{
-                    elevator:{},
                     version:{},
+                    elevator:{},
                 },
+                detailsRelay:{},
 
+                elevators:null,
                 versions:{},
                 numberOfRelays:16,
                 index:1,
 
+                newAccessPointId:null,
+                errorAccessPoint:{},
                 modal:{
                     title:null,
                     btnEdit:false,
                     btnAdd:false,
+                    btnConfigRelay:false,
                 },
+
+                relayName:"Relay 1",
+                relayFloor:null,
+                relayPulseTime:null,
+
+
             }
         },
 
@@ -28,10 +39,10 @@
         },
 
         created() {
+            
         },
 
         mounted() {
-            this.getVersion();
         },
 
         computed: {
@@ -41,7 +52,8 @@
         watch: {
             entryId:function() {
                 this.getAll();
-                this.clearDetails();
+                this.getElevator();
+                this.getVersion();
             }
         },
 
@@ -69,10 +81,14 @@
             add:function() {
                 this.$http.post('/addAccessPoint',this.details)
                     .then(response => {
-                        console.log(response.data);
+                        console.log("Access Point u shtua me sukses = !false");
+                        this.modal.btnConfigRelay=true;
+                        this.modal.btnAdd=false;
+                        this.newAccessPointId=response.data.id;
                     })
                     .catch(e => {
-                        console.log(e);
+                        console.log("Access Point u shtua me sukses = false");
+                        this.errorAccessPoint=e.body;
                     });
             },
 
@@ -97,24 +113,6 @@
                     });
             },
 
-            setRelayDetails: function(param){
-
-                this.relayDetails={
-                    access_point_id:this.accessPoints.id,
-                    relay:this.relayName,
-                    floor:this.relayfloor,
-                    pulse_time:this.relayPulsTime,
-                }
-                console.log(this.index);
-
-                this.index = param;
-                this.relayName = "Relay " + this.index;
-                this.relayfloor=null;
-                this.relayPulsTime=null;
-                console.log(this.index);
-
-            },
-
             getVersion: function() {
                 this.$http.get(`/getVersions`)
                     .then(response => {
@@ -128,18 +126,45 @@
                     });
             },
 
+            getElevator: function() {
+                this.$http.get('/getElevators/'+this.entryId)
+                    .then(response => {
+                        this.elevators=response.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+
+
+            setRelayDetails: function(param){
+                this.index = param;
+                this.detailsRelay={};
+                this.relayName = "Relay " + this.index;
+                this.relayFloor=null;
+                this.relayPulseTime=null;
+
+
+                // this.detailsRelay.access_point_id=
+                // console.log(this.index);
+
+             
+                console.log(this.index);
+
+            },
+
             chooseVersion:function() {
-                // this.relays = [];
-                this.details.versionId=this.details.version.id;
+                this.details.version_id=this.details.version.id;
                 this.numberOfRelays=this.details.version.number_of_relays;
-                this.relayName=null;
-
-                this.versionAccessPoint=this.details.version.name;
             },
 
-            getRelayNumber:function(relayName) {
-                console.log(relayName);
+            chooseElevator:function() {
+                this.details.elevator_id=this.details.elevator.id;
             },
+
+            // getRelayNumber:function(relayName) {
+            //     console.log(relayName);
+            // },
 
             nextRelay:function() {
                 if(this.index < this.numberOfRelays)
@@ -169,17 +194,28 @@
             },
 
             modalAdd:function() {
-                this.clearDetails();
+                //---->this function call in other function
+                this.getElevator();
+                this.getVersion();
+                this.details={};
+                //---->this function call in other function
+
 
                 this.modal.title="Add new access points!";
                 this.modal.btnAdd=true;
                 this.modal.btnEdit=false;
+                this.modal.btnConfigRelay=false;
             },
 
             modalEdit:function(IMEI) {
                 this.modal.title="Edit access points: "+ IMEI;
                 this.modal.btnAdd=false;
                 this.modal.btnEdit=true;
+                this.modal.btnConfigRelay=false;
+            },
+
+            modalConfigRelay:function() {
+                this.getDetails(this.newAccessPointId);
             },
 
             clearDetails:function() {

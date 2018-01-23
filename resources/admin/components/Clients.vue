@@ -6,6 +6,7 @@
                 details:{
                     apartment:{},
                     entry_id:null,
+                    gender:null,
                 },
                 modal:{
                     title:null,
@@ -17,6 +18,15 @@
                 showInputOther:false,
                 showSelectOther:true,
 
+                 error:{
+                    door_number:null,
+                    birthday:null,
+                    email:null,
+                    firstname:null,
+                    gender:null,
+                    lastname:null,
+                    phone_number:null,
+                },
             }
         },
 
@@ -65,11 +75,13 @@
                     .then(response => {
                         console.log(this.details);
                         console.log("Klienti u regjistrua me sukses = !false");
+                        this.error={};
                         this.getAll();
                     })
                     .catch(e => {
                         console.log("Klienti u regjistrua me sukses = false");
                         console.log(e.body);
+                        this.error=e.body;
                     });
             },
 

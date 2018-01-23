@@ -12,6 +12,13 @@
                     btnEdit:false,
                     btnAdd:false,
                 },
+
+                error:{
+                    identifier:null,
+                    type:null,
+                    made_in:null,
+                    company:null
+                },
             }
         },
 
@@ -59,9 +66,15 @@
                 this.$http.post('/addElevator',this.details)
                     .then(response => {
                         console.log(response.data);
+                        this.error={};
                     })
                     .catch(e => {
-                        console.log(e);
+                        console.log(e.body);
+                        this.error=e.body;
+                        // if(e.body != null)
+                        // {
+
+                        // }       
                     });
             },
 

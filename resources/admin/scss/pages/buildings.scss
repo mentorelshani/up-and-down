@@ -457,6 +457,11 @@
 
 						.body_modal {
 							float: left;
+
+							.form--accessPoint {
+								@extend .form--input;
+							}
+
 							.addEdit__accessPoint--mainData {
 								position: relative;
 								width: 30%;
@@ -477,7 +482,7 @@
 									.element__label {
 										width:40%;
 										text-align: right;
-										margin-right: 15px;
+										margin-right: 10px;
 										position: relative;
 										float: left;
 										top: 0;
@@ -503,18 +508,9 @@
 										resize: none;
 
 									}
-								}
 
-								.config__relays {
-									float: left;
-									width: 100%;
-									margin-bottom: 5px;
-									top: 0;
-									position: relative;
-									padding-right: 5%;
-
-									.button__config {
-										float: right;
+									.content {
+										width: 50%; 
 									}
 								}
 							}
@@ -690,6 +686,7 @@
 			width: 100%;
 			float: left;
 			margin-top: 10px;
+			font-size: 18px;
 		}
 
 		.value {
@@ -697,6 +694,11 @@
 			text-align: left;
 			float: left;
 			padding-left: 5px;
+			outline: none;
+		}
+
+		.error_value {
+			border: 1px solid $borderError;
 		}
 
 		.value-add {
@@ -717,6 +719,14 @@
 			padding: 3.5px 0px;
 		}
 
+		.value_textarea {
+			width: 100%;
+			// height: 150px;
+			// outline: none;
+			float: left;
+
+		}
+
 		.add-other {
 			border-radius: 50px;
 			width: 6.5%;
@@ -725,6 +735,12 @@
 			font-weight: 900;
 			outline: none;
 			float: right;
+		}
+
+		.error_message {
+			font-size: 15px;
+			color: $textError;
+			float: left;
 		}
 	}
 }
