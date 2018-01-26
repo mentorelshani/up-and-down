@@ -13,7 +13,13 @@ class RelayController extends Controller
     }
 
     public function getRelay($id){
+
         return Relay::whereId($id)->first();
+    }
+
+    public function findRelay($access_point_id, $relay){
+
+        return Relay::where('access_point_id',$access_point_id)->where('relay',$relay)->first();
     }
 
     public function add(Request $request){

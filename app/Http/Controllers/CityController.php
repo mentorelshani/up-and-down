@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 
 use App\Models\City;
+use App\Models\Building;
 
 class CityController extends Controller
 {

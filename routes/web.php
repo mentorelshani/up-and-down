@@ -39,7 +39,6 @@ Route::get('/getCities','CityController@getCities');
 Route::get('/getCompanies','CityController@getCompanies');
 Route::get('/getNeighborhoods','CityController@getNeighborhoods');
 
-
 Route::post('/getBuildings','BuildingController@getBuildings');
 Route::post('/getBuildings1','BuildingController@index'); // new
 Route::post('/addBuilding','BuildingController@add');
@@ -70,6 +69,7 @@ Route::post('/updateAccessPoint','AccessPointController@update');
 Route::delete('/deleteAccessPoint/{id}','AccessPointController@destroy');
 
 Route::get('/getRelays/{access_point_id}','RelayController@getRelays');
+Route::get('/getRelay/{access_point_id}/{relay}','RelayController@findRelay');
 Route::get('/getRelay/{id}','RelayController@getRelay');
 Route::post('/addRelay','RelayController@add');
 Route::post('/updateRelay','RelayController@update');
