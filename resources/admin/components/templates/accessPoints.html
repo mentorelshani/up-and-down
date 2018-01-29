@@ -2,6 +2,8 @@
 	<div class="tab__view--header">
 		<p class="subtitle">Access points List</p>
 		<button class="btn_add btn" data-toggle="modal" data-target="#addAccessPoint" @click="modalAdd()" >Add new</button>
+
+		<button data-target="#config__relays" data-toggle="modal">Config</button>
 	</div>
 
 	<div class="tab__view--body">
@@ -25,6 +27,7 @@
 						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click="getDetails(accessPoint.id); modalEdit(accessPoint.IMEI)"></span>	
 						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
 						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
+						<span class="glyphicon glyphicon-registration-mark manipulate__button" @click="getRelaysAccessPoint(accessPoint.id)" data-toggle="modal" data-target="#config__relays"></span>
 					</td>
 				</tr>
 			</tbody>
@@ -64,12 +67,12 @@
 						<div class="element" v-if="versions">
 	                        <label class="name">Version</label>
 	                        <select :class="{value__select:true, error_value:errorAccessPoint.version_id}" v-model="details.version" @change="chooseVersion()">
-	                            <option v-for="version in versions" :value="version">{{version.name}}</option>
+	                            <option v-for="version in versions" :value="version" v-if="version">{{version.name}}</option>
 	                        </select>
 	                        <span class="error_message" v-if="errorAccessPoint.version_id">{{errorAccessPoint.version_id[0]}}</span>
 	                    </div>
 
-						<div class="element">
+						<div class="element" v-if="elevators">
 							<label class="name">Elevator</label>
 							<select :class="{value__select:true, error_value:errorAccessPoint.elevator_id}" v-model="details.elevator" @change="chooseElevator()">
 								<option v-for="elevator in elevators" :value="elevator" >{{elevator.identifier}}</option>
@@ -87,7 +90,7 @@
 
 				<div class="modal-footer footer_modal ">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-default" @click="" v-if="modal.btnEdit">Update</button>
+					<button type="button" class="btn btn-default" @click="edit()" v-if="modal.btnEdit">Update</button>
 					<button type="button" class="btn btn-default" @click="add()" v-if="modal.btnAdd">Add</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#config__relays" @click="modalConfigRelay()" v-if="modal.btnConfigRelay">Config relay</button>
 				</div>
@@ -140,7 +143,7 @@
 
 					<div class="addEdit__accessPoint--relay">
 						<div class="relay__button">
-							<button class="button__realay" v-for="n in numberOfRelays" @click="setRelayDetails(n)">Relay {{n}}</button>
+							<button :class="{'relay':true,'btn':true,'relay_config' : (n === relayAreConfig[n])}" v-for="(n,index) in numberOfRelays" @click="setRelayDetails(n)">Relay {{n}}</button>
 						</div>
 
 						<div class="relay__details">
@@ -150,9 +153,9 @@
 								<div class="details__element">
 									<label class="element__label">Name</label>
 									<select class="element__select" v-model="relayFloor">
-										<option :value="garage">Garage</option>
-										<option v-for="n in 6" :value="floor">Floor {{n}}</option>
-										<option :value="vip_floor">Vip floor</option>
+										<option value="garage">Garage</option>
+										<option v-for="n in 6" :value="'floor'+n">Floor {{n}}</option>
+										<option value="vip_floor">Vip floor</option>
 										<option>Other</option>
 									</select>
 
@@ -161,11 +164,14 @@
 
 								<div class="details__element">
 									<label class="element__label">Pulse time</label>
-									<input type="email" v-model="relayPulseTime" class="element__input">
+									<input type="email" v-model="relayPulseTime" class="element__input" >
 								</div>
-								<div class="next_previous--element">
-									<button class="button__previous-relay" @click="previousRelay()">&laquo;</button>
-									<button class="button__next-relay" @click="nextRelay()">&raquo;</button>
+								<div class="controll_relays">
+									<button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="addRelay()">
+							            <span class="glyphicon glyphicon-saved"></span> Saved
+							        </button>
+									<button class="btn btn-default next_relay" @click="nextRelay()">&raquo;</button>
+									<button class="btn btn-default previous_relay" @click="previousRelay()">&laquo;</button>
 								</div>
 							</fieldset>
 						</div>

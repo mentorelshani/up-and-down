@@ -7,10 +7,16 @@
                     version:{},
                     elevator:{},
                 },
-                detailsRelay:{},
+                detailsRelay:{
+                    id:null,
+                    access_point_id:null,
+                    floor:null,
+                    relay:null,
+                    pulse_time:null,
+                },
 
                 elevators:null,
-                versions:{},
+                versions:null,
                 numberOfRelays:16,
                 index:1,
 
@@ -23,11 +29,14 @@
                     btnConfigRelay:false,
                 },
 
+                relays:[],
+                   
                 relayName:"Relay 1",
                 relayFloor:null,
                 relayPulseTime:null,
 
-
+                relayAreConfig:[],
+                relayConfigStatus:null,
             }
         },
 
@@ -39,7 +48,7 @@
         },
 
         created() {
-            
+            this.relayAreConfig[0]=null;
         },
 
         mounted() {
@@ -72,6 +81,8 @@
                 this.$http.get('/getAccessPoint/'+idAccessPoint)
                     .then(response => {
                         this.details=response.data;
+                        this.numberOfRelays=response.data.version.number_of_relays;
+                        console.log(this.numberOfRelays);
                     })
                     .catch(e => {
                         console.log(e);
@@ -85,6 +96,15 @@
                         this.modal.btnConfigRelay=true;
                         this.modal.btnAdd=false;
                         this.newAccessPointId=response.data.id;
+
+                        this.relays=[];
+                        for(var i=1 ; i<=this.numberOfRelays ; i++)
+                        {
+                            this.relays[i]={
+                                index:i,
+                            }
+                        }
+                        this.getAll();
                     })
                     .catch(e => {
                         console.log("Access Point u shtua me sukses = false");
@@ -96,6 +116,7 @@
                 this.$http.post('/updateAccessPoint',this.details)
                     .then(response => {
                         console.log(response.data);
+                        this.getAll();
                     })
                     .catch(e => {
                         console.log(e);
@@ -136,21 +157,18 @@
                     });
             },
 
-
             setRelayDetails: function(param){
                 this.index = param;
-                this.detailsRelay={};
                 this.relayName = "Relay " + this.index;
                 this.relayFloor=null;
                 this.relayPulseTime=null;
 
-
-                // this.detailsRelay.access_point_id=
-                // console.log(this.index);
-
-             
-                console.log(this.index);
-
+                if(this.relayAreConfig[param]==param) {
+                    this.getRelayDetails(this.relays[param].id);
+                }
+                else {
+                    console.log('ka je ka shkon ej!');
+                }
             },
 
             chooseVersion:function() {
@@ -160,46 +178,100 @@
 
             chooseElevator:function() {
                 this.details.elevator_id=this.details.elevator.id;
-            },
 
+            },
             // getRelayNumber:function(relayName) {
             //     console.log(relayName);
             // },
 
+            addRelay:function() {
+                this.detailsRelay={};
+                this.detailsRelay={
+                    access_point_id:this.newAccessPointId,
+                    relay:this.index,
+                    floor:this.relayFloor,
+                    pulse_time:this.relayPulseTime
+                };
+
+                this.$http.post(`/addRelay`,this.detailsRelay)
+                    .then(response => {
+                        this.relays[this.index]=response.data;
+                        this.relayAreConfig[this.index]=this.index;
+                        this.setRelayDetails(this.index);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+
+            getRelayDetails:function(relayId) {
+                this.$http.get('/getRelay/'+relayId)
+                    .then(response => {
+                        console.log(response.data);
+                        this.relayName=response.data.relay;
+                        this.relayFloor=response.data.floor;
+                        this.relayPulseTime=response.data.pulse_time;
+
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+
+            getRelaysAccessPoint:function(idAccessPoint) {
+                this.modalConfigRelay();
+
+                this.relays=[];
+                this.relays[0]=null;
+                this.relayAreConfig=[];
+
+                this.getDetails(idAccessPoint);
+                this.$http.get('/getRelays/'+idAccessPoint)
+                    .then(response => {
+                        console.log(response.data);
+
+                        for (var i = 1; i <= response.data.length; i++) {                   
+                            this.relays[i]=response.data[i-1];
+                            this.relayAreConfig[i]=i;
+
+                            console.log(this.relayAreConfig);
+                            console.log(this.relays);
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+                this.setRelayDetails(10);
+            },
+
             nextRelay:function() {
-                if(this.index < this.numberOfRelays)
-                {
+                if(this.index < this.numberOfRelays) {
                     this.index++;
                 }
-                else
-                {
+                else {
                     this.index=this.numberOfRelays;
                 }
-                // this.relayName = "Relay " + this.index;
-                // this.setRelayDetails(this.index);
+
+                this.setRelayDetails(this.index);
+                console.log(this.setRelayDetails(this.index));
+                this.relayName = "Relay " + this.index;
             },
 
             previousRelay:function () {
-                if(this.index > 1)
-                {
+                if(this.index > 1) {
                     this.index--;
                 }
-                else
-                {
+                else {
                     this.index=1;
                 }
 
-                // this.relayName = "Relay " + this.index++;
-                // this.setRelayDetails(this.index);
+                this.setRelayDetails(this.index);
+                console.log(this.setRelayDetails(this.index));
+                this.relayName = "Relay " + this.index;
             },
 
             modalAdd:function() {
-                //---->this function call in other function
-                this.getElevator();
-                this.getVersion();
-                this.details={};
-                //---->this function call in other function
-
+                this.clearDetails();
 
                 this.modal.title="Add new access points!";
                 this.modal.btnAdd=true;
@@ -215,7 +287,11 @@
             },
 
             modalConfigRelay:function() {
-                this.getDetails(this.newAccessPointId);
+                this.modal.title="Edit relays configuration!";
+                
+                this.modal.btnAdd=false;
+                this.modal.btnEdit=false;
+                this.modal.btnConfigRelay=false;
             },
 
             clearDetails:function() {
