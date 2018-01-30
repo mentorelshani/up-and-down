@@ -21,6 +21,7 @@
                 index:1,
 
                 newAccessPointId:null,
+                AccessPointId:null,
                 errorAccessPoint:{},
                 modal:{
                     title:null,
@@ -29,14 +30,17 @@
                     btnConfigRelay:false,
                 },
 
-                relays:[],
-                   
-                relayName:"Relay 1",
+                relays:{},
+                
+                idRelay:null,
+                relayName:"1",
                 relayFloor:null,
                 relayPulseTime:null,
 
                 relayAreConfig:[],
                 relayConfigStatus:null,
+
+                btnSavedRelay:true,
             }
         },
 
@@ -63,7 +67,31 @@
                 this.getAll();
                 this.getElevator();
                 this.getVersion();
+            },
+
+            // AccessPointId:function() {
+            //     console.log(this.AccessPointsId);
+            // }
+            relays:function() {
+                var vm=this;
+                
+                console.log(this.setRelayDetails(1));
+                this.setRelayDetails(1);
+                console.log(this.relays);
+                for (var i = 0; i < vm.numberOfRelays; i++) { 
+                    this.relayAreConfig[vm.relays[i].relay]=parseInt(vm.relays[i].relay);
+                    // this.setRelayDetails(1);
+                    
+                }
+
+                
+            },
+
+            relayAreConfig:function() {
+                console.log(this.relayAreConfig);
+
             }
+
         },
 
         methods:{
@@ -105,6 +133,8 @@
                             }
                         }
                         this.getAll();
+                        this.setRelayDetails(1);
+
                     })
                     .catch(e => {
                         console.log("Access Point u shtua me sukses = false");
@@ -158,17 +188,22 @@
             },
 
             setRelayDetails: function(param){
+
                 this.index = param;
-                this.relayName = "Relay " + this.index;
+                // this.relayName = "Relay " + this.index;
                 this.relayFloor=null;
                 this.relayPulseTime=null;
 
                 if(this.relayAreConfig[param]==param) {
-                    this.getRelayDetails(this.relays[param].id);
+                    this.getRelayDetails(param);
+                    this.btnSavedRelay=false;
                 }
                 else {
-                    console.log('ka je ka shkon ej!');
+                    this.relayName = this.index;
+                    this.btnSavedRelay=true; 
                 }
+
+                return 
             },
 
             chooseVersion:function() {
@@ -180,12 +215,13 @@
                 this.details.elevator_id=this.details.elevator.id;
 
             },
-            // getRelayNumber:function(relayName) {
-            //     console.log(relayName);
-            // },
 
             addRelay:function() {
                 this.detailsRelay={};
+                if(this.newAccessPointId == null) {
+                    this.newAccessPointId=this.AccessPointId;
+                }
+
                 this.detailsRelay={
                     access_point_id:this.newAccessPointId,
                     relay:this.index,
@@ -198,20 +234,48 @@
                         this.relays[this.index]=response.data;
                         this.relayAreConfig[this.index]=this.index;
                         this.setRelayDetails(this.index);
+
                     })
                     .catch(e => {
                         console.log(e);
                     });
             },
 
-            getRelayDetails:function(relayId) {
-                this.$http.get('/getRelay/'+relayId)
+            editRelay:function() {
+                this.detailsRelay={
+                    id:this.idRelay,
+                    relay:this.relayName,
+                    floor:this.relayFloor,
+                    pulse_time:this.relayPulseTime,
+                };
+
+                this.$http.post(`/updateRelay`,this.detailsRelay)
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+
+            getRelayDetails:function(index) {
+                console.log(this.AccessPointId);
+                console.log(index);
+
+                if(this.newAccessPointId!=null) {
+                    this.AccessPointId=this.newAccessPointId;
+                }
+
+                this.$http.get('/getRelay/'+this.AccessPointId+'/'+index)
                     .then(response => {
                         console.log(response.data);
                         this.relayName=response.data.relay;
                         this.relayFloor=response.data.floor;
                         this.relayPulseTime=response.data.pulse_time;
 
+                        this.idRelay=response.data.id;
+
+                        // this.setRelayDetails();
                     })
                     .catch(e => {
                         console.log(e);
@@ -219,29 +283,26 @@
             },
 
             getRelaysAccessPoint:function(idAccessPoint) {
-                this.modalConfigRelay();
-
+                this.modalAddRelays();
+                this.AccessPointId=idAccessPoint;
+                
                 this.relays=[];
-                this.relays[0]=null;
                 this.relayAreConfig=[];
+
+                var vm = this;
 
                 this.getDetails(idAccessPoint);
                 this.$http.get('/getRelays/'+idAccessPoint)
                     .then(response => {
                         console.log(response.data);
+                        vm.relays = response.data;
+                        this.setRelayDetails(1);
 
-                        for (var i = 1; i <= response.data.length; i++) {                   
-                            this.relays[i]=response.data[i-1];
-                            this.relayAreConfig[i]=i;
-
-                            console.log(this.relayAreConfig);
-                            console.log(this.relays);
-                        }
                     })
                     .catch(e => {
                         console.log(e);
                     });
-                this.setRelayDetails(10);
+
             },
 
             nextRelay:function() {
@@ -254,7 +315,7 @@
 
                 this.setRelayDetails(this.index);
                 console.log(this.setRelayDetails(this.index));
-                this.relayName = "Relay " + this.index;
+                this.relayName = this.index;
             },
 
             previousRelay:function () {
@@ -267,7 +328,7 @@
 
                 this.setRelayDetails(this.index);
                 console.log(this.setRelayDetails(this.index));
-                this.relayName = "Relay " + this.index;
+                this.relayName = this.index;
             },
 
             modalAdd:function() {
@@ -279,20 +340,37 @@
                 this.modal.btnConfigRelay=false;
             },
 
-            modalEdit:function(IMEI) {
-                this.modal.title="Edit access points: "+ IMEI;
+            modalEdit:function() {
+                this.modal.title="Edit access points!";
                 this.modal.btnAdd=false;
                 this.modal.btnEdit=true;
                 this.modal.btnConfigRelay=false;
             },
 
-            modalConfigRelay:function() {
+            modalConfigRelay:function(idAccessPoint) {
+                // this.AccessPointId=idAccessPoint;
+                this.relayName=1;
+                this.btnSavedRelay=true;
+
                 this.modal.title="Edit relays configuration!";
-                
                 this.modal.btnAdd=false;
                 this.modal.btnEdit=false;
                 this.modal.btnConfigRelay=false;
+
+                this.relayAreConfig=[];
             },
+
+            modalAddRelays:function(idAccessPoint) {
+                // this.AccessPointId=idAccessPoint;
+
+                this.modal.title="Relays configuration!";
+                this.modal.btnAdd=false;
+                this.modal.btnEdit=false;
+                this.modal.btnConfigRelay=false;
+
+                this.relayAreConfig=[];
+            },
+
 
             clearDetails:function() {
                 this.details.IMEI=null;
