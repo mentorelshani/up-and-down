@@ -21,9 +21,6 @@ class BuildingController extends Controller
 
     public function getBuildings (PaginateRequest $request){
 
-        // return Buildings where Auth::user() has permission
-//        return $request->rules();
-
     	$orderBy = $request->orderBy;
     	$limit = (int) $request->limit;
     	$page = (int) $request->page;

@@ -84,7 +84,7 @@ Route::delete('/deleteApartment/{id}','ApartmentController@destroy');
 Route::get('/getClient/{id}','ClientController@getClient');
 Route::post('/getClients','ClientController@getClients');
 Route::post('/getClients/{entry_id}','ClientController@getClientsByEntryId');
-Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId1');//to be deleted
+Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId1'); //to be deleted
 Route::post('/addClient','ClientController@add');
 Route::post('/updateClient','ClientController@update');
 Route::delete('/deleteClient/{id}','ClientController@destroy');
@@ -95,14 +95,15 @@ Route::post('/addPayment','PaymentController@add');
 Route::post('/updatePayment','PaymentController@update');
 Route::delete('/deletePayment/{id}','PaymentController@destroy');
 
-Route::post('getCardsByEntry/{entry_id}','CardController@getCardsByEntry');
+Route::post('getCards/{entry_id}','CardController@getCardsByEntry');
+Route::get('getCardAccess/{id}','CardController@getCardAccess');
+Route::post('addCard','CardController@add');
+Route::post('updateCard','CardController@update');
+Route::get('deleteCard/{id}','CardController@destroy');
 
 Route::get('getUsers','UserController@index');
 
-Route::post('asd','CardController@test');
-
-Route::post('test', function (Request $request){
-
+Route::get('test', function (Request $request){
 
     $card = new Card();
     $card->client_id = 2;
