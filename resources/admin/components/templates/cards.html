@@ -2,6 +2,31 @@
 	<div class="tab__view--header">
 		<p class="subtitle">Cards List</p>
 		<button class="btn_add btn" data-toggle="modal" data-target="#addAccessPoint" @click="modalAdd()" >Add new</button>
+
+		<div>
+			<div class="row search_by--inside-tabs">    
+		        <div class="col-xs-8 col-xs-offset-2">
+				    <div class="input-group ">
+		                <div class="input-group-btn search-panel search_key">
+		                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
+		                    </button>
+		                    <ul class="dropdown-menu " role="menu">
+		                      	<li @click="changeSearchKey('buildings.company')" >Client</li>
+		                      	<li @click="changeSearchKey('buildings.name')" >Site Code</li>
+		                      	<li @click="changeSearchKey('cities.name')" >Site Number</li>
+		                      	<li class="divider"></li>
+		                      	<li @click="changeSearchKey('anything')">Everything</li> <!-- -->
+		                    </ul>
+		                </div>
+		                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="inputSearch"  @keyup='Buildings()'>
+
+		                <span class="input-group-btn">
+		                </span>
+		            </div>
+		        </div>
+			</div>
+		</div>
 	</div>
 
 	<div class="tab__view--body">
@@ -30,6 +55,7 @@
 			</tbody>
 		</table>
 	</div>
+	<menu-item-footer :lengthBuildings="setLengthCardsEntry" sitePage="building_cards" :paginationBuilding="pagination"></menu-item-footer>
 
 	<div class="modal fade" id="addCard" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
 		<div class="modal-dialog ">
@@ -75,6 +101,7 @@
 					<button type="button" class="btn btn-default" @click="add()" v-if="modal.btnAdd">Add</button>
 
 				</div>
+
 			</div>
 		</div>
 	</div>

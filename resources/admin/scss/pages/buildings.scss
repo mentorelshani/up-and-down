@@ -90,6 +90,9 @@
 				}
 			}
 		}
+
+		
+
 	}
 
 	.block__add {
@@ -356,7 +359,7 @@
 				padding: 10px;
 
 				.tab__view--content {
-					overflow-y:auto;
+					overflow:auto;
 					.tab__view {
 						.tab__view--header {
 							margin-top:10px;
@@ -377,6 +380,25 @@
 								width: auto;
 								margin-right: 10px;
 							}
+
+							.search_by--inside-tabs {
+								width:70%;
+								margin-left: 15%;
+
+								.search_key {
+									ul {
+										li {
+											cursor: pointer;
+											padding-left: 15px;
+
+											&:hover {
+												background-color: $hoverSearchKey;
+											}
+										}
+									}
+								}
+							}
+
 						}
 
 						.tab__view--body {

@@ -17,8 +17,9 @@
         props: {
             lengthBuildings:null,
             lengthEntries:null,
+            lengthCardsEntry:null,
             sitePage:null,
-            paginationBuilding:{},
+            pagination:{},
         },
 
 	    created() {
