@@ -71,11 +71,11 @@
 
             relays:function() {
                 var vm=this;
-                this.setRelayDetails(1);
+                // this.setRelayDetails(1);
                 for (var i = 0; i < vm.numberOfRelays; i++) { 
                     this.relayAreConfig[vm.relays[i].relay]=parseInt(vm.relays[i].relay);
                     if(i==0) {
-                        // this.setRelayDetails(1);
+                        this.setRelayDetails(1);
                     } 
                 }
 

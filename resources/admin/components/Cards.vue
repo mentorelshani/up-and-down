@@ -4,6 +4,20 @@
             return {
                 cards:{},
                 details:{},
+                cardsSite:{},
+
+                show__items:"20",
+                paginate__page:1,
+                keySearch:["cards.site_code","cards.site_number"],
+                inputSearch:null,
+                ascending:true,
+                orderBy:'cards.site_code',
+                
+
+                pagination:{},
+
+
+                setLengthCardsEntry:{},
 
                 error:{},
                 modal:{
@@ -25,19 +39,55 @@
         },
 
         mounted() {
+            // console.log(this.entryId);
         },
 
         computed: {
         },
 
         watch: {
+             keySearch: function() {
+                this.inputSearch=null;
+                this.paginate__page=1;
+                this.Buildings();
+            },
+
+            show__items: function() {
+                this.paginate__page=1;
+                this.Buildings();
+            },
+
+            entryId:function(){
+                this.getAll();
+            }
+
         },
 
         methods: {
             getAll:function() {
-                this.$http.get('/getCards/'+this.entryId)
+                this.cardsSite={
+                    limit:this.show__items,
+                    page:this.paginate__page,
+                    relation:this.keySearch,
+                    value:this.inputSearch,
+                    asce:this.ascending,
+                    orderBy:this.orderBy, 
+
+                };   
+
+                this.$http.post('/getCardsByEntry/'+this.entryId,this.cardsSite)
                     .then(response => {
                         this.cards=response.data;
+                        console.log(response.data);
+
+                        this.setLengthCardsEntry=response.data.total;
+
+                        this.pagination.current_page=response.data.current_page;
+                        this.pagination.from=response.data.from;
+                        this.pagination.last_page=response.data.last_page;
+                        this.pagination.per_page=response.data.per_page;
+                        this.pagination.to=response.data.to;
+                        this.pagination.total=response.data.total;
                     })
                     .catch(e => {
                         console.log(e.body);
@@ -93,6 +143,18 @@
                     .catch(e => {
                         console.log(e.body);
                     });
+            },
+
+            changeSearchKey:function(searchKey) {
+                this.relation=[];
+                console.log(searchKey);
+                
+                if(searchKey=="anything") {
+                    this.cardsPage.relation=['buildings.company','buildings.name','cities.name','addresses.street','addresses.neighborhood'];
+                }
+                else {
+                    this.cardsPage.relation=[searchKey];
+                }
             },
 
             modalAdd:function() {
