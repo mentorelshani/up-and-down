@@ -1,0 +1,138 @@
+<div class="cards tab__view">
+	<div class="tab__view--header">
+		<p class="subtitle">Cards List</p>
+		<button class="btn_add btn" data-toggle="modal" data-target="#addAccessPoint" @click="modalAdd()" >Add new</button>
+	</div>
+
+	<div class="tab__view--body">
+		<table class="table tab__view-list">
+			<thead>
+			<tr>
+				<th>Client</th>
+				<th>Site Code</th>
+				<th>Site Number</th>
+				<th>Active</th>
+				<th class="action">Action</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr v-for="card in cards">
+					<td>{{card.client.first_name}} {{card.client.last_name}} </td>
+					<td>{{card.site_code}} </td>
+					<td>{{card.site_number}}</td>
+					<td>{{card.elevator.active}}</td>
+					<td class="action">
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addCard" @click="getDetails(card.id); modalEdit()"></span>	
+						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(card.id)"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoCard" @click="getDetails(card.id)"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="modal fade" id="addCard" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
+		<div class="modal-dialog ">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">{{modal.title}}</h4>
+				</div>
+				<div class="modal-body ">
+					<div class="form--client">
+						<div class="element" v-if="clients">
+	                        <label class="name">Client</label>
+	                        <select :class="{value__select:true, error_value:error.client_id}" v-model="details.client" @change="chooseClient()">
+	                            <option v-for="client in clients" :value="version" v-if="client">{{client.name}}</option>
+	                        </select>
+	                        <span class="error_message" v-if="error.client_id">{{error.client_id[0]}}</span>
+	                    </div>
+						<div class="element">
+							<span class="name">Site Code</span>
+							<input :class="{value:true, error_value:error.site_code}" v-model="details.site_code">
+							<span class="error_message" v-if="error.site_code">{{error.site_code[0]}}</span>
+						</div>
+						<div class="element">
+							<span class="name">Site Number</span>
+							<input :class="{value:true, error_value:error.site_number}" type="email" v-model="details.site_number">
+							<span class="error_message" v-if="error.site_number">{{error.site_number[0]}}</span>
+						</div>
+						<div class="element">
+							<span class="name">Active</span>
+							<div class="value">
+								<input type="radio" value="M" v-model="details.active" class="value-radio">
+								<span>M</span>
+								<input type="radio" value="F" v-model="details.active">
+								<span>F</span>
+							</div>
+							<span class="error_message" v-if="error.gender">{{error.active[0]}}</span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer footer_modal ">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default" @click="edit()" v-if="modal.btnEdit">Update</button>
+					<button type="button" class="btn btn-default" @click="add()" v-if="modal.btnAdd">Add</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="infoCards" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" v-if="details">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Information</h4>
+				</div>
+				<div class="modal-body body_modal">
+					<div class="details--client">
+
+						<!-- <div class="element">
+							<label class="name">Client:</label>
+							<span class="value">{{details.client.firstname}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Last name:</label>
+							<span class="value">{{details.client.lastname}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Phone number:</label>
+							<span class="value">{{details.phone_number}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Email:</label>
+							<span class="value">{{details.email}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Birthday:</label>
+							<span class="value">{{details.birthday}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Apartment door:</label>
+							<span class="value">{{details.apartment.door_number}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Gender:</label>
+							<span class="value">{{details.gender}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Created at:</label>
+							<span class="value">{{details.created_at}}</span>
+						</div>
+						<div class="element">
+							<label class="name">Updated at:</label>
+							<span class="value">{{details.updated_at}}</span>
+						</div> -->
+
+					</div>
+				</div>
+				<div class="modal-footer footer_modal">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

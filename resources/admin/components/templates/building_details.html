@@ -68,6 +68,7 @@
                 <li class="active"><a data-toggle="tab" href="#accessPoints">Access point</a></li>
                 <li><a data-toggle="tab" href="#elevators">Elevators</a></li>
                 <li><a data-toggle="tab" href="#clients">Clients</a></li>
+                <li><a data-toggle="tab" href="#cards">Cards</a></li>
                 <li><a data-toggle="tab" href="#payments">Payments</a></li>
             </ul>
 
@@ -80,6 +81,9 @@
                 </div>
                 <div id="clients" class="tab-pane fade tab__view--content">
                     <clients-tab :entryId="idEntry"></clients-tab>
+                </div>
+                <div id="cards" class="tab-pane fade tab__view--content">
+                    <cards-tab :entryId="idEntry"></cards-tab>
                 </div>
                 <div id="payments" class="tab-pane fade">
                     <h3>Menu 3</h3>

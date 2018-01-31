@@ -11,6 +11,7 @@
 	import AccessPoints from '../components/AccessPoints.vue'
 	import Elevator from '../components/Elevators.vue'
 	import Clients from '../components/Clients.vue'
+	import Cards from '../components/Cards.vue'
 
 
 	//Call Component
@@ -19,6 +20,7 @@
 	Vue.component('AccessPointsTab',AccessPoints);
 	Vue.component('ElevatorsTab',Elevator);
 	Vue.component('ClientsTab',Clients);
+	Vue.component('CardsTab', Cards);
 
 
 	export default {
