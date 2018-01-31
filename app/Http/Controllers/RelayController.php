@@ -2,14 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\addRelayRequest;
+use App\Http\Services\RelayService;
 use Illuminate\Http\Request;
 use App\Models\Relay;
 use App\Models\Access_point;
 
 class RelayController extends Controller
 {
+    private $relayService;
+
+    public function __construct(RelayService $relayService){
+
+        $this->relayService = $relayService;
+    }
+
     public function getRelays($access_point_id){
-        return Relay::where('access_point_id',$access_point_id)->get();
+
+        return Relay::where('access_point_id',$access_point_id)->orderBy('relay')->get();
     }
 
     public function getRelay($id){
@@ -19,53 +29,23 @@ class RelayController extends Controller
 
     public function findRelay($access_point_id, $relay){
 
-        return Relay::where('access_point_id',$access_point_id)->where('relay',$relay)->first();
+        return Relay::where('access_point_id', $access_point_id)->where('relay',$relay)->first();
     }
 
-    public function add(Request $request){
-
-        $this->validate($request,[
-            'access_point_id' => 'required|exists:access_points,id',
-            'relay' => 'required|max:30',
-            'floor' => 'required|max:30',
-            'pulse_time' => 'required|numeric',
-        ]);
-
-        $access_point_id = $request->access_point_id;
-        $relay_name = $request->relay;
-        $floor = $request->floor;
-        $pulse_time = $request->pulse_time;
+    public function add(addRelayRequest $request){
 
         $relay = new Relay();
-        $relay->access_point_id = $access_point_id;
-        $relay->relay = $relay_name;
-        $relay->floor = $floor;
-        $relay->pulse_time = $pulse_time;
-        $relay->save();
+
+        $this->relayService->add($request, $relay);
 
         return $relay;
     }
 
     public function update(Request $request){
 
-        $this->validate($request,[
-            'id' => 'required|exists:relays',
-            'relay' => 'required|max:30',
-            'floor' => 'required|max:30',
-            'pulse_time' => 'required|numeric',
-        ]);
+        $relay = Relay::find($request->id);
 
-        $id = $request->id;
-        $relay_name = $request->relay;
-        $floor = $request->floor;
-        $pulse_time = $request->pulse_time;
-
-        $relay = Relay::whereId($id)->first();
-
-        $relay->relay = $relay_name;
-        $relay->floor = $floor;
-        $relay->pulse_time = $pulse_time;
-        $relay->update();
+        $this->relayService->update($request, $relay);
 
         return $relay;
     }

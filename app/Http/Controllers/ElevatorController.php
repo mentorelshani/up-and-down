@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\addElevatorRequest;
+use App\Http\Requests\updateElevatorRequest;
 use App\Http\Services\ElevatorService;
 use Illuminate\Http\Request;
 use App\Models\Elevator;
@@ -33,7 +34,7 @@ class ElevatorController extends Controller
         return $elevator;
     }
 
-    public function update(Request $request){
+    public function update(updateElevatorRequest $request){
 
         $elevator = Elevator::find($request->id);
 

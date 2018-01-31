@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\addPaymentRequest;
+use App\Http\Requests\updatePaymentRequest;
+use App\Http\Services\PaymentService;
 use App\Models\Apartment;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -9,6 +12,13 @@ use App\Models\Payment;
 
 class PaymentController extends Controller
 {
+    private $paymentService;
+
+    public function __construct(PaymentService $paymentService){
+
+        $this->paymentService = $paymentService;
+    }
+
     public function getPayment($id){
 
         return Payment::whereId($id)->with('product','client')->first();
@@ -22,46 +32,20 @@ class PaymentController extends Controller
         return Payment::whereIn('client_id',$client_ids)->with('product','client')->get();
     }
 
-    public function add(Request $request){
-
-        $this->validate($request,[
-            'product_id' => 'exists:products,id',
-            'client_id' => 'exists:clients,id',
-            'price' => 'required|numeric',
-        ]);
-
-        $product_id = $request->product_id;
-        $client_id = $request->client_id;
-        $price = $request->price;
+    public function add(addPaymentRequest $request){
 
         $payment = new Payment();
-        $payment->product_id = $product_id;
-        $payment->client_id = $client_id;
-        $payment->price = $price;
-        $payment->save();
+
+        $this->paymentService->add($request, $payment);
 
         return $payment;
     }
 
-    public function update(Request $request){
+    public function update(updatePaymentRequest $request){
 
-        $this->validate($request,[
-            'id' => 'exists:payments',
-            'product_id' => 'exists:products,id',
-            'client_id' => 'exists:clients,id',
-            'price' => 'required|numeric',
-        ]);
+        $payment = Payment::find($request->id);
 
-        $id = $request->id;
-        $product_id = $request->product_id;
-        $client_id = $request->client_id;
-        $price = $request->price;
-
-        $payment = Payment::whereId($id)->first();
-        $payment->product_id = $product_id;
-        $payment->client_id = $client_id;
-        $payment->price = $price;
-        $payment->update();
+        $this->paymentService->update($request, $payment);
 
         return $payment;
     }

@@ -95,9 +95,23 @@ Route::post('/addPayment','PaymentController@add');
 Route::post('/updatePayment','PaymentController@update');
 Route::delete('/deletePayment/{id}','PaymentController@destroy');
 
+Route::post('getCardsByEntry/{entry_id}','CardController@getCardsByEntry');
+
 Route::get('getUsers','UserController@index');
 
-Route::get('test',function (){
+Route::post('asd','CardController@test');
+
+Route::post('test', function (Request $request){
+
+
+    $card = new Card();
+    $card->client_id = 2;
+    $card->site_code = 123;
+    $card->site_number = 123;
+    $card->active = true;
+    $card->save();
+
+    return $card;
 
     return Auth::user()->creator;
 
