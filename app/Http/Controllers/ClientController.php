@@ -75,9 +75,13 @@ class ClientController extends Controller
         $clients = Client::join('apartments','apartments.id','=','clients.apartment_id')
                         ->where('entry_id','=', $entry_id)
                         ->with('apartment')
-                        ->orderBy($orderBy,$asc)
-                        ->select(['clients.*'])
-                        ->where($relation,'ilike',"$value%");
+                        ->orderBy($orderBy, $asc)
+                        ->select(['clients.*']);
+
+        $clients = $clients->where(function ($query) use ($relation, $value){
+            foreach ($relation as $i)
+                $query->orWhere($i,'ilike',"$value%");
+        });
 
         return $clients->paginate($limit);
     }
