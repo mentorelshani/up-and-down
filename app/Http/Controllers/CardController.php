@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\addCardRequest;
+use App\Http\Requests\giveAccessToCardRequest;
 use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\updateCardRequest;
 use App\Models\Access_point;
@@ -15,7 +16,6 @@ use App\Models\Elevator;
 use App\Models\Entry;
 use App\Models\Relay;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Integer;
 
 class CardController extends Controller
 {
@@ -64,6 +64,27 @@ class CardController extends Controller
          }])->get();
 
          return $buildings;
+    }
+
+    public function giveAccess(giveAccessToCardRequest $request){
+
+        $card_access = new Card_access();
+        $card_access->card_id = $request->card_id;
+        $card_access->relay_id = $request->relay_id;
+        $card_access->save();
+    }
+
+    public function deleteAccess($card_id, $relay_id){
+
+        $card_access = Card_access::where('card_id', $card_id)->where('relay_id', $relay_id)->first();
+        $card_access->delete();
+    }
+
+    public function deleteAllAccesses($card_id){
+
+        $card_accesses = Card_access::where('card_id', $card_id)->get();
+        foreach ($card_accesses as $ca)
+            $ca->delete();
     }
 
     public function add(addCardRequest $request){

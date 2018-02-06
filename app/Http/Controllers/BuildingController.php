@@ -37,9 +37,9 @@ class BuildingController extends Controller
                         ->whereHasAccess()
                         ->orderBy($orderBy,$asc);
 
-
         $count = $buildings->get()->count();
 
+        
         $result = $buildings->skip($skip)->take($limit)
                             ->get(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood']);
 
