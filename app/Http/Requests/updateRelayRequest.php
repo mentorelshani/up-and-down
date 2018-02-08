@@ -25,8 +25,6 @@ class updateRelayRequest extends FormRequest
     {
         return [
             'id' => 'required|exists:relays',
-            'access_point_id' => 'required|exists:access_points,id',
-            'relay' => 'required|max:30|unique_with:relays,access_point_id',
             'floor' => 'required|max:30',
             'pulse_time' => 'required|numeric',
         ];

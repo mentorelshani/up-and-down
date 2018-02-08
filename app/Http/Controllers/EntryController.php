@@ -84,7 +84,7 @@ class EntryController extends Controller
                 if ($i == "IMEI"){
                     $entries = $entries->orWhereIn('entries.id',
                         Elevator::whereIn('elevators.id',
-                            Access_point::where('IMEI','ilike',"$value%")->select('elevator_id')->get()
+                            Access_point::where('imei','ilike',"$value%")->select('elevator_id')->get()
                         )->select('entry_id')->get()
                     );
                 }

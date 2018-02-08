@@ -16,7 +16,7 @@ class CreateRelaysTable extends Migration
         Schema::create('relays', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('access_point_id');
-            $table->string('relay');
+            $table->integer('relay');
             $table->string('floor')->nullable();
             $table->double('pulse_time', 3, 3)->nullable();
             $table->foreign('access_point_id')->references('id')->on('access_points')->onDelete('cascade');

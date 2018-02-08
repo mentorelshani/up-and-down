@@ -116,9 +116,10 @@ class DatabaseSeeder extends Seeder
 			$access_point = new Access_point();
 			$access_point->elevator_id = $i%199 +1;
 			$access_point->version_id = rand(1,3);
-			$access_point->IMEI = rand(1000,2000);
+			$access_point->imei = rand(1000,2000);
 			$access_point->phone_number = $faker->phoneNumber;
 			$access_point->notes = $faker->word;
+			$access_point->active = true;
 			$access_point->save();
 		}
 
