@@ -109,14 +109,20 @@ Route::delete('deleteAllAccessesFromCard/{card_id}','CardController@deleteAllAcc
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Route::get('test', function (Request $request){
 =======
+=======
+>>>>>>> Database changes and search by everything in Buildings module.
 Route::get('getUsers','UserController@index');
 
 Route::get('test', function (Request $request){
 
     return '<input type="file" name="file" id="file">';
+<<<<<<< HEAD
 >>>>>>> e98c88b573d4f06cb1d9c7955006ddc38073d92e
+=======
+>>>>>>> Database changes and search by everything in Buildings module.
 
     $card = new Card();
     $card->client_id = 2;
