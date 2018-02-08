@@ -139,17 +139,17 @@
 					</div>
 
 					<div class="addEdit__accessPoint--relay">
-						<div class="relay__button" v-if="relayAreConfig">
-							<button :class="{'relay':true,'btn':true,'relay_config' : (n === relayAreConfig[n])}" v-for="(n,index) in numberOfRelays" @click="setRelayDetails(n)">Relay {{n}}</button>
+						<div class="relay__button" v-if="relays">
+							<button :class="{'relay':true,'btn':true,'relay_config' : (relay.created_at != relay.updated_at)}" v-for="relay in relays" @click="setRelayDetails(relay.id)">{{relay.relay}}</button>
 						</div>
 
 						<div class="relay__details" v-if="relays">
 							<fieldset class="relay__details--space" >
-								<legend class="relay__name">Relay {{relayName}}</legend>
+								<legend class="relay__name">Relay {{relayDetails.relay}}</legend>
 
 								<div class="details__element">
 									<label class="element__label">Name</label>
-									<select class="element__select" v-model="relayFloor">
+									<select class="element__select" v-model="relayDetails.floor">
 										<option value="garage">Garage</option>
 										<option v-for="n in 6" :value="'floor'+n">Floor {{n}}</option>
 										<option value="vip_floor">Vip floor</option>
@@ -161,15 +161,15 @@
 
 								<div class="details__element">
 									<label class="element__label">Pulse time</label>
-									<input type="email" v-model="relayPulseTime" class="element__input" >
+									<input type="email" v-model="relayDetails.pulse_time" class="element__input" >
 								</div>
 								<div class="controll_relays">
-									<button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="addRelay()" v-if="btnSavedRelay">
+									<button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="editRelay()" v-if="btnSavedRelay">
 							            <span class="glyphicon glyphicon-saved"></span> Save
 							        </button>
-							        <button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="editRelay()"  v-if="!btnSavedRelay">
+							   <!--      <button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="editRelay()"  v-if="!btnSavedRelay">
 							            <span class="glyphicon glyphicon-edit"></span> Edit
-							        </button>
+							        </button> -->
 
 									<button class="btn btn-default next_relay" @click="nextRelay()">&raquo;</button>
 									<button class="btn btn-default previous_relay" @click="previousRelay()">&laquo;</button>

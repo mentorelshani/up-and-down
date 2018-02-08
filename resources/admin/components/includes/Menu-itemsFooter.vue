@@ -18,6 +18,7 @@
             lengthBuildings:null,
             lengthEntries:null,
             lengthCardsEntry:null,
+            ObjLength:null,
             sitePage:null,
             pagination:{},
         },
