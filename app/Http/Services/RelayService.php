@@ -14,7 +14,7 @@ class RelayService
     public function add($request, $relay){
 
         $relay->access_point_id = $request->access_point_id;
-        $relay->relay = $request->relay_name;
+        $relay->relay = $request->relay;
         $relay->floor = $request->floor;
         $relay->pulse_time = $request->pulse_time;
         $relay->save();
@@ -23,7 +23,7 @@ class RelayService
     public function update($request, $relay){
 
         $relay->access_point_id = $request->access_point_id;
-        $relay->relay = $request->relay_name;
+        $relay->relay = $request->relay;
         $relay->floor = $request->floor;
         $relay->pulse_time = $request->pulse_time;
         $relay->update();
