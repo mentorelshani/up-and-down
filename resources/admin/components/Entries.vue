@@ -7,9 +7,9 @@
                 setLengthEntries: null,
 
                 //data for list of entries
-                showItems: "10",
+                showItems: "20",
                 paginatePage: 1,
-                keySearch: 'buildings.name',
+                keySearch: ['buildings.name'],
                 inputSearch: null,
                 ascending: true,
                 orderBy: 'buildings.name',
@@ -68,10 +68,17 @@
                     orderBy: this.orderBy,
                 };
 
-                this.$http.post(`/getEntries`, this.entriesSite)
+                this.$http.post(`/getEntries1`, this.entriesSite)
                     .then(response => {
-                        this.setEntries = response.data.entries;
-                        this.setLengthEntries = response.data.count;
+                        this.setEntries = response.data.data;
+                        this.setLengthEntries = response.total;
+
+                        this.pagination.current_page=response.data.current_page;
+                        this.pagination.from=response.data.from;
+                        this.pagination.last_page=response.data.last_page;
+                        this.pagination.per_page=response.data.per_page;
+                        this.pagination.to=response.data.to;
+                        this.pagination.total=response.data.total;
                     })
                     .catch(e => {
                         console.log(e);
@@ -129,6 +136,18 @@
                     this.orderBy = orderBy;
                 }
                 this.Entries();
+            },
+
+            changeSearchKey:function(searchKey) {
+                console.log(searchKey);
+                this.keySearch=[];
+
+                if(searchKey=="anything") {
+                    this.keySearch=['buildings.name','entry.name','cities.name','addresses.street','IMEI'];
+                } 
+                else {
+                    this.keySearch=[searchKey];
+                }
             },
         },
     }

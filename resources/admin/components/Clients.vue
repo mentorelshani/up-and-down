@@ -6,6 +6,7 @@
                 details:{
                     apartment:{},
                     entry_id:null,
+                    gender:null,
                 },
                 modal:{
                     title:null,
@@ -17,6 +18,15 @@
                 showInputOther:false,
                 showSelectOther:true,
 
+                 error:{
+                    door_number:null,
+                    birthday:null,
+                    email:null,
+                    firstname:null,
+                    gender:null,
+                    lastname:null,
+                    phone_number:null,
+                },
             }
         },
 
@@ -30,7 +40,6 @@
 
         created() {
             this.clearDetails();
-
         },
 
         mounted() {
@@ -63,13 +72,13 @@
             add:function() {
                 this.$http.post('/addClient',this.details)
                     .then(response => {
-                        console.log(this.details);
                         console.log("Klienti u regjistrua me sukses = !false");
+                        this.error={};
                         this.getAll();
                     })
                     .catch(e => {
                         console.log("Klienti u regjistrua me sukses = false");
-                        console.log(e.body);
+                        this.error=e.body;
                     });
             },
 
@@ -77,11 +86,12 @@
                 this.$http.post('/updateClient',this.details)
                     .then(response => {
                         console.log("Klienti u përditsua me sukses = !false");
+                        this.error={};
                         this.getAll();
                     })
                     .catch(e => {
                         console.log("Klienti u përditsua me sukses = false");
-                        console.log(e.body);
+                        this.error=e.body;
                     });
             },
 
@@ -98,11 +108,9 @@
             },
 
             getDetails:function(idClient) {
-                console.log(idClient);
                 this.$http.get(`/getClient/`+idClient)
                     .then(response => {
                         this.details=response.data;
-                        this.getAll();
                     })
                     .catch(e => {
                         console.log(e.body);

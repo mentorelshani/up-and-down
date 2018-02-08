@@ -37,9 +37,9 @@ class BuildingController extends Controller
                         ->whereHasAccess()
                         ->orderBy($orderBy,$asc);
 
-
         $count = $buildings->get()->count();
 
+        
         $result = $buildings->skip($skip)->take($limit)
                             ->get(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood']);
 
@@ -55,19 +55,31 @@ class BuildingController extends Controller
         $value = $request->value;
         $asc = $request->asce  ? 'asc' : 'desc';
 
+        $skip = ($page - 1) * $limit;
+
         $buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
-            ->join('cities','cities.id','=','addresses.city_id');
+            ->join('cities','cities.id','=','addresses.city_id')
+            ->join('entries','buildings.id','=','entries.building_id')
+            ->join('apartments','entries.id','=','apartments.entry_id')
+            ->join('clients','apartments.id','=','clients.apartment_id')
+            ->join('cards','clients.id','=','cards.client_id')
+            ->join('elevators','entries.id','=','elevators.entry_id')
+            ->join('access_points','elevators.id','=','access_points.elevator_id');
 
-            foreach ($relation as $i) {
-                $buildings = $buildings->orWhere($i,'ilike','%'.$value.'%');
-            }
+        foreach ($relation as $i) {
+            $buildings = $buildings->orWhereRaw("cast($i as text) like '%$value%'");
+        }
 
-            $buildings = $buildings->whereHasAccess()
-            ->orderBy($orderBy,$asc)
-            ->select(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood'])
-            ->paginate($limit);
+        $buildings = $buildings->whereHasAccess()
+                               ->select(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood'])
+                               ->distinct()
+                               ->orderBy($orderBy,$asc);
 
-        return $buildings;
+        $count = $buildings->get()->count();
+
+        $result = $buildings->skip($skip)->take($limit)->get();
+
+        return array('count' => $count, 'buildings' => $result);
     }
 
     public function getBuilding($id){

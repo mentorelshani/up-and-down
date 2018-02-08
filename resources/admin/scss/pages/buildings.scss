@@ -90,6 +90,9 @@
 				}
 			}
 		}
+
+		
+
 	}
 
 	.block__add {
@@ -356,7 +359,7 @@
 				padding: 10px;
 
 				.tab__view--content {
-					overflow-y:auto;
+					overflow:auto;
 					.tab__view {
 						.tab__view--header {
 							margin-top:10px;
@@ -377,6 +380,25 @@
 								width: auto;
 								margin-right: 10px;
 							}
+
+							.search_by--inside-tabs {
+								width:70%;
+								margin-left: 15%;
+
+								.search_key {
+									ul {
+										li {
+											cursor: pointer;
+											padding-left: 15px;
+
+											&:hover {
+												background-color: $hoverSearchKey;
+											}
+										}
+									}
+								}
+							}
+
 						}
 
 						.tab__view--body {
@@ -457,6 +479,11 @@
 
 						.body_modal {
 							float: left;
+
+							.form--accessPoint {
+								@extend .form--input;
+							}
+
 							.addEdit__accessPoint--mainData {
 								position: relative;
 								width: 30%;
@@ -477,7 +504,7 @@
 									.element__label {
 										width:40%;
 										text-align: right;
-										margin-right: 15px;
+										margin-right: 10px;
 										position: relative;
 										float: left;
 										top: 0;
@@ -503,18 +530,9 @@
 										resize: none;
 
 									}
-								}
 
-								.config__relays {
-									float: left;
-									width: 100%;
-									margin-bottom: 5px;
-									top: 0;
-									position: relative;
-									padding-right: 5%;
-
-									.button__config {
-										float: right;
+									.content {
+										width: 50%; 
 									}
 								}
 							}
@@ -532,13 +550,26 @@
 									padding-top: 15px;
 									text-align: center;
 
-									.button__realay {
-										background-color: #f1f1f1;
+									.relay {
+										background: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
+    									border: 1px solid #ccc;
 										min-width: 80px;
 										width: 22%;
 										margin: 3px;
 										text-align: center;
 										height: 30px;
+										font-size: 15px;
+
+										&:hover {
+											opacity: 0.8;
+											color:black; 
+										}
+									}
+
+									.relay_config {
+										@extend .relay;
+										background: #2ecc71;
+    									
 									}
 								}
 
@@ -613,18 +644,39 @@
 											}
 										}
 
-										.next_previous--element {
-											width:auto;
+										.controll_relays {
+											width:100%;
 											float: right;
-											margin-right: 8%;
-											margin-bottom: 20px;
-
-											.button__previous-relay {
-												width: 40px;
+											margin-bottom: 0px;
+											padding: 20px 8%;
+											.save_config {
+												float: left;
+												background: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
+												border: 1px solid $borderButton;
 											}
 
-											.button__next-relay {
+											.save_config_ok {
+												background: #27ae60;
+											}
+
+											.save_config_error {
+												background: #e74c3c;
+											}
+
+											.save_config_empty {
+												// background-color: ;
+											}
+
+											.previous_relay {
 												width: 40px;
+												float: right;
+												margin-right: 5px;
+											}
+
+											.next_relay {
+												width: 40px;
+												float: right;
+
 											}
 										}
 									}
@@ -690,6 +742,7 @@
 			width: 100%;
 			float: left;
 			margin-top: 10px;
+			font-size: 18px;
 		}
 
 		.value {
@@ -697,6 +750,11 @@
 			text-align: left;
 			float: left;
 			padding-left: 5px;
+			outline: none;
+		}
+
+		.error_value {
+			border: 1px solid $borderError;
 		}
 
 		.value-add {
@@ -717,6 +775,14 @@
 			padding: 3.5px 0px;
 		}
 
+		.value_textarea {
+			width: 100%;
+			// height: 150px;
+			// outline: none;
+			float: left;
+
+		}
+
 		.add-other {
 			border-radius: 50px;
 			width: 6.5%;
@@ -725,6 +791,12 @@
 			font-weight: 900;
 			outline: none;
 			float: right;
+		}
+
+		.error_message {
+			font-size: 15px;
+			color: $textError;
+			float: left;
 		}
 	}
 }

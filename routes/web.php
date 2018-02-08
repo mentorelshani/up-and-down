@@ -100,10 +100,23 @@ Route::get('getCardAccess/{id}','CardController@getCardAccess');
 Route::post('addCard','CardController@add');
 Route::post('updateCard','CardController@update');
 Route::get('deleteCard/{id}','CardController@destroy');
+<<<<<<< HEAD
+=======
+Route::post('giveAccessToCard','CardController@giveAccess');
+Route::delete('deleteAccessFromCard/{card_id}/{relay_id}','CardController@deleteAccess');
+Route::delete('deleteAllAccessesFromCard/{card_id}','CardController@deleteAllAccesses');
+>>>>>>> e98c88b573d4f06cb1d9c7955006ddc38073d92e
 
+
+<<<<<<< HEAD
+Route::get('test', function (Request $request){
+=======
 Route::get('getUsers','UserController@index');
 
 Route::get('test', function (Request $request){
+
+    return '<input type="file" name="file" id="file">';
+>>>>>>> e98c88b573d4f06cb1d9c7955006ddc38073d92e
 
     $card = new Card();
     $card->client_id = 2;

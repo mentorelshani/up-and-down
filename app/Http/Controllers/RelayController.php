@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\addRelayRequest;
+use App\Http\Requests\updateRelayRequest;
 use App\Http\Services\RelayService;
 use Illuminate\Http\Request;
 use App\Models\Relay;
@@ -41,7 +42,7 @@ class RelayController extends Controller
         return $relay;
     }
 
-    public function update(Request $request){
+    public function update(updateRelayRequest $request){
 
         $relay = Relay::find($request->id);
 

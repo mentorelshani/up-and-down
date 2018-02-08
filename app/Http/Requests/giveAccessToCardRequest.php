@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class updateRelayRequest extends FormRequest
+class giveAccessToCardRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class updateRelayRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:relays',
-            'floor' => 'required|max:30',
-            'pulse_time' => 'required|numeric',
+            'card_id' => 'exists:cards,id',
+            'relay_id' => 'exists:relays,id|unique_with:card_accesses,card_id'
         ];
     }
 }

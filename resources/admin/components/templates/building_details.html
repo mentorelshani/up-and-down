@@ -1,5 +1,5 @@
 <div class="building__details--body">
-    <div :class="{'information':true,}" v-if="detailsBuilding" v-show="show">
+    <div :class="{'information':true,}" v-if="detailsBuilding" v-show="show_info">
         <div class="profile__building" >
             <h3 class="building__name">{{detailsBuilding.name}}</h3>
             <!-- <button class="btn btn-default" @click="show=!show">-</button> -->
@@ -43,8 +43,8 @@
         </div>
     </div>
 
-    <div :class="{'tabs__section':show, 'tabs__section_full':!show, }" >
-        <div class="info_bar" v-if="show_info">
+    <div :class="{'tabs__section':show_info, 'tabs__section_full':!show_info, }" >
+        <div class="info_bar" v-if="show_info-entry">
             <div class="element">
                 <label class="title">Entry:</label>
                 <span class="value">Hyeja 21</span>
@@ -68,6 +68,7 @@
                 <li class="active"><a data-toggle="tab" href="#accessPoints">Access point</a></li>
                 <li><a data-toggle="tab" href="#elevators">Elevators</a></li>
                 <li><a data-toggle="tab" href="#clients">Clients</a></li>
+                <li><a data-toggle="tab" href="#cards">Cards</a></li>
                 <li><a data-toggle="tab" href="#payments">Payments</a></li>
             </ul>
 
@@ -80,6 +81,9 @@
                 </div>
                 <div id="clients" class="tab-pane fade tab__view--content">
                     <clients-tab :entryId="idEntry"></clients-tab>
+                </div>
+                <div id="cards" class="tab-pane fade tab__view--content">
+                    <cards-tab :entryId="idEntry"></cards-tab>
                 </div>
                 <div id="payments" class="tab-pane fade">
                     <h3>Menu 3</h3>
@@ -101,21 +105,25 @@
 
                             <div class="element">
                                 <span class="name">Building</span>
-                                <select class="value__select" v-model=detailsEntry.building_id>
+                                <select :class="{value__select:true, error_value:error_entry.building_id}"  v-model=detailsEntry.building_id>
                                     <option v-for="building in buildings" :value="building.id">{{building.name}}</option>
-                                </select>                   
+                                </select>
+                                <span class="error_message" v-if="error_entry.building_id">{{error_entry.door_number[0]}}</span>                   
                             </div>
                             <div class="element">
                                 <span class="name">Name</span>
-                                <input class="value" v-model="detailsEntry.name">                  
+                                <input :class="{value:true, error_value:error_entry.name}" v-model="detailsEntry.name">
+                                <span class="error_message" v-if="error_entry.name">{{error_entry.name[0]}}</span>                  
                             </div>
                             <div class="element">
                                 <span class="name">Number of floors</span>
-                                <input class="value" v-model="detailsEntry.number_of_floors">                    
+                                <input :class="{value:true, error_value:error_entry.number_of_floors}" v-model="detailsEntry.number_of_floors">
+                                <span class="error_message" v-if="error_entry.number_of_floors">{{error_entry.number_of_floors[0]}}</span>                    
                             </div>
                             <div class="element">
                                 <span class="name">Number of apartments</span>
-                                <input class="value" v-model="detailsEntry.number_of_apartments">                 
+                                <input :class="{value:true, error_value:error_entry.number_of_apartments}" v-model="detailsEntry.number_of_apartments">
+                                <span class="error_message" v-if="error_entry.number_of_apartments">{{error_entry.number_of_apartments[0]}}</span>                    
                             </div> 
 
                         </div>

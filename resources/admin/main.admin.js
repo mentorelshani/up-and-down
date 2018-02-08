@@ -58,7 +58,7 @@ var routes = [
     },
     {   
         path:'*',
-        redirect:'/buildings'
+        redirect:'/building/37/details'
     },
     // {
     //   path: '/admin/products/brand/:id',

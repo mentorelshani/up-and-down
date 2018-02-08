@@ -13,6 +13,7 @@ class AccessPointService
         $access_point->IMEI = $request->IMEI;
         $access_point->phone_number = $request->phone_number;
         $access_point->notes = $request->notes;
+        $access_point->active = true;
         $access_point->save();
     }
 
@@ -23,6 +24,7 @@ class AccessPointService
         $access_point->IMEI = $request->IMEI;
         $access_point->phone_number = $request->phone_number;
         $access_point->notes = $request->notes;
+        $access_point->active = $request->active;
         $access_point->update();
     }
 

@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="/image/loading_icon.png" sizes="96x96">
 
 
     <title>Elevator</title>

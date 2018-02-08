@@ -44,27 +44,33 @@
 
 						<div class="element">
 							<span class="name">First name</span>
-							<input class="value" v-model="details.firstname">
+							<input :class="{value:true, error_value:error.firstname}" v-model="details.firstname">
+							<span class="error_message" v-if="error.firstname">{{error.firstname[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Last name</span>
-							<input class="value" v-model="details.lastname">
+							<input :class="{value:true, error_value:error.lastname}" v-model="details.lastname">
+							<span class="error_message" v-if="error.lastname">{{error.lastname[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Phone number</span>
-							<input class="value" v-model="details.phone_number">
+							<input :class="{value:true, error_value:error.phone_number}" v-model="details.phone_number">
+							<span class="error_message" v-if="error.phone_number">{{error.phone_number[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Email</span>
-							<input class="value" type="email" v-model="details.email">
+							<input :class="{value:true, error_value:error.email}" type="email" v-model="details.email">
+							<span class="error_message" v-if="error.email">{{error.email[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Apartment door number</span>
-							<input class="value" v-model="details.door_number" >
+							<input :class="{value:true, error_value:error.door_number}" v-model="details.door_number" >
+							<span class="error_message" v-if="error.door_number">{{error.door_number[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Birthday</span>
-							<input class="value " type="date" v-model="details.birthday">
+							<input :class="{value:true, error_value:error.birthday}" type="date" v-model="details.birthday">
+							<span class="error_message" v-if="error.birthday">{{error.birthday[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Gender</span>
@@ -74,6 +80,7 @@
 								<input type="radio" value="F" v-model="details.gender">
 								<span>F</span>
 							</div>
+							<span class="error_message" v-if="error.gender">{{error.gender[0]}}</span>
 						</div>
 					</div>
 				</div>
