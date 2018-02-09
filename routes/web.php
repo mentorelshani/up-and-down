@@ -39,7 +39,7 @@ Route::get('/getCities','CityController@getCities');
 Route::get('/getCompanies','CityController@getCompanies');
 Route::get('/getNeighborhoods','CityController@getNeighborhoods');
 
-Route::post('/getBuildings','BuildingController@getBuildings');
+Route::get('/getAllBuildings','BuildingController@getAllBuildings');
 Route::post('/getBuildings1','BuildingController@index'); // new
 Route::post('/addBuilding','BuildingController@add');
 Route::get('/getBuilding/{id}','BuildingController@getBuilding');
@@ -47,6 +47,7 @@ Route::post('/updateBuilding','BuildingController@update');
 Route::delete('/deleteBuilding/{id}','BuildingController@destroy');
 
 Route::get('/getEntry/{id}','EntryController@getEntry');
+Route::get('/getEntries/{building_id}','EntryController@getEntriesByBuilding');
 Route::post('/getEntries','EntryController@getEntries');
 Route::post('/getEntries1','EntryController@index');// new
 Route::post('/addEntry','EntryController@add');
@@ -69,6 +70,7 @@ Route::post('/updateAccessPoint','AccessPointController@update');
 Route::delete('/deleteAccessPoint/{id}','AccessPointController@destroy');
 
 Route::get('/getRelays/{access_point_id}','RelayController@getRelays');
+Route::get('/getRelaysByElevatorId/{elevator_id}','RelayController@getRelaysByElevatorId');
 Route::get('/getRelay/{access_point_id}/{relay}','RelayController@findRelay');
 Route::get('/getRelay/{id}','RelayController@getRelay');
 Route::post('/addRelay','RelayController@add');

@@ -25,7 +25,8 @@ class giveAccessToCardRequest extends FormRequest
     {
         return [
             'card_id' => 'exists:cards,id',
-            'relay_ids[*]' => 'exists:relays,id|unique_with:card_accesses,card_id'
+            'relay_id' => 'required|array',
+            'relay_id.*' => 'distinct|exists:relays,id'
         ];
     }
 }

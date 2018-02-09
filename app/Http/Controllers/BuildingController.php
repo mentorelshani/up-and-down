@@ -19,31 +19,13 @@ class BuildingController extends Controller
         $this->buildingService = $buildingService;
     }
 
-    public function getBuildings (PaginateRequest $request){
-
-    	$orderBy = $request->orderBy;
-    	$limit = (int) $request->limit;
-    	$page = (int) $request->page;
-    	$relation = $request->relation;
-    	$value = $request->value;
-    	$asc = (bool)$request->asce  ? 'asc' : 'desc';
-
-
-    	$skip = ($page - 1) * $limit;
+    public function getAllBuildings (){
 
     	$buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
                         ->join('cities','cities.id','=','addresses.city_id')
-                        ->where($relation,'ilike','%'.$value.'%')
-                        ->whereHasAccess()
-                        ->orderBy($orderBy,$asc);
+                        ->whereHasAccess();
 
-        $count = $buildings->get()->count();
-
-        
-        $result = $buildings->skip($skip)->take($limit)
-                            ->get(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood']);
-
-        return array('count' => $count, 'buildings' => $result);
+        return $buildings;
     }
 
     public function index(PaginateRequest $request){
