@@ -99,6 +99,10 @@ class EntryController extends Controller
             return $entries->paginate($limit);
     }
 
+    public function getEntriesByBuilding($building_id){
+        return Entry::where('building_id',$building_id)->get();
+    }
+
     public function add(addEntryRequest $request){
 
         $entry = new Entry();

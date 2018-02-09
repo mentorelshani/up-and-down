@@ -23,6 +23,12 @@ class RelayController extends Controller
         return Relay::where('access_point_id',$access_point_id)->orderBy('relay')->get();
     }
 
+    public function getRelaysByElevatorId($elevator_id){
+        $access_points = Access_point::where('elevator_id',$elevator_id)->get(['id']);
+
+        return Relay::whereIn('access_point_id',$access_points)->orderBy('relay')->get();
+    }
+
     public function getRelay($id){
 
         return Relay::whereId($id)->first();
