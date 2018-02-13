@@ -73,12 +73,12 @@
                         this.setEntries = response.data.data;
                         this.setLengthEntries = response.total;
 
-                        this.pagination.current_page=response.data.current_page;
-                        this.pagination.from=response.data.from;
-                        this.pagination.last_page=response.data.last_page;
-                        this.pagination.per_page=response.data.per_page;
-                        this.pagination.to=response.data.to;
-                        this.pagination.total=response.data.total;
+                        // this.pagination.current_page=response.data.current_page;
+                        // this.pagination.from=response.data.from;
+                        // this.pagination.last_page=response.data.last_page;
+                        // this.pagination.per_page=response.data.per_page;
+                        // this.pagination.to=response.data.to;
+                        // this.pagination.total=response.data.total;
                     })
                     .catch(e => {
                         console.log(e);
