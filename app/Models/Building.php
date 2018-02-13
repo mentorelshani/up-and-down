@@ -25,30 +25,39 @@ class Building extends Model
     	return $this->hasMany('App\Models\Entry','building_id');
     }
 
-    protected $appends = [ 'canRead', 'canEdit', 'canDelete'];
+    protected $appends = ['canRead', 'canEdit', 'canDelete'];
 
     public function getCanReadAttribute(){
-        return true;
+        if (Auth::user()->created_by == null || $this->created_by == Auth::user()->id || $this->created_by == Auth::user()->creator->id)
+            return true;
+        return false;
     }
 
     public function getCanEditAttribute(){
-        return true;
+        if (Auth::user()->created_by == null || $this->created_by == Auth::user()->id)
+            return true;
+        $role_access = Role_Access::where('role_id',Auth::user()->role_id)->where('building_id',$this->id)->where('permission',"ilike","%e%")->get();
+
+        return $role_access->count() != 0;
     }
 
     public function getCanDeleteAttribute(){
-        return true;
+        if (Auth::user()->created_by == null || $this->created_by == Auth::user()->id)
+            return true;
+        $role_access = Role_Access::where('role_id',Auth::user()->role_id)->where('building_id',$this->id)->where('permission',"ilike","%e%")->get();
+
+        return $role_access->count() != 0;
     }
 
     public function scopeWhereHasAccess ($query){
-        if (true)//Auth::user()->created_by == null)
+        if (Auth::user()->created_by == null)
             return $query;
 
         else if (Auth::user()->creator->created_by == null)
-            return $query->where('created_by' , Auth::user()->id);
+            return $query->where('created_by', Auth::user()->id);
 
         return $query->where('created_by', Auth::user()->creator->id);
     }
-
 
 
 }
