@@ -75,6 +75,20 @@ class BuildingController extends Controller
 
         $this->buildingService->add($request, $building);
 
+//        if($request->hasFile('file')){
+//            $this->validate($request,[
+//                'file' => 'image|size:4096'
+//            ]);
+//
+//            $image = $request->file('file');
+//            $fileName = $building->id . $image->getClientOriginalExtension();
+//
+//            return $image->getRealPath();
+//
+//
+//
+//        }
+
         return $building;
 
     }
