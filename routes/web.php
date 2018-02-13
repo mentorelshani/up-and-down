@@ -39,7 +39,7 @@ Route::get('/getCities','CityController@getCities');
 Route::get('/getCompanies','CityController@getCompanies');
 Route::get('/getNeighborhoods','CityController@getNeighborhoods');
 
-Route::post('/getBuildings','BuildingController@getBuildings');
+Route::get('/getAllBuildings','BuildingController@getAllBuildings');
 Route::post('/getBuildings1','BuildingController@index'); // new
 Route::post('/addBuilding','BuildingController@add');
 Route::get('/getBuilding/{id}','BuildingController@getBuilding');
@@ -47,6 +47,7 @@ Route::post('/updateBuilding','BuildingController@update');
 Route::delete('/deleteBuilding/{id}','BuildingController@destroy');
 
 Route::get('/getEntry/{id}','EntryController@getEntry');
+Route::get('/getEntries/{building_id}','EntryController@getEntriesByBuilding');
 Route::post('/getEntries','EntryController@getEntries');
 Route::post('/getEntries1','EntryController@index');// new
 Route::post('/addEntry','EntryController@add');
@@ -69,6 +70,7 @@ Route::post('/updateAccessPoint','AccessPointController@update');
 Route::delete('/deleteAccessPoint/{id}','AccessPointController@destroy');
 
 Route::get('/getRelays/{access_point_id}','RelayController@getRelays');
+Route::get('/getRelaysByElevatorId/{elevator_id}','RelayController@getRelaysByElevatorId');
 Route::get('/getRelay/{access_point_id}/{relay}','RelayController@findRelay');
 Route::get('/getRelay/{id}','RelayController@getRelay');
 Route::post('/addRelay','RelayController@add');
@@ -84,7 +86,7 @@ Route::delete('/deleteApartment/{id}','ApartmentController@destroy');
 Route::get('/getClient/{id}','ClientController@getClient');
 Route::post('/getClients','ClientController@getClients');
 Route::post('/getClients/{entry_id}','ClientController@getClientsByEntryId');
-Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId1'); //to be deleted
+Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId1');
 Route::post('/addClient','ClientController@add');
 Route::post('/updateClient','ClientController@update');
 Route::delete('/deleteClient/{id}','ClientController@destroy');
@@ -95,28 +97,43 @@ Route::post('/addPayment','PaymentController@add');
 Route::post('/updatePayment','PaymentController@update');
 Route::delete('/deletePayment/{id}','PaymentController@destroy');
 
-Route::post('getCards/{entry_id}','CardController@getCardsByEntry');
-Route::get('getCardAccess/{id}','CardController@getCardAccess');
-Route::post('addCard','CardController@add');
-Route::post('updateCard','CardController@update');
-Route::get('deleteCard/{id}','CardController@destroy');
-<<<<<<< HEAD
-=======
-Route::post('giveAccessToCard','CardController@giveAccess');
-Route::delete('deleteAccessFromCard/{card_id}/{relay_id}','CardController@deleteAccess');
-Route::delete('deleteAllAccessesFromCard/{card_id}','CardController@deleteAllAccesses');
->>>>>>> e98c88b573d4f06cb1d9c7955006ddc38073d92e
+Route::post('/getCards/{entry_id}','CardController@getCardsByEntry');
+Route::get('/getCardAccess/{id}','CardController@getCardAccess');
+Route::post('/addCard','CardController@add');
+Route::post('/updateCard','CardController@update');
+Route::get('/deleteCard/{id}','CardController@destroy');
+Route::post('/giveAccessToCard','CardController@giveAccess');
+Route::delete('/deleteAccessFromCard/{card_id}/{relay_id}','CardController@deleteAccess');
+Route::delete('/deleteAllAccessesFromCard/{card_id}','CardController@deleteAllAccesses');
 
+Route::post('/getCheckIns/{access_point_id}','CheckInController@getCheckIns');
 
-<<<<<<< HEAD
-Route::get('test', function (Request $request){
-=======
+Route::post('/getMonitors/{access_point_id}','MonitorController@getMonitors');
+
 Route::get('getUsers','UserController@index');
+Route::post('test',function(Request $request){
+
+});
 
 Route::get('test', function (Request $request){
+    echo '<form method="post" 
+    <input type="file" name="file" id="file">';
 
-    return '<input type="file" name="file" id="file">';
->>>>>>> e98c88b573d4f06cb1d9c7955006ddc38073d92e
+    return    Role_Access::get();//where('role_id',Auth::user()->role_id)->where('building_id',46)->get();//->where('permission',"ilike","%e%")->get();
+//    $i = rand(1,10);
+//    $user = new User();
+//    $user->username = "mentori";
+//    $user->created_by = Auth::user()->id;
+//    $user->gender = $i%2==1?'M':'F';
+//    $user->birthday = "2010-10-10";
+//    $user->password = bcrypt("123456");
+//    $user->email = "asd@asd.asd";
+//    $user->role_id = 2;
+//    $user->save();
+//
+//    return $user;
+
+    return Auth::user();
 
     $card = new Card();
     $card->client_id = 2;

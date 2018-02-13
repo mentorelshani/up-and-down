@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class giveAccessToCardRequest extends FormRequest
+class CheckInRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,13 @@ class giveAccessToCardRequest extends FormRequest
     public function rules()
     {
         return [
-            'card_id' => 'exists:cards,id',
-            'relay_id' => 'required|array',
-            'relay_id.*' => 'distinct|exists:relays,id'
+            'orderBy' => 'required',
+            'limit' => 'required|integer',
+            'page' => 'required|integer',
+            'relation' => 'required|array',
+            'asce' => 'boolean',
+            'from' => 'required|date',
+            'to' => 'required|date|after:from'
         ];
     }
 }

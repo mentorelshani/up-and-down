@@ -113,15 +113,15 @@
 
                 this.$http.post(`/getBuildings1`,this.buildingsSite)
                 .then(response => {
-                    this.setBuildings=response.data.data;
-                    this.setLengthBuildings=response.data.total;
+                    this.setBuildings=response.data.buildings;
+                    this.setLengthBuildings=response.data.count;
 
-                    this.pagination.current_page=response.data.current_page;
-                    this.pagination.from=response.data.from;
-                    this.pagination.last_page=response.data.last_page;
-                    this.pagination.per_page=response.data.per_page;
-                    this.pagination.to=response.data.to;
-                    this.pagination.total=response.data.total;
+                    // this.pagination.current_page=response.data.current_page;
+                    // this.pagination.from=response.data.from;
+                    // this.pagination.last_page=response.data.last_page;
+                    // this.pagination.per_page=response.data.per_page;
+                    // this.pagination.to=response.data.to;
+                    // this.pagination.total=response.data.total;
                 })
                 .catch(e => {
                     console.log(e);
@@ -233,7 +233,6 @@
                     .then(response => {
 
                         this.details__building = response.data;
-                        console.log("");
                         console.log(response.data);
                     })
                     .catch(e => {

@@ -27,7 +27,7 @@ class updateAccessPointRequest extends FormRequest
             'id' => 'exists:access_points',
             'elevator_id' => 'required|integer',
             'version_id' => 'required|integer',
-            'IMEI' => 'required|integer',
+            'imei' => 'required|integer',
             'phone_number' => 'required',
         ];
     }
