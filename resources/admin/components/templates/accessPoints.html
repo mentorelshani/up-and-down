@@ -16,18 +16,18 @@
 			</tr>
 			</thead>
 			<tbody>
-				<tr v-for="accessPoint in accessPoints">
-					<td>{{accessPoint.imei}}</td>
-					<td>{{accessPoint.phone_number}} </td>
-					<td>{{accessPoint.version.name}}</td>
-					<td>{{accessPoint.elevator.identifier}}</td>
-					<td class="action">
-						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click="getDetails(accessPoint.id); modalEdit()"></span>	
-						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
-						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
-						<span class="glyphicon glyphicon-registration-mark manipulate__button" @click="getRelaysAccessPoint(accessPoint.id)" data-toggle="modal" data-target="#config__relays"></span>
-					</td>
-				</tr>
+			<tr v-for="accessPoint in accessPoints">
+				<td>{{accessPoint.imei}}</td>
+				<td>{{accessPoint.phone_number}} </td>
+				<td>{{accessPoint.version.name}}</td>
+				<td>{{accessPoint.elevator.identifier}}</td>
+				<td class="action">
+					<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click="getDetails(accessPoint.id); modalEdit()"></span>
+					<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
+					<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
+					<span class="glyphicon glyphicon-registration-mark manipulate__button" @click="getRelaysAccessPoint(accessPoint.id)" data-toggle="modal" data-target="#config__relays"></span>
+				</td>
+			</tr>
 			</tbody>
 		</table>
 	</div>
@@ -51,8 +51,8 @@
 
 						<div class="element">
 							<label class="name">IMEI</label>
-							<input type="email" :class="{value:true, error_value:errorAccessPoint.IMEI}" v-model="details.IMEI">
-							<span class="error_message" v-if="errorAccessPoint.IMEI">{{errorAccessPoint.IMEI[0]}}</span>
+							<input type="email" :class="{value:true, error_value:errorAccessPoint.imei}" v-model="details.imei">
+							<span class="error_message" v-if="errorAccessPoint.imei">{{errorAccessPoint.imei[0]}}</span>
 						</div>
 
 						<div class="element">
@@ -62,12 +62,12 @@
 						</div>
 
 						<div class="element" v-if="versions">
-	                        <label class="name">Version</label>
-	                        <select :class="{value__select:true, error_value:errorAccessPoint.version_id}" v-model="details.version" @change="chooseVersion()">
-	                            <option v-for="version in versions" :value="version" v-if="version">{{version.name}}</option>
-	                        </select>
-	                        <span class="error_message" v-if="errorAccessPoint.version_id">{{errorAccessPoint.version_id[0]}}</span>
-	                    </div>
+							<label class="name">Version</label>
+							<select :class="{value__select:true, error_value:errorAccessPoint.version_id}" v-model="details.version" @change="chooseVersion()">
+								<option v-for="version in versions" :value="version" v-if="version">{{version.name}}</option>
+							</select>
+							<span class="error_message" v-if="errorAccessPoint.version_id">{{errorAccessPoint.version_id[0]}}</span>
+						</div>
 
 						<div class="element" v-if="elevators">
 							<label class="name">Elevator</label>
@@ -114,7 +114,7 @@
 
 						<div class="details__element">
 							<label class="element__label">IMEI:</label>
-							<span class="content" >{{details.IMEI}}</span>
+							<span class="content" >{{details.imei}}</span>
 						</div>
 
 						<div class="details__element">
@@ -123,9 +123,9 @@
 						</div>
 
 						<div class="details__element" v-if="versions">
-                             <label class="element__label">Version:</label>
-                             <span class="content">{{details.version.name}}</span>
-                         </div>
+							<label class="element__label">Version:</label>
+							<span class="content">{{details.version.name}}</span>
+						</div>
 
 						<div class="details__element">
 							<label class="element__label">Elevator:</label>
@@ -165,11 +165,11 @@
 								</div>
 								<div class="controll_relays">
 									<button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="editRelay()" v-if="btnSavedRelay">
-							            <span class="glyphicon glyphicon-saved"></span> Save
-							        </button>
-							   <!--      <button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="editRelay()"  v-if="!btnSavedRelay">
-							            <span class="glyphicon glyphicon-edit"></span> Edit
-							        </button> -->
+										<span class="glyphicon glyphicon-saved"></span> Save
+									</button>
+									<!--      <button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="editRelay()"  v-if="!btnSavedRelay">
+                                             <span class="glyphicon glyphicon-edit"></span> Edit
+                                         </button> -->
 
 									<button class="btn btn-default next_relay" @click="nextRelay()">&raquo;</button>
 									<button class="btn btn-default previous_relay" @click="previousRelay()">&laquo;</button>
@@ -200,7 +200,7 @@
 					<div class="details--accessPoint">
 						<div class="element">
 							<label class="name">IMEI:</label>
-							<span class="value">{{details.IMEI}}</span>
+							<span class="value">{{details.imei}}</span>
 						</div>
 
 						<div class="element">
