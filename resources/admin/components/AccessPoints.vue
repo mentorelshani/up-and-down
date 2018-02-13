@@ -219,7 +219,7 @@
                 else if(this.relayDetails.id==this.firstRelay.id + (this.numberOfRelays-1)) {
                     this.relayDetails.id=this.firstRelay.id + (this.numberOfRelays-1);
                 }
-
+                
                 this.setRelayDetails(this.relayDetails.id);
             },
 
