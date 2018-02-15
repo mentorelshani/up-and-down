@@ -193,7 +193,7 @@
             getRelaysAccessPoint:function(idAccessPoint) {
                 this.modalAddRelays();
                 this.AccessPointId=idAccessPoint;
-                
+
                 this.relays=[];
                 var vm = this;
 
@@ -216,7 +216,7 @@
                 if(this.relayDetails.relay < this.numberOfRelays) {
                     this.relayDetails.id++;
                 }
-                else {
+                else if(this.relayDetails.id==this.firstRelay.id + (this.numberOfRelays-1)) {
                     this.relayDetails.id=this.firstRelay.id + (this.numberOfRelays-1);
                 }
 
@@ -270,7 +270,7 @@
             },
 
             clearDetails:function() {
-                this.details.IMEI=null;
+                this.details.imei=null;
                 this.details.created_at=null;
                 this.details.elevator={};
                 this.details.elevator_id=null;

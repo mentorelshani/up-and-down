@@ -713,6 +713,16 @@
 						}
 					}
 
+					.cards {
+						.form--card {
+							@extend .form--input;
+						}
+
+						.details--card {
+							@extend .details-form;
+						}	
+					}
+
 				}
 			}
 		}
@@ -829,3 +839,7 @@
 .center {
 	text-align: center;
 }
+
+.btn_active, .btn_inactive {font-size:35px;cursor:pointer;}
+i.active { color: #5cb85c}
+i.inactive {color: #d9534f}

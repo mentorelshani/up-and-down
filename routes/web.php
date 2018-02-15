@@ -116,6 +116,9 @@ Route::post('test',function(Request $request){
 });
 
 Route::get('test', function (Request $request){
+
+    return Building::join('entries','buildings.id','=','entries.building_id')->first();
+
     echo '<form method="post" 
     <input type="file" name="file" id="file">';
 

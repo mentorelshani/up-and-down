@@ -3,27 +3,33 @@
         data() {
             return {
                 cards:{},
-                details:{},
+                details:{
+                    active:true,
+                    client:{},
+                },
                 cardsSite:{},
 
-                show__items:"20",
+                show__items:"10",
                 paginate__page:1,
                 keySearch:["cards.site_code","cards.site_number"],
                 inputSearch:null,
                 ascending:true,
                 orderBy:'cards.site_code',
                 
-
+                clients:{},
+                cardAccesses:{},
                 pagination:{},
 
-
+                showCardData:true,
                 setLengthCardsEntry:{},
 
                 error:{},
                 modal:{
                     title:null,
+                    btnCard:false,
                     btnEdit:false,
                     btnAdd:false,
+                    btnConfigAccess:false,
                 },
             }
         },
@@ -36,29 +42,49 @@
         },
 
         created() {
+            
         },
 
         mounted() {
-            // console.log(this.entryId);
         },
 
         computed: {
         },
 
         watch: {
-             keySearch: function() {
+
+            keySearch: function() {
                 this.inputSearch=null;
                 this.paginate__page=1;
-                this.Buildings();
+                this.getAll();
             },
 
             show__items: function() {
-                this.paginate__page=1;
-                this.Buildings();
+                this.paginate__page=2;
+                this.getAll();
             },
 
             entryId:function(){
                 this.getAll();
+                this.getClients();
+                
+                this.$store.watch(
+                    (state)=>{
+                        return this.$store.getters.getShowItem
+                    },
+                    (val)=>{
+                        this.show__items=this.$store.getters.getShowItem;
+                        this.getAll();
+                    });
+
+                this.$store.watch(
+                    (state)=>{
+                        return this.$store.getters.getPaginatePage
+                    },
+                    (val)=>{
+                        this.paginate__page=this.$store.getters.getPaginatePage;
+                        this.getAll();
+                    });
             }
 
         },
@@ -74,10 +100,10 @@
                     orderBy:this.orderBy, 
 
                 };   
-
-                this.$http.post('/getCardsByEntry/'+this.entryId,this.cardsSite)
+                console.log(this.cardsSite);
+                this.$http.post('/getCards/'+this.entryId,this.cardsSite)
                     .then(response => {
-                        this.cards=response.data;
+                        this.cards=response.data.data;
                         console.log(response.data);
 
                         this.setLengthCardsEntry=response.data.total;
@@ -92,6 +118,8 @@
                     .catch(e => {
                         console.log(e.body);
                     });
+
+                // this.watchPagination();
             },
 
             add:function() {
@@ -135,10 +163,12 @@
                     });
             },
 
-            getDetails:function(idCard) {
-                this.$http.get(`/getClient/`+idCard)
+            getCardAccess:function(idCard) {
+                console.log(idCard);
+                this.$http.get(`/getCardAccess/`+idCard)
                     .then(response => {
-                        this.details=response.data;
+                        this.cardAccesses=response.data;
+                        console.log(response.data);
                     })
                     .catch(e => {
                         console.log(e.body);
@@ -146,28 +176,61 @@
             },
 
             changeSearchKey:function(searchKey) {
-                this.relation=[];
+                this.keySearch=[];
                 console.log(searchKey);
                 
                 if(searchKey=="anything") {
-                    this.cardsPage.relation=['buildings.company','buildings.name','cities.name','addresses.street','addresses.neighborhood'];
+                    this.keySearch=['clients.firstname','clients.lastname','cards.site_code','cards.site_number'];
+                }
+                else if(searchKey=="client") {
+                    this.keySearch=['clients.firstname','clients.lastname'];
                 }
                 else {
-                    this.cardsPage.relation=[searchKey];
+                    this.keySearch=[searchKey];
                 }
             },
 
             modalAdd:function() {
                 this.modal.title="Add new card!";
-                this.modal.btnAdd=true;
+                this.modal.btnAdd=false;
                 this.modal.btnEdit=false;
+                this.modal.btnConfigAccess=true;
+                this.btnCard=false;
+                
             },
 
             modalEdit:function() {
                 this.modal.title="Edit card!";
                 this.modal.btnAdd=false;
-                this.modal.btnEdit=true;
+                this.modal.btnEdit=false;
+                this.modal.btnConfigAccess=true;
+                this.btnCard=false;
             },
+
+            modalConfig:function() {
+                this.showCardData=false;
+            },
+
+            getClients:function() {
+                this.$http.get('/getClients/'+this.entryId)
+                    .then(response => {
+                        this.clients=response.data;
+                    })
+                    .catch(e => {
+                        console.log(e.body);
+                    });
+            },
+
+            chooseClient:function() {
+                this.details.client_id=this.details.client.id;
+            },
+
+            changeStatus:function() {
+                this.details.active=!this.details.active;
+            },
+
+
+
         }
     }
 

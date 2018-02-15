@@ -3,7 +3,7 @@
 	 	data: function() {
 	        return {
 	   
-	        	showItem:20,
+	        	showItem:10,
 	        	paginatePage:1,
                 totalPage:null,
                 activePage:true,
@@ -26,6 +26,7 @@
 	    created() {
             this.setParams();
 	    	this.$store.commit('setPaginatePage', this.paginatePage );
+
 	    },
 
         mounted() {
@@ -42,6 +43,16 @@
             },
 
             showItem:function() {
+                // this.pagination.per_page=this.showItem;
+                console.log(this.showItem);
+
+                if(this.sitePage == "building_cards")
+                {
+                    console.log('asdasd');
+                    this.$store.commit('setShowItem', parseInt(this.showItem));
+                    this.$store.commit('setPaginatePage', 1);
+                }
+
                 this.totalPage = Math.ceil( this.lengthBuildings / this.$store.getters.getShowItem );
                 
                 this.minPage=1;
@@ -54,7 +65,11 @@
                 else {
                     this.showPaginate = true;
                 }
-            }
+            },
+
+            pagination:function() {
+                // this.callPaginate();
+            },
         },
 
 	    methods:{
@@ -123,6 +138,18 @@
 
                 this.$store.commit('setPaginatePage', this.paginatePage);
             },
+
+            callPaginate:function() {
+                if(this.sitePage=="building_cards")
+                {
+                    
+                    // this.paginatePage=this.pagination.,
+                    this.totalPage=this.pagination.total,
+                    // this.activePage=this.pagination.current_page;
+                    this.minPage=1;
+                    this.maxPage=this.pagination.last_page;
+                }
+            }
 	    }
   	}
 </script>

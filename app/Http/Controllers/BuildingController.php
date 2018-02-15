@@ -21,9 +21,10 @@ class BuildingController extends Controller
 
     public function getAllBuildings (){
 
-    	$buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
+        $buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
                         ->join('cities','cities.id','=','addresses.city_id')
-                        ->whereHasAccess();
+                        ->whereHasAccess()
+                        ->get();
 
         return $buildings;
     }
