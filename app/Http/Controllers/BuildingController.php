@@ -23,7 +23,8 @@ class BuildingController extends Controller
 
     	$buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
                         ->join('cities','cities.id','=','addresses.city_id')
-                        ->whereHasAccess();
+                        ->whereHasAccess()
+                        ->get();
 
         return $buildings;
     }
