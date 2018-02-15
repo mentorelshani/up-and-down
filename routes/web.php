@@ -111,17 +111,24 @@ Route::post('/getCheckIns/{access_point_id}','CheckInController@getCheckIns');
 Route::post('/getMonitors/{access_point_id}','MonitorController@getMonitors');
 
 Route::get('getUsers','UserController@index');
-Route::post('test',function(Request $request){
+Route::post('addUser','UserController@add');
 
-});
+Route::get('getRoles','RoleController@getRoles');
+Route::get('getRole/{id}','RoleController@getRole');
+Route::get('getRoleAccesses/{role_id}','RoleController@getAccesses');
+Route::post('addRole','RoleController@addRole');
+Route::delete('deleteAccessFromRole/{role_access_id}','RoleController@deleteAccessFromRole');
+Route::post('giveAccessToRole','RoleController@giveAccessToRole');
+
+Route::post('test','RoleController@asd');
+
 
 Route::get('test', function (Request $request){
+//    return "asd";
+//    return Building::join('entries','buildings.id','=','entries.building_id')->first();
 
-    return Building::join('entries','buildings.id','=','entries.building_id')->first();
-
-    echo '<form method="post" 
-    <input type="file" name="file" id="file">';
-
+    echo '<form method="post"></form><input type="file" name="file" id="file"> <button>asd</button></form>';
+    return;
     return    Role_Access::get();//where('role_id',Auth::user()->role_id)->where('building_id',46)->get();//->where('permission',"ilike","%e%")->get();
 //    $i = rand(1,10);
 //    $user = new User();
