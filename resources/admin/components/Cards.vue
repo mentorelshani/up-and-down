@@ -16,14 +16,29 @@
                 ascending:true,
                 orderBy:'cards.site_code',
                 
+                buildings:{},
+                entriesBuilding:{},
+                accessPointsEntry:{},
+                relayAccessPoint:{},
                 clients:{},
-                cardAccesses:{},
+
+                cardAccesses:{
+                    building_id:null,
+                    entry_id:null,
+                    accessPoint_id:null,
+                    relayAccess:[],
+                },
+
                 pagination:{},
 
                 showCardData:true,
                 setLengthCardsEntry:{},
 
-                error:{},
+                error:{
+                    client_id:null,
+                    site_code:null,
+                    site_number:null,
+                },
                 modal:{
                     title:null,
                     btnCard:false,
@@ -31,6 +46,8 @@
                     btnAdd:false,
                     btnConfigAccess:false,
                 },
+
+                details_access:true,
             }
         },
 
@@ -42,13 +59,18 @@
         },
 
         created() {
-            
+            this.cardAccesses.building_id=parseInt(this.$route.params.id);
+
         },
 
         mounted() {
+            // this.getAccessPoints(1);
+            this.getBuilding();
+            this.getEntries(this.cardAccesses.building_id);
         },
 
         computed: {
+
         },
 
         watch: {
@@ -85,7 +107,23 @@
                         this.paginate__page=this.$store.getters.getPaginatePage;
                         this.getAll();
                     });
-            }
+            },
+
+            error:function() {
+                if(this.error != null) {
+                    console.log('sad');
+                    if(this.error.client_id != null || this.error.site_code != null || this.error.site_number != null ) {
+
+                        this.showCardData=!this.showCardData;
+                        this.modal.btnAdd=false;
+                        this.modal.btnEdit=false;
+                        this.modal.btnConfigAccess=true;
+                        this.modal.btnCard=false;
+                    }
+                }
+
+                 console.log('sad123');
+            },
 
         },
 
@@ -163,6 +201,53 @@
                     });
             },
 
+            getBuilding: function() {
+                this.$http.get(`/getAllBuildings`)
+                .then(response => {
+                    console.log('dasd');
+                    this.buildings=response.data.buildings;          
+                })
+                .catch(e => {
+                    console.log(e);
+                });
+            },
+
+            getEntries: function(param) {
+                this.$http.get('/getBuilding/'+param)
+                    .then(response => {
+                        this.entriesBuilding=response.data.entries;
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        // this.errorDetailsBuilding="This building not found";
+                    });
+            },
+
+            getAccessPoints:function(param) {
+                this.$http.get('/getAccessPoints/'+param)
+                    .then(response => {
+                        this.accessPointsEntry=response.data;
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        // this.errorDetailsBuilding="This building not found";
+                    });
+            },
+
+            getRelay:function(param){
+                this.$http.get('/getRelays/'+param)
+                    .then(response => {
+                        this.relayAccessPoint=response.data;
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        // this.errorDetailsBuilding="This building not found";
+                    });
+            },
+
             getCardAccess:function(idCard) {
                 console.log(idCard);
                 this.$http.get(`/getCardAccess/`+idCard)
@@ -195,8 +280,7 @@
                 this.modal.btnAdd=false;
                 this.modal.btnEdit=false;
                 this.modal.btnConfigAccess=true;
-                this.btnCard=false;
-                
+                this.modal.btnCard=false;
             },
 
             modalEdit:function() {
@@ -208,7 +292,20 @@
             },
 
             modalConfig:function() {
-                this.showCardData=false;
+                this.showCardData=!this.showCardData;
+                this.modal.btnAdd=true;
+                this.modal.btnEdit=false;
+                this.modal.btnConfigAccess=false;
+                this.modal.btnCard=true;
+            },
+
+            prev:function() {
+                // console.log('dfa');
+                this.showCardData=!this.showCardData;
+                this.modal.btnAdd=false;
+                this.modal.btnEdit=false;
+                this.modal.btnConfigAccess=true;
+                this.modal.btnCard=false;
             },
 
             getClients:function() {
@@ -225,10 +322,24 @@
                 this.details.client_id=this.details.client.id;
             },
 
+            chooseEntry:function() {
+                this.cardAccesses.entry_id=this.cardAccesses.entry.id;
+                this.getAccessPoints(this.cardAccesses.entry_id);
+            },
+
+            chooseAccessPoint:function() {
+                this.cardAccesses.accessPoint_id=this.cardAccesses.accessPoint.id;
+                this.getRelay(this.cardAccesses.accessPoint_id);
+                // this.getAccessPoints(this.cardAccesses.accessPoint_id);
+            },
+
             changeStatus:function() {
                 this.details.active=!this.details.active;
             },
 
+            showDetailsAccessCard:function() {
+                this.details_access=!this.details_access;
+            }
 
 
         }

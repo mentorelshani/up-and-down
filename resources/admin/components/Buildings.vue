@@ -133,7 +133,8 @@
                 .then(response => {
                     this.companies=response.data.companies;
                     this.cities=response.data.cities;
-                    this.neighborhoods=response.data.neighborhoods;           
+                    this.neighborhoods=response.data.neighborhoods;   
+                    console.log(response.data);        
                 })
                 .catch(e => {
                     console.log(e);
