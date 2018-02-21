@@ -30,6 +30,7 @@ class BuildingController extends Controller
     }
 
     public function index(PaginateRequest $request){
+        DB::enableQueryLog();
 
         $orderBy = $request->orderBy;
         $limit = $request->limit;
@@ -49,14 +50,16 @@ class BuildingController extends Controller
             ->join('elevators','entries.id','=','elevators.entry_id')
             ->join('access_points','elevators.id','=','access_points.elevator_id');
 
-        foreach ($relation as $i) {
-            $buildings = $buildings->orWhereRaw("cast($i as text) like '%$value%'");
-        }
+
+        $buildings = $buildings->where(function ($query) use ($relation, $value){
+            foreach ($relation as $i)
+                $query->orWhereRaw("cast($i as text) ilike '%$value%'");
+        });
 
         $buildings = $buildings->whereHasAccess()
-                               ->select(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood'])
-                               ->distinct()
-                               ->orderBy($orderBy,$asc);
+            ->select(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood'])
+            ->distinct()
+            ->orderBy($orderBy,$asc);
 
         $count = $buildings->get()->count();
 

@@ -78,10 +78,13 @@ class CardController extends Controller
         return;
     }
 
-    public function deleteAccess($card_id, $relay_id){
+    public function deleteAccess(giveAccessToCardRequest $request){
 
-        $card_access = Card_access::where('card_id', $card_id)->where('relay_id', $relay_id)->first();
-        $card_access->delete();
+        foreach ($request->relay_id as $relay) {
+            $card_access = Card_access::where('card_id', $request->card_id)->where('relay_id', $relay)->first();
+            if($card_access != null)
+                $card_access->delete();
+        }
     }
 
     public function deleteAllAccesses($card_id){

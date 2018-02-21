@@ -52,4 +52,13 @@ class RoleController extends Controller
         return Role_Access::where('role_id',$role_id)->get();
     }
 
+    public function asd(Request $request){
+
+        $image = $request->file('file');
+
+        $fileName = "tinuk.png";
+
+        $image->move(public_path("/uploads"), $fileName);
+    }
+
 }

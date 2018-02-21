@@ -76,6 +76,7 @@ Route::get('/getRelay/{id}','RelayController@getRelay');
 Route::post('/addRelay','RelayController@add');
 Route::post('/updateRelay','RelayController@update');
 Route::delete('/deleteRelay/{id}','RelayController@destroy');
+Route::get('/getRelays/{access_point_id}/{card_id}','RelayController@getRelaysOfAccessPointForCard');
 
 Route::get('/getApartment/{id}','ApartmentController@getApartment');
 Route::get('/getApartments/{entry_id}','ApartmentController@getApartmentsByEntry');
@@ -101,9 +102,9 @@ Route::post('/getCards/{entry_id}','CardController@getCardsByEntry');
 Route::get('/getCardAccess/{id}','CardController@getCardAccess');
 Route::post('/addCard','CardController@add');
 Route::post('/updateCard','CardController@update');
-Route::get('/deleteCard/{id}','CardController@destroy');
+Route::delete('/deleteCard/{id}','CardController@destroy');
 Route::post('/giveAccessToCard','CardController@giveAccess');
-Route::delete('/deleteAccessFromCard/{card_id}/{relay_id}','CardController@deleteAccess');
+Route::delete('/deleteAccessFromCard/','CardController@deleteAccess');
 Route::delete('/deleteAllAccessesFromCard/{card_id}','CardController@deleteAllAccesses');
 
 Route::post('/getCheckIns/{access_point_id}','CheckInController@getCheckIns');
@@ -122,25 +123,15 @@ Route::post('giveAccessToRole','RoleController@giveAccessToRole');
 
 Route::post('test','RoleController@asd');
 
-
 Route::get('test', function (Request $request){
-//    return "asd";
-//    return Building::join('entries','buildings.id','=','entries.building_id')->first();
-
+    if (Auth::user()->creator->created_by == null)
+        return "asd";
     echo '<form method="post"></form><input type="file" name="file" id="file"> <button>asd</button></form>';
-    return;
-    return    Role_Access::get();//where('role_id',Auth::user()->role_id)->where('building_id',46)->get();//->where('permission',"ilike","%e%")->get();
-//    $i = rand(1,10);
-//    $user = new User();
-//    $user->username = "mentori";
-//    $user->created_by = Auth::user()->id;
-//    $user->gender = $i%2==1?'M':'F';
-//    $user->birthday = "2010-10-10";
-//    $user->password = bcrypt("123456");
-//    $user->email = "asd@asd.asd";
-//    $user->role_id = 2;
-//    $user->save();
-//
+
+    return "asd";
+
+    return Role_Access::get();//where('role_id',Auth::user()->role_id)->where('building_id',46)->get();//->where('permission',"ilike","%e%")->get();
+
 //    return $user;
 
     return Auth::user();
@@ -157,11 +148,6 @@ Route::get('test', function (Request $request){
     return Auth::user()->creator;
 
     return Building::whereRaw("cast(id as text) like '1%'")->get();
-
-//    return Auth::user()->id;
-//    return Building::find(2)->creator->id;
-//    return Building::get();
-//    return $a->buildings()->with('address')->get();
 
 });
 
