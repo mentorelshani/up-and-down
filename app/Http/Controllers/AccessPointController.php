@@ -34,6 +34,11 @@ class AccessPointController extends Controller
         return $access_points;
     }
 
+    public function getAccessPointsByElevator($elevator_id){
+
+        return Access_point::where('elevator_id', $elevator_id)->get();
+    }
+
     public function add(addAccessPointRequest $request){
 
         $access_point = new Access_point();

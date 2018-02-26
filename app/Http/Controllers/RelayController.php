@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\addRelayRequest;
+use App\Http\Requests\giveAccessToCardRequest;
+use App\Http\Requests\updateCardAccessRequest;
 use App\Http\Requests\updateRelayRequest;
 use App\Http\Services\RelayService;
+use App\Models\Card;
 use App\Models\Card_access;
 use Illuminate\Http\Request;
 use App\Models\Relay;
@@ -79,7 +82,7 @@ class RelayController extends Controller
         }
 
         foreach ($relays as $relay){
-            $relay->setAttribute('checked', in_array($relay->id,$array));
+            $relay->setAttribute('checked', in_array($relay->id, $array));
         }
 
         return $relays;

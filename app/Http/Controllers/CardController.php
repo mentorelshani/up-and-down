@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\addCardRequest;
 use App\Http\Requests\giveAccessToCardRequest;
 use App\Http\Requests\PaginateRequest;
+use App\Http\Requests\updateCardAccessRequest;
 use App\Http\Requests\updateCardRequest;
 use App\Models\Access_point;
 use App\Models\Apartment;
@@ -65,6 +66,26 @@ class CardController extends Controller
         }])->get();
 
         return $buildings;
+    }
+
+
+    public function updateCardAccess(updateCardAccessRequest $request){
+
+        $card_access = Card_access::where('card_id', $request->card_id)->select('relay_id')->get();
+
+        $relays = Relay::whereIn('id', $card_access)->where('access_point_id', $request->access_point_id)->get();
+
+        $current_relays = [];
+        $new_relays = $request->relay_id;
+
+        for ($i = 0; $i<count($relays); $i++) {
+            $current_relays[$i] = $relays[$i]->id;
+        }
+
+        $insert = array_values(array_diff($new_relays,$current_relays));
+        $delete = array_values(array_diff($current_relays,$new_relays));
+
+        return array('delete'=> $delete , 'insert' => $insert);
     }
 
     public function giveAccess(giveAccessToCardRequest $request){

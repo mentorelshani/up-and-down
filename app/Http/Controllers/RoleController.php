@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\Role_Access;
 use Illuminate\Http\Request;
+use Zjango\Laracurl\Laracurl;
 
 class RoleController extends Controller
 {
@@ -52,7 +53,21 @@ class RoleController extends Controller
         return Role_Access::where('role_id',$role_id)->get();
     }
 
-    public function asd(Request $request){
+    public function asd(){
+
+        return Laracurl::get('/getEntry/2');
+
+        $res = $client->get('/getEntry/2');
+        echo $res->getBody();
+
+        return;
+//        return $response;
+
+        $this->validate($request,[
+            'imei' => 'digits_between:1,17'
+        ]);
+
+        return $request->imei . " shum i fort";
 
         $image = $request->file('file');
 
