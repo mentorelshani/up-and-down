@@ -2,11 +2,21 @@
 	<div class="section__header">
 		<h2 class="menu__item-title">Buildings</h2>
 
+		<button class="button__add--item btn btn-default" data-toggle="modal" data-target="#building__add-edit" @click="showFrmAdd()">
+			<span class="glyphicon glyphicon-plus-sign"></span> Add Building
+		</button>
+
 		<ul class="breadcrumb-with-root_element">
 		    <li><router-link to="home">Home</router-link></li>
 		    <li>Buildings</li>
 		</ul>
+		<!-- <div class="block__add">
+			<span class="glyphicon glyphicon-th-list button__view-left "></span>
+			<span class="glyphicon glyphicon-th button__view-left "></span>
+		</div> -->
+	</div>
 
+	<div class="block__table">
 		<div class="row search_by">    
 	        <div class="col-xs-8 col-xs-offset-2 col-right">
 			    <div class="input-group ">
@@ -22,7 +32,7 @@
 	                      	<li @click="changeSearchKey('addresses.street')" >Street</li>
 	                      	<li @click="changeSearchKey('addresses.neighborhood')">Neighorhood</li>
 	                      	<li class="divider"></li>
-	                      	<li @click="changeSearchKey('anything')">Anything</li> <!-- -->
+	                      	<li @click="changeSearchKey('anything')">Anything</li>
 	                    </ul>
 	                </div>     
 	                <span class="input-group-btn">
@@ -31,18 +41,7 @@
 	            </div>
 	        </div>
 		</div>
-	</div>
 
-	<div class="block__add">
-		<span class="glyphicon glyphicon-th-list button__view-left "></span>
-		<span class="glyphicon glyphicon-th button__view-left "></span>
-
-		<button class="button__add--item btn btn-default" data-toggle="modal" data-target="#building__add-edit" @click="showFrmAdd()">
-			<span class="glyphicon glyphicon-plus-sign"></span> Add Building
-		</button>
-	</div>
-
-	<div class="block__table">
 		<table class="table__model_1 table">
 			<thead>
 				<tr>
@@ -69,10 +68,9 @@
 				</tr>	
 			</tbody>	
 		</table>
+
+		<menu-item-footer :lengthBuildings="setLengthBuildings" sitePage="buildings" v-if="setLengthBuildings"></menu-item-footer>
 	</div>
-
-
-	<menu-item-footer :lengthBuildings="setLengthBuildings" sitePage="buildings" v-if="setLengthBuildings"></menu-item-footer>
 
 	<div class="modal fade" id="buildingInfo" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 	 	<div class="modal-dialog">
@@ -161,4 +159,5 @@
 		    </div>
 	 	</div>
 	</div>
+	
 </div>

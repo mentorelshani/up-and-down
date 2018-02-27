@@ -9,7 +9,7 @@
 			<thead>
 			<tr>
 				<th>IMEI</th>
-				<th>Access number</th>
+				<th>Acc. number</th>
 				<th>Version</th>
 				<th>Elevator</th>
 				<th class="action">Action</th>
@@ -150,9 +150,9 @@
 								<div class="details__element">
 									<label class="element__label">Name</label>
 									<select class="element__select" v-model="relayDetails.floor">
-										<option value="garage">Garage</option>
-										<option v-for="n in 6" :value="'floor'+n">Floor {{n}}</option>
-										<option value="vip_floor">Vip floor</option>
+										<option value="Garage">Garage</option>
+										<option v-for="n in 6" :value="'Floor'+n">Floor {{n}}</option>
+										<option value="vipFloor">Vip floor</option>
 										<option>Other</option>
 									</select>
 

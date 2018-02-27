@@ -6,6 +6,8 @@
                 details:{
                     active:true,
                     client:{},
+                    site_code:null,
+                    site_number:null,
                 },
                 cardsSite:{},
 
@@ -18,15 +20,19 @@
                 
                 buildings:{},
                 entriesBuilding:{},
-                accessPointsEntry:{},
-                relayAccessPoint:{},
+                elevatorsEntry:{},
+                accessPointsElevator:{},
+                relays:{},
                 clients:{},
 
+                cardHaveAccess:{},
+                // detailsCardAccess:{},// look maybe this var should delete 
                 cardAccesses:{
                     building_id:null,
                     entry_id:null,
                     accessPoint_id:null,
-                    relayAccess:[],
+                    relay_id:[],
+                    card_id:null,
                 },
 
                 pagination:{},
@@ -34,6 +40,7 @@
                 showCardData:true,
                 setLengthCardsEntry:{},
 
+                error_AccessCard:{},
                 error:{
                     client_id:null,
                     site_code:null,
@@ -45,9 +52,11 @@
                     btnEdit:false,
                     btnAdd:false,
                     btnConfigAccess:false,
+                    btnAddAccess:false,
                 },
 
                 details_access:true,
+                showBuilding:0,
             }
         },
 
@@ -64,9 +73,10 @@
         },
 
         mounted() {
-            // this.getAccessPoints(1);
+            // this.getElevators(1);
             this.getBuilding();
             this.getEntries(this.cardAccesses.building_id);
+            this.getAccessPoints(this.cardAccesses.accessPoint_id);
         },
 
         computed: {
@@ -74,7 +84,6 @@
         },
 
         watch: {
-
             keySearch: function() {
                 this.inputSearch=null;
                 this.paginate__page=1;
@@ -125,6 +134,14 @@
                  console.log('sad123');
             },
 
+            // detailsCardAccess:function() {
+            //     // if(this.detailsCardAccess != null) {
+            //         // for(var i=0;i<)
+            //         console.log(this.cardAccesses.relay_id.length);
+            //         // this.cardAccesses.relay_id=this.detailsCardAccess.relays;
+            //         console.log('fasfasdasd');
+            //     // }
+            // }
         },
 
         methods: {
@@ -163,16 +180,34 @@
             add:function() {
                 this.$http.post('/addCard',this.details)
                     .then(response => {
+                        this.cardAccesses.card_id=response.data.id;
                         console.log(this.details);
                         console.log("Card u regjistrua me sukses = !false");
                         this.error={};
-                        this.getAll();
+                        this.giveAccess();
                     })
                     .catch(e => {
                         console.log("Klienti u regjistrua me sukses = false");
                         console.log(e.body);
                         this.error=e.body;
                     });
+            },
+
+            giveAccess:function() {
+                 this.$http.post('/giveAccessToCard',this.cardAccesses)
+                    .then(response => {
+                        this.error_AccessCard={};
+                        this.getAll();
+                        this.getCardAccess(this.cardAccesses.card_id);
+                        this.modal.btnAddAccess=true;
+                        this.modal.btnAdd=false;
+
+                    })
+                    .catch(e => {
+                        console.log("Access u dha me sukses = false");
+                        console.log(e.body);
+                        this.error_AccessCard=e.body;
+                    });    
             },
 
             edit:function() {
@@ -190,7 +225,7 @@
             },
 
             destroy:function(idCard) {
-                this.$http.delete(`/deleteClard/`+idCard)
+                this.$http.delete(`/deleteCard/`+idCard)
                     .then(response => {
                         console.log("Klienti u fshi me sukses = !false");
                         this.getAll();
@@ -205,15 +240,15 @@
                 this.$http.get(`/getAllBuildings`)
                 .then(response => {
                     console.log('dasd');
-                    this.buildings=response.data.buildings;          
+                    this.buildings=response.data;          
                 })
                 .catch(e => {
                     console.log(e);
                 });
             },
 
-            getEntries: function(param) {
-                this.$http.get('/getBuilding/'+param)
+            getEntries: function(building_id) {
+                this.$http.get('/getBuilding/'+building_id)
                     .then(response => {
                         this.entriesBuilding=response.data.entries;
                         console.log(response.data);
@@ -224,10 +259,10 @@
                     });
             },
 
-            getAccessPoints:function(param) {
-                this.$http.get('/getAccessPoints/'+param)
+            getElevators:function(entry_id) {
+                this.$http.get('/getElevators/'+entry_id)
                     .then(response => {
-                        this.accessPointsEntry=response.data;
+                        this.elevatorsEntry=response.data;
                         console.log(response.data);
                     })
                     .catch(e => {
@@ -236,10 +271,22 @@
                     });
             },
 
-            getRelay:function(param){
-                this.$http.get('/getRelays/'+param)
+            getAccessPoints:function(elevatore_id) {
+                this.$http.get('/getAccessPointsByElevatore/'+elevatore_id)
                     .then(response => {
-                        this.relayAccessPoint=response.data;
+                        this.accessPointsElevator=response.data;
+                        console.log(response.data);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        // this.errorDetailsBuilding="This building not found";
+                    });
+            },
+
+            getRelay:function(accessPoint_id){
+                this.$http.get('/getRelays/'+accessPoint_id)
+                    .then(response => {
+                        this.relays=response.data;
                         console.log(response.data);
                     })
                     .catch(e => {
@@ -249,11 +296,12 @@
             },
 
             getCardAccess:function(idCard) {
+                this.showBuilding=0;
                 console.log(idCard);
                 this.$http.get(`/getCardAccess/`+idCard)
                     .then(response => {
-                        this.cardAccesses=response.data;
-                        console.log(response.data);
+                        this.cardHaveAccess=response.data;
+                        this.detailsCardAccess=this.cardHaveAccess[0].entries[0].elevators[0].access_points[0];
                     })
                     .catch(e => {
                         console.log(e.body);
@@ -276,27 +324,63 @@
             },
 
             modalAdd:function() {
+                this.details={};
+                this.details.active=true;
+                this.details.client={};
+
+                this.cardHaveAccess={};
+                this.cardAccesses.entry={};
+                this.cardAccesses.elevator={};
+                this.relays={};
+                this.elevatorsEntry={};
+                this.cardAccesses.relay_id=[];
+            
                 this.modal.title="Add new card!";
+
+                this.showCardData=true;
                 this.modal.btnAdd=false;
                 this.modal.btnEdit=false;
                 this.modal.btnConfigAccess=true;
                 this.modal.btnCard=false;
+                this.modal.btnAddAccess=false;
+
+                this.getClients();
+                this.getAll();
             },
 
-            modalEdit:function() {
+            modalEdit:function(card_id) {
                 this.modal.title="Edit card!";
                 this.modal.btnAdd=false;
                 this.modal.btnEdit=false;
                 this.modal.btnConfigAccess=true;
+                this.modal.btnAddAccess=false;
+
                 this.btnCard=false;
             },
 
             modalConfig:function() {
                 this.showCardData=!this.showCardData;
-                this.modal.btnAdd=true;
                 this.modal.btnEdit=false;
                 this.modal.btnConfigAccess=false;
                 this.modal.btnCard=true;
+
+                // if(this.details.client != null ) {
+                //     this.modal.btnAdd=false;
+                //     this.modal.btnAddAccess=true;
+                // }
+                // else {
+                //     this.modal.btnAdd=true;
+                //     this.modal.btnAddAccess=false;
+                // }
+
+                if(this.details.client=={} ) {
+                    this.modal.btnAdd=true;
+                    this.modal.btnAddAccess=false;
+                }
+                else {
+                    this.modal.btnAdd=true;
+                    this.modal.btnAddAccess=false;
+                }
             },
 
             prev:function() {
@@ -306,6 +390,7 @@
                 this.modal.btnEdit=false;
                 this.modal.btnConfigAccess=true;
                 this.modal.btnCard=false;
+                this.modal.btnAddAccess=false;
             },
 
             getClients:function() {
@@ -319,28 +404,60 @@
             },
 
             chooseClient:function() {
+
                 this.details.client_id=this.details.client.id;
             },
 
             chooseEntry:function() {
                 this.cardAccesses.entry_id=this.cardAccesses.entry.id;
-                this.getAccessPoints(this.cardAccesses.entry_id);
+                this.getElevators(this.cardAccesses.entry_id);
+                this.cardAccesses.elevator={};
+                this.cardAccesses.elevator_id=null;
+
+                this.relays={};
+            },
+
+            chooseElevator:function() {
+                this.cardAccesses.elevator_id=this.cardAccesses.elevator.id;
+
+                // this.getElevators(this.cardAccesses.accessPoint_id);
             },
 
             chooseAccessPoint:function() {
                 this.cardAccesses.accessPoint_id=this.cardAccesses.accessPoint.id;
                 this.getRelay(this.cardAccesses.accessPoint_id);
-                // this.getAccessPoints(this.cardAccesses.accessPoint_id);
             },
 
             changeStatus:function() {
+                console.log(this.details.active);
                 this.details.active=!this.details.active;
+                this.modalConfig();
+                this.prev();
             },
 
             showDetailsAccessCard:function() {
-                this.details_access=!this.details_access;
-            }
 
+                this.details_access=!this.details_access;
+            },
+
+            showDetailsBuilding:function(iElevator,iAccessPoint,iEntry,iBuilding,idElevator) {
+                if(this.showBuilding==iElevator){
+                    this.relays={};
+                    this.showBuilding=0;
+                }
+                else {
+                    this.showBuilding=iElevator;
+                    this.getRelay(idElevator);
+                }
+                console.log(iBuilding);
+                
+                // this.cardAccesses.relay_id=this.cardHaveAccess[iBuilding].entries[iEntry].elevators[iElevator-1].access_points[iAccessPoint].relays;
+                // this.detailsCardAccess=this.cardHaveAccess[iBuilding].entries[iEntry].elevators[iElevator-1].access_points[iAccessPoint];
+                // console.log(this.cardHaveAccess[iBuilding].entries[iEntry].elevators[iElevator-1].access_points[iAccessPoint]);
+
+                // console.log(this.detailsCardAccess);
+                // console.log('xzzxc');
+            },
 
         }
     }

@@ -9,7 +9,7 @@
                 setLengthBuildings:null,
 
                 //data for list of buildings
-                show__items:"20",
+                show__items:"10",
                 paginate__page:1,
                 keySearch:['buildings.company'],
                 inputSearch:null,

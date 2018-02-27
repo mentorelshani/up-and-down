@@ -12,6 +12,7 @@
 	import Elevator from '../components/Elevators.vue'
 	import Clients from '../components/Clients.vue'
 	import Cards from '../components/Cards.vue'
+	import MenuLeft from  '../components/includes/Menu-Left.vue'
 
 
 	//Call Component
@@ -21,6 +22,7 @@
 	Vue.component('ElevatorsTab',Elevator);
 	Vue.component('ClientsTab',Clients);
 	Vue.component('CardsTab', Cards);
+	Vue.component('MenuLeft',MenuLeft);
 
 
 	export default {
@@ -43,6 +45,7 @@
 	<div>
 		<div class="pages">
 			<menu-header></menu-header>
+			<menu-left></menu-left>
 			<div class="card__layout--main">
 				<router-view class="body__view"></router-view>
 			</div>

@@ -1,0 +1,100 @@
+.cards {
+	.modal-body{
+		position: relative;
+		float: left;
+		max-height: 400px;
+		min-height: 400px;
+		
+		.form--card {
+			width:60%;
+			margin-left: 20%;
+			margin-right: 20%;
+			float: left !important;
+			@extend .form--input;
+		}
+
+		.form--cardAccess {
+			width: 50%;
+			float: left !important;
+			overflow-y: scroll;
+			max-height: 380px;
+			@extend .form--input;
+			overflow: auto;
+
+			.access {
+				float: left;
+				.building_access {
+					float: left;
+					cursor: pointer;
+					width: 100%;
+					font-size: 19px;
+
+				}
+
+				.floor_list {
+					margin-left: 40px;
+					width:calc( 100% - 40px );
+					float: left;
+					font-size: 15px;
+				}
+			}
+			.access-section {
+				float: left;
+				width: 100%;
+				.building-access{
+					width: 100%;
+					float: left;
+					.address-access {
+						width: 90%;									
+					}
+
+					.relay {
+						margin-left: 35px;	
+					}
+
+					.btn-delete {
+						width: 7%;
+						float: right;
+					}
+				}
+			}
+
+			.floors__accessPoint {
+				padding-top: 20px;
+				width: 100%;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				
+
+				.subtitle{
+					font-size: 20px;
+					float: left;
+					width: 100%;
+				}
+
+				.floor {
+					width: 25%;
+					padding: 5px 1px 1px 5px;
+				}
+			}
+			
+		}
+
+		.details--card {
+			@extend .details-form;
+		}	
+	}
+
+	.footer_modal{
+		margin-left: 40%;
+		margin-top: 40px;
+		width:60%;
+	}
+}
+
+.btn_active, .btn_inactive {font-size:35px;cursor:pointer;}
+.btn_active, .btn_inactive {font-size:35px;cursor:pointer;}
+
+i.btn_active { color: #5cb85c}
+i.btn_inactive {color: #d9534f}

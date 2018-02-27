@@ -236,6 +236,8 @@
 
             modalAdd:function() {
                 this.clearDetails();
+                this.getElevator();
+                this.getVersion();
 
                 this.modal.title="Add new access points!";
                 this.modal.btnAdd=true;

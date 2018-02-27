@@ -66,6 +66,7 @@
                 this.$http.post('/addElevator',this.details)
                     .then(response => {
                         console.log(response.data);
+                        this.getAll();
                         this.error={};
                     })
                     .catch(e => {
@@ -83,6 +84,7 @@
                     .then(response => {
                         console.log(response.data);
                         this.getAll();
+
                     })
                     .catch(e => {
                         console.log(e);
@@ -101,10 +103,11 @@
             },
 
             destroy:function(idElevator) {
-                this.$http.delete(`/deleteEntry/`+idElevator)
+                this.$http.delete(`/deleteElevator/`+idElevator)
                     .then(response => {
                         console.log('U fshi me sukses');
                         this.getAll();
+
                     })
                     .catch(e => {
                         console.log(e.respone);

@@ -2,11 +2,22 @@
 	<div class="section__header">
 		<h2 class="menu__item-title">Entries</h2>
 
+		<button class="button__add--item btn btn-default" data-toggle="modal" data-target="#building__add-edit" @click="addEntry()">
+			<span class="glyphicon glyphicon-plus-sign"></span> Add Entry
+		</button>
+
 		<ul class="breadcrumb-with-root_element">
 		  <li><router-link to="home">Home</router-link></li>
 		  <li>Entries</li>
 		</ul>
+	</div>
 
+	<!-- <div class="block__add"> -->
+		<!-- <span class="glyphicon glyphicon-th-list button__view-left "></span> -->
+		<!-- <span class="glyphicon glyphicon-th button__view-left "></span> -->
+	<!-- </div> -->
+
+	<div class="block__table">
 		<div class="row search_by">    
 	        <div class="col-xs-8 col-xs-offset-2 col-right">
 			    <div class="input-group ">
@@ -31,20 +42,7 @@
 	            </div>
 	        </div>
 		</div>
-	</div>
 
-	<div class="block__add">
-		<span class="glyphicon glyphicon-th-list button__view-left "></span>
-		<span class="glyphicon glyphicon-th button__view-left "></span>
-
-		<!-- <button class="button__add--item btn btn-default" data-toggle="modal" data-target="#building__add-edit" @click="addEntry()">
-			<span class="glyphicon glyphicon-plus-sign"></span> Add Entry
-		</button> -->
-
-		<!-- <router-link to="entry"><button class="button__add--item" @click="addEntry()">+ Add Entries</button></router-link> -->
-	</div>
-
-	<div class="block__table">
 		<table class="table__model_1 table">
 			<thead>
 				<tr>
@@ -72,7 +70,9 @@
 				</tr>
 			</tbody>				
 		</table>
+
+		<menu-item-footer :lengthEntries="setLengthEntries" :sitePage="entries" ></menu-item-footer>
 	</div>
 
-	<menu-item-footer :lengthEntries="setLengthEntries" :sitePage="entries" ></menu-item-footer>
+	
 </div>

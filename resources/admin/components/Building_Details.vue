@@ -25,7 +25,9 @@
                     name:null,
                     number_of_apartments:null,
                     number_of_floors:null,
-                }
+                },
+                
+                showDetailsBuilding:false,
             }
         },
 

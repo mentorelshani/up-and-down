@@ -7,6 +7,7 @@
                     apartment:{},
                     entry_id:null,
                     gender:null,
+                    entry_id:null
                 },
                 modal:{
                     title:null,
