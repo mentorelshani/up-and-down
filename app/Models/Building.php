@@ -25,18 +25,16 @@ class Building extends Model
     	return $this->hasMany('App\Models\Entry','building_id');
     }
 
-    protected $appends = ['canRead', 'canEdit', 'canDelete'];
-
-    public function getCanReadAttribute(){
-        if (Auth::user()->created_by == null || $this->created_by == Auth::user()->id || $this->created_by == Auth::user()->creator->id)
-            return true;
-        return false;
-    }
+    protected $appends = ['canEdit', 'canDelete'];
 
     public function getCanEditAttribute(){
         if (Auth::user()->created_by == null || $this->created_by == Auth::user()->id)
             return true;
-        $role_access = Role_Access::where('role_id',Auth::user()->role_id)->where('building_id',$this->id)->where('permission',"ilike","%e%")->get();
+
+        $role_access = Role_Access::where('role_id',Auth::user()->role_id)
+            ->where('building_id',$this->id)
+            ->where('permission',"ilike","%e%")
+            ->get();
 
         return $role_access->count() != 0;
     }
@@ -44,20 +42,30 @@ class Building extends Model
     public function getCanDeleteAttribute(){
         if (Auth::user()->created_by == null || $this->created_by == Auth::user()->id)
             return true;
-        $role_access = Role_Access::where('role_id',Auth::user()->role_id)->where('building_id',$this->id)->where('permission',"ilike","%e%")->get();
+        $role_access = Role_Access::where('role_id',Auth::user()->role_id)
+            ->where('building_id',$this->id)
+            ->where('permission',"ilike","%e%")
+            ->get();
 
         return $role_access->count() != 0;
     }
 
-    public function scopeWhereHasAccess ($query){
+    public function scopeWhereHasAccess($query){
+
         if (Auth::user()->created_by == null)
             return $query;
 
         else if (Auth::user()->creator->created_by == null)
             return $query->where('created_by', Auth::user()->id);
 
-        return $query->where('created_by', Auth::user()->creator->id);
-    }
+        else {
+            $building_ids = Role_Access::where('role_id',Auth::user()->role_id)
+                ->where('permission','ilike','%r%')
+                ->select('building_id')
+                ->get();
 
+            return $query->whereIn('building_id', $building_ids);
+        }
+    }
 
 }

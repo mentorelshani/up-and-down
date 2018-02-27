@@ -66,6 +66,7 @@ Route::post('/addVersion','VersionController@add');
 Route::get('/getAccessPoint/{id}','AccessPointController@getAccessPoint');
 Route::post('/addAccessPoint','AccessPointController@add');
 Route::get('/getAccessPoints/{entry_id}','AccessPointController@getAccessPointsByEntry');
+Route::get('/getAccessPointsByElevator/{elevator_id}','AccessPointController@getAccessPointsByElevator');
 Route::post('/updateAccessPoint','AccessPointController@update');
 Route::delete('/deleteAccessPoint/{id}','AccessPointController@destroy');
 
@@ -76,6 +77,8 @@ Route::get('/getRelay/{id}','RelayController@getRelay');
 Route::post('/addRelay','RelayController@add');
 Route::post('/updateRelay','RelayController@update');
 Route::delete('/deleteRelay/{id}','RelayController@destroy');
+Route::get('/getRelays/{access_point_id}/{card_id}','RelayController@getRelaysOfAccessPointForCard');
+Route::post('updateCardAccess','RelayController@updateCardAccess');
 
 Route::get('/getApartment/{id}','ApartmentController@getApartment');
 Route::get('/getApartments/{entry_id}','ApartmentController@getApartmentsByEntry');
@@ -101,9 +104,10 @@ Route::post('/getCards/{entry_id}','CardController@getCardsByEntry');
 Route::get('/getCardAccess/{id}','CardController@getCardAccess');
 Route::post('/addCard','CardController@add');
 Route::post('/updateCard','CardController@update');
-Route::get('/deleteCard/{id}','CardController@destroy');
+Route::delete('/deleteCard/{id}','CardController@destroy');
+Route::post('updateCardAccess','CardController@updateCardAccess');
 Route::post('/giveAccessToCard','CardController@giveAccess');
-Route::delete('/deleteAccessFromCard/{card_id}/{relay_id}','CardController@deleteAccess');
+Route::delete('/deleteAccessFromCard/','CardController@deleteAccess');
 Route::delete('/deleteAllAccessesFromCard/{card_id}','CardController@deleteAllAccesses');
 
 Route::post('/getCheckIns/{access_point_id}','CheckInController@getCheckIns');
@@ -111,50 +115,40 @@ Route::post('/getCheckIns/{access_point_id}','CheckInController@getCheckIns');
 Route::post('/getMonitors/{access_point_id}','MonitorController@getMonitors');
 
 Route::get('getUsers','UserController@index');
-Route::post('test',function(Request $request){
+Route::post('addUser','UserController@add');
 
-});
+Route::get('getRoles','RoleController@getRoles');
+Route::get('getRole/{id}','RoleController@getRole');
+Route::get('getRoleAccesses/{role_id}','RoleController@getAccesses');
+Route::post('addRole','RoleController@addRole');
+Route::delete('deleteAccessFromRole/{role_access_id}','RoleController@deleteAccessFromRole');
+Route::post('giveAccessToRole','RoleController@giveAccessToRole');
 
-Route::get('test', function (Request $request){
+Route::get('test1','RoleController@asd');
 
-    return Building::join('entries','buildings.id','=','entries.building_id')->first();
+Route::get('test', function (){
 
-    echo '<form method="post" 
-    <input type="file" name="file" id="file">';
+    $request = \Illuminate\Http\Request::create('localhost:8000/test1', 'POST', ['param1' => 'value1', 'param2' => 'value2']);
+//    $request = Request::create('test1', 'GET');
+    return $request;
 
-    return    Role_Access::get();//where('role_id',Auth::user()->role_id)->where('building_id',46)->get();//->where('permission',"ilike","%e%")->get();
-//    $i = rand(1,10);
-//    $user = new User();
-//    $user->username = "mentori";
-//    $user->created_by = Auth::user()->id;
-//    $user->gender = $i%2==1?'M':'F';
-//    $user->birthday = "2010-10-10";
-//    $user->password = bcrypt("123456");
-//    $user->email = "asd@asd.asd";
-//    $user->role_id = 2;
-//    $user->save();
-//
-//    return $user;
+    return "done";
 
-    return Auth::user();
+    $request = Request::create('localhost:8000/test1', 'POST', array('id'=> 23));
 
-    $card = new Card();
-    $card->client_id = 2;
-    $card->site_code = 123;
-    $card->site_number = 123;
-    $card->active = true;
-    $card->save();
+    return;
 
-    return $card;
+    $apartment = new Apartment();
+    $apartment->door_number = 12;
+    $entry = Entry::find(2);
+    $entry->apartments()->save($apartment);
+    return $entry->apartments;
 
-    return Auth::user()->creator;
-
-    return Building::whereRaw("cast(id as text) like '1%'")->get();
-
-//    return Auth::user()->id;
-//    return Building::find(2)->creator->id;
-//    return Building::get();
-//    return $a->buildings()->with('address')->get();
+    $access_point = Access_point::find(2);
+    $version = Version::find(2);
+    $elevator = Elevator::find(3);
+    $version->access_points()->attach($elevator);
+    return count($version->access_points);
 
 });
 

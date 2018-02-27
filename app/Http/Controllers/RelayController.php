@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\addRelayRequest;
+use App\Http\Requests\giveAccessToCardRequest;
+use App\Http\Requests\updateCardAccessRequest;
 use App\Http\Requests\updateRelayRequest;
 use App\Http\Services\RelayService;
+use App\Models\Card;
+use App\Models\Card_access;
 use Illuminate\Http\Request;
 use App\Models\Relay;
 use App\Models\Access_point;
@@ -58,6 +62,7 @@ class RelayController extends Controller
     }
 
     public function destroy($id){
+
         $relay = Relay::find($id);
 
         if ($relay != null) {
@@ -65,6 +70,22 @@ class RelayController extends Controller
             return "u fshi";
         }
         return "Nuk ekziston";
+    }
+
+    public function getRelaysOfAccessPointForCard($access_point_id, $card_id){
+
+        $relays = Relay::where('access_point_id',$access_point_id)->orderBy('relay')->get();
+        $card_accesses = Card_access::where('card_id',$card_id)->select('relay_id')->get();
+
+        for($i = 0; $i < count($card_accesses); $i++){
+            $array[$i] = $card_accesses[$i]->relay_id;
+        }
+
+        foreach ($relays as $relay){
+            $relay->setAttribute('checked', in_array($relay->id, $array));
+        }
+
+        return $relays;
     }
 
 }
