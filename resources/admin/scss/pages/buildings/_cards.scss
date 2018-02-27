@@ -38,14 +38,18 @@
 					font-size: 15px;
 				}
 			}
+
 			.access-section {
 				float: left;
 				width: 100%;
-				.building-access{
+				.building-access {
 					width: 100%;
 					float: left;
+					position: relative;
+
 					.address-access {
-						width: 90%;									
+						width: 90%;	
+						float: left;								
 					}
 
 					.relay {
@@ -53,9 +57,17 @@
 					}
 
 					.btn-delete {
+						margin: 5px 0px;
 						width: 7%;
 						float: right;
 					}
+				}
+
+				.floor_list {
+					margin-left: 40px;
+					width:calc( 100% - 40px );
+					float: left;
+					font-size: 15px;
 				}
 			}
 

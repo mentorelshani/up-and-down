@@ -55,6 +55,7 @@
 			</tbody>
 		</table>
 	</div>
+
 	<menu-item-footer :lengthCardsEntry="setLengthCardsEntry" sitePage="building_cards" :pagination="pagination"></menu-item-footer>
 
 	<div class="modal fade" id="addCard" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true" >
@@ -126,7 +127,7 @@
 
 	                    <div class="floors__accessPoint">
 	                    	<span class="subtitle">Floor for Access Point</span>
-	                    	<div class="floor" v-for="relay in relays">
+	                    	<div class="floor" v-for="relay in relays" v-if="relay.floor != null">
 	                    		<input type="checkbox" :value="relay.id" v-model="cardAccesses.relay_id">
 	                    		<span>{{relay.floor}}</span>
 	                    	</div>
@@ -136,14 +137,17 @@
 					<div class="form--cardAccess" v-show="!showCardData">
 						<h3>This card has access in:</h3>
 							<span class="access" v-for="(building,indexBu) in cardHaveAccess">
-								<!-- {{cardAccess}} -->
 								<span v-for="entry in building.entries">
-									<span v-for="(elevator,indexEl) in entry.elevators"  @click="showDetailsBuilding(indexEl+1,indesAP,indexEn,indexBu,elevator.id)">
-										<span v-for="(access_point,indexAP) in elevator.access_points">
-											<span class="building_access">{{indexAP+1}}. B:{{building.name}}/ E:{{entry.name}}/ AP:{{access_point.imei}}</span>
-												<span v-for="(relay,indexR) in access_point.relays">
-													<span class="floor_list" v-show="showBuilding==indexEl+1">{{indexR+1}}.{{relay.floor}}</span><br>
-												</span>
+									<span v-for="(elevator,indexEl) in entry.elevators">
+										<span v-for="(access_point,indexAP) in elevator.access_points" >
+
+											<span class="building_access" @click="showDetailsBuilding(indexEl+1,indexAP,indexEn,indexBu,access_point.id)">{{indexEl+1}}. B:{{building.name}}/ E:{{entry.name}}/ AP:{{access_point.imei}}
+											</span>
+
+											<span v-for="(relay,indexR) in access_point.relays">
+												<span class="floor_list" v-if="showBuilding==indexEl+1">{{indexR+1}}.{{relay.floor}}</span>
+											</span>
+
 										</span>
 									</span>
 								</span>
@@ -216,8 +220,8 @@
 
 	                    <div class="floors__accessPoint" v-if='relays'>
 	                    	<span class="subtitle"><b>Floor for Access Point</b></span>
-	                    	<div class="floor" v-for="relay in relays">
-	                    		<input type="checkbox" :value="relay.id" v-model="cardAccesses.relay_id">
+	                    	<div class="floor" v-for="relay in relays" v-if="relay.floor != null">
+	                    		<input type="checkbox" :value="relay.id"  v-model="cardAccesses.relay_id">
 	                    		<span>{{relay.floor}}</span>
 	                    	</div>
 	                    </div>
@@ -230,11 +234,18 @@
 								<span v-for="(entry,indexEn) in building.entries">
 									<span v-for="(elevator,indexEl) in entry.elevators">								
 										<span class="building-access" v-for="(access_point,indexAP) in elevator.access_points" >
-											<span class="address-access" @click="showDetailsBuilding(indexEl+1,indesAP,indexEn,indexBu,elevator.id)">{{indexEl+1}}. B:{{building.name}}/ E:{{entry.name}}/ AP:{{access_point.imei}}</span>
-											<span class="glyphicon glyphicon-remove btn-delete"></span>
-											<span v-for="(relay,indexR) in access_point.relays">
-												<span class="relay" v-show="showBuilding==indexEl+1" @click="showDetailsBuilding(indexEl+1,indexEn,indexBu,elevator.id)">{{indexR+1}}.{{relay.floor}}</span><br>
+											<span class="address-access" >
+
+												<span class="building_access" @click="showDetailsBuilding(indexEl+1,indesAP,indexEn,indexBu,elevator.id); getRelay(access_point.id); getDetailsAccess(access_point.id)">{{indexEl+1}}. B:{{building.name}}/ E:{{entry.name}}/ AP:{{access_point.imei}}
+												</span>
+
+												<span v-for="(relay,indexR) in access_point.relays">
+													<span class="floor_list" v-if="showBuilding==indexEl+1">{{indexR+1}}.{{relay.floor}}</span>
+												</span>
+												
 											</span>
+											<span class="glyphicon glyphicon-remove btn-delete"></span>
+
 										</span>
 									</span>
 								</span>

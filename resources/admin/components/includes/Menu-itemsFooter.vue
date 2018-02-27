@@ -74,7 +74,7 @@
 
 	    methods:{
 	    	setParams:function() {
-	    		this.$store.commit('setShowItem', this.showItem);
+	    		this.$store.commit('setShowItem', parseInt(this.showItem));
 	    		// this.$store.commit('setPaginatePage', this.paginatePage);
 	    	},
 	    	Pagination:function(page) {
