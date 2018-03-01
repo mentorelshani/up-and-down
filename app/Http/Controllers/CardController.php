@@ -34,8 +34,6 @@ class CardController extends Controller
         $relays = Relay::whereIn('access_point_id',$access_points)->get(['id']);
         $card_accesses = Card_access::whereIn('relay_id',$relays)->get(['card_id']);
 
-//        return $card_accesses;
-
         $cards = Card::whereIn('cards.id', $card_accesses)->join('clients','clients.id','=','cards.client_id');
 
         $cards = $cards->where(function($query) use ($relation,$value){
@@ -68,7 +66,6 @@ class CardController extends Controller
         return $buildings;
     }
 
-
     public function updateCardAccess(updateCardAccessRequest $request){
 
         $card_access = Card_access::where('card_id', $request->card_id)->select('relay_id')->get();
@@ -78,12 +75,22 @@ class CardController extends Controller
         $current_relays = [];
         $new_relays = $request->relay_id;
 
-        for ($i = 0; $i<count($relays); $i++) {
+        for ($i = 0; $i<count($relays); $i++)
             $current_relays[$i] = $relays[$i]->id;
-        }
 
         $insert = array_values(array_diff($new_relays,$current_relays));
         $delete = array_values(array_diff($current_relays,$new_relays));
+
+        $request1 = new giveAccessToCardRequest();
+        $request1->card_id = $request->card_id;
+        $request1->relay_id = $delete;
+
+        $request2 = new giveAccessToCardRequest();
+        $request2->card_id = $request->card_id;
+        $request2->relay_id = $insert;
+
+        $this->deleteAccess($request1);
+        $this->giveAccess($request2);
 
         return array('delete'=> $delete , 'insert' => $insert);
     }
@@ -96,7 +103,6 @@ class CardController extends Controller
             $card_access->relay_id = $relay;
             $card_access->save();
         }
-        return;
     }
 
     public function deleteAccess(giveAccessToCardRequest $request){
