@@ -326,7 +326,7 @@ td {
     width: calc(100% - 40px);
     background-color: $colorWhite;
     margin: 0px 20px 20px 20px;
-    padding-top:50px; 
+    padding-top:30px; 
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
     height: $mainBlockHeight;
     overflow-y:auto;
@@ -334,7 +334,7 @@ td {
 
     
     .search_by {
-        margin-bottom: 15px;
+        margin-bottom: 40px;
         .col-right {
             float: right;
             margin-right: 10px;
@@ -613,23 +613,6 @@ td {
                                 }
 
                             }
-
-                            .table__details-info {
-                                height: 650px ;
-                                display:block ;
-                                margin-bottom: 0px;
-
-                                thead {
-                                    display: inline-table ;
-                                    height: 40px ;
-                                }
-
-                                tbody {
-                                    display: inline-block;
-                                    height: 610px ;
-                                    overflow: auto !important;
-                                }
-                            }
                         }
                     }
                 }
@@ -647,3 +630,26 @@ td {
     }
 }
 
+ .table__details-info {
+    height: 650px ;
+    display:block ;
+    margin-bottom: 0px;
+
+    thead {
+        display: inline-table ;
+        height: 40px ;
+    }
+
+    tbody {
+        display: inline-block;
+        height: 610px ;
+        overflow: auto !important;
+    }
+}
+
+// @media only screen and (max-height: 900px) {
+//     .header {
+//         // display: none;
+//         background-color: red !important;
+//     }
+// }

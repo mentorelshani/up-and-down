@@ -26,6 +26,11 @@
 					<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
 					<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
 					<span class="glyphicon glyphicon-registration-mark manipulate__button" @click="getRelaysAccessPoint(accessPoint.id)" data-toggle="modal" data-target="#config__relays"></span>
+
+
+					<span class="glyphicon glyphicon-eye-open manipulate__button" data-toggle="modal" data-target="#monitor" @click="getDetails(accessPoint.id); modalMonitors(accessPoint.id)"></span>
+					<span class="glyphicon glyphicon-credit-card manipulate__button" data-toggle="modal" data-target="#checkins" @click="getDetails(accessPoint.id); "></span>
+
 				</td>
 			</tr>
 			</tbody>
@@ -240,6 +245,197 @@
 					</div>
 				</div>
 
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="monitor" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Monitor</h4>
+				</div>
+				<div class="modal-body body_modal">
+					<div class="monitor--accessPoint">
+						<div class="element">
+							<label class="name">From:</label>
+							<input type="date" :class="{value:true}" v-model="monitor.from">
+							<!-- <span class="error_message" v-if="errorAccessPoint.imei">{{errorAccessPoint.imei[0]}}</span> -->
+						</div>
+
+						<div class="element">
+							<label class="name">To:</label>
+							<input type="date"  :class="{value:true}" v-model="monitor.to" @input="monitorCards(this.monitor.access_point_id)">
+							<!-- <span class="error_message" v-if="errorAccessPoint.phone_number">{{errorAccessPoint.phone_number[0]}}</span> -->
+						</div>
+
+						<div class="element">
+							<label class="name">Search:</label>
+							<input type="text"  :class="{value:true}" v-model="monitor.value" placeholder="Card number">
+							<!-- <span class="error_message" v-if="errorAccessPoint.phone_number">{{errorAccessPoint.phone_number[0]}}</span> -->
+						</div>
+					</div>
+
+					<div class="table--monitor" >
+						<table class="table tab__view-list--monitor" v-if="monitorsData">
+							<thead>
+							<tr>
+								<th>Site Code</th>
+								<th>Card Code</th>
+								<th>Type</th>
+								<th>Time</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-for="monitor in monitorsData">
+								<td>{{monitor.site_code}}</td>
+								<td>{{monitor.site_number}} </td>
+								<td :class="{'insert' : (monitor.type === 'insert'), 'delete' : (monitor.type === 'delete')}">{{monitor.type}}</td>
+								<td :class="{last_connect:true}">{{monitor.created_at }}</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- <menu-item-footer :length="pagination.total" sitePage="monitor" :pagination="pagination"></menu-item-footer> -->
+				</div>
+				<div class="modal-footer footer_modal">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="checkins" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Check-Ins</h4>
+				</div>
+				<div class="modal-body body_modal">
+					<div class="monitor--accessPoint">
+						<div class="element">
+							<label class="name">From:</label>
+							<input type="date" :class="{value:true}" v-model="checkins.from">
+							<!-- <span class="error_message" v-if="errorAccessPoint.imei">{{errorAccessPoint.imei[0]}}</span> -->
+						</div>
+
+						<div class="element">
+							<label class="name">To:</label>
+							<input type="date"  :class="{value:true}" v-model="checkins.to" @input="monitorCards(this.monitor.access_point_id)">
+							<!-- <span class="error_message" v-if="errorAccessPoint.phone_number">{{errorAccessPoint.phone_number[0]}}</span> -->
+						</div>
+
+						<div class="element">
+							<label class="name">Search:</label>
+							<input type="text"  :class="{value:true}" v-model="checkins.value" placeholder="Card number">
+							<!-- <span class="error_message" v-if="errorAccessPoint.phone_number">{{errorAccessPoint.phone_number[0]}}</span> -->
+						</div>
+					</div>
+
+					<div class="block_checkins-data" >
+						<ul>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">Validity: valid;  Floor: modi; Site_code: 951; Site_number: 5714; Firstname: Rene; Lastname: Schoen;</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li><li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							<li class="row_checkins">
+								<span class="time_created">2018-02-09 09:19:35</span>
+								<span class="data">{"validity":"valid","floor":"modi","site_code":951,"site_number":5714,"firstname":"Rene","lastname":"Schoen"}</span>
+							</li>
+							
+						</ul>
+					</div>
+				</div>
+				<div class="modal-footer footer_modal">
+				</div>
 			</div>
 		</div>
 	</div>

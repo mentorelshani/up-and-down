@@ -18,6 +18,8 @@
             lengthBuildings:null,
             lengthEntries:null,
             lengthCardsEntry:null,
+
+            length:null,
             ObjLength:null,
             sitePage:null,
             pagination:{},
@@ -31,6 +33,7 @@
 
         mounted() {
             this.totalPage = Math.ceil( this.lengthBuildings / this.$store.getters.getShowItem );
+            this.totalPage = Math.ceil( this.length / this.$store.getters.getShowItem );
         },
 
         watch: {
@@ -42,6 +45,11 @@
                 this.totalPage = Math.ceil( this.lengthEntries / this.$store.getters.getShowItem );
             },
 
+            length:function() {
+                this.totalPage = Math.ceil( this.length/ this.$store.getters.getShowItem );
+            },
+
+
             showItem:function() {
                 // this.pagination.per_page=this.showItem;
                 console.log(this.showItem);
@@ -51,6 +59,25 @@
                     console.log('asdasd');
                     this.$store.commit('setShowItem', parseInt(this.showItem));
                     this.$store.commit('setPaginatePage', 1);
+                }
+                // else eshte vendos vetem per testim 
+                else {
+                    console.log('1234567');
+                    this.$store.commit('setShowItem', parseInt(this.showItem));
+                    this.$store.commit('setPaginatePage', 1);
+
+                    this.totalPage = Math.ceil( this.length / this.$store.getters.getShowItem );
+                
+                    this.minPage=1;
+                    this.maxPage=5;
+                    this.paginatePage=1;
+
+                    if( this.showItem == "10000" ) {
+                        this.showPaginate = false;
+                    }
+                    else {
+                        this.showPaginate = true;
+                    }
                 }
 
                 this.totalPage = Math.ceil( this.lengthBuildings / this.$store.getters.getShowItem );
@@ -138,11 +165,18 @@
 
                 this.$store.commit('setPaginatePage', this.paginatePage);
             },
-
             callPaginate:function() {
                 if(this.sitePage=="building_cards")
                 {
                     
+                    // this.paginatePage=this.pagination.,
+                    this.totalPage=this.pagination.total,
+                    // this.activePage=this.pagination.current_page;
+                    this.minPage=1;
+                    this.maxPage=this.pagination.last_page;
+                }
+                //else vetem per testim 
+                else {
                     // this.paginatePage=this.pagination.,
                     this.totalPage=this.pagination.total,
                     // this.activePage=this.pagination.current_page;

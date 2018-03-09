@@ -36,6 +36,36 @@
                 relayConfigStatus:null,
                 btnSavedRelay:true,
 
+                monitor:{
+                    from:null,
+                    to:null,
+                    access_point_id:null,
+                    orderBy:'cards.id',
+                    relation:['cards.site_code'],
+                    value:null,
+                    asc:true,
+                    totelRecord:null,
+                    limit:20,
+                    page:1,
+                },
+
+                checkins:{
+                    from:null,
+                    to:null,
+                    access_point_id:null,
+                    orderBy:'cards.id',
+                    relation:['cards.site_code'],
+                    value:null,
+                    asc:true,
+                    totelRecord:null,
+                    limit:20,
+                    page:1,
+                },
+
+                pagination:{},
+
+                monitorsData:null,
+                checkinsData:null,
             }
         },
 
@@ -43,25 +73,82 @@
             entryId:null,
         },
 
+        filters: {
+        },
+
         beforeCreate() {
         },
 
         created() {
+            
         },
 
         mounted() {
         },
 
         computed: {
+            monitorFrom:function() {
+                return this.monitor.from;
+            },
 
-        },
+            monitorTo:function() {
+                return this.monitor.to;
+            },
+
+            monitorSearch:function() {
+                return this.monitor.value;
+            },        },
 
         watch: {
+            keySearch: function() {
+                this.inputSearch=null;
+                this.paginate__page=1;
+                // this.getAll();
+            },
+
+            show__items: function() {
+                this.paginate__page=2;
+                // this.getAll();
+            },
+
             entryId:function() {
                 this.getAll();
                 this.getElevator();
                 this.getVersion();
+
+                this.$store.watch(
+                    (state)=>{
+                        return this.$store.getters.getShowItem
+                    },
+                    (val)=>{
+                        this.show__items=this.$store.getters.getShowItem;
+                        this.getAll();
+                    });
+
+                this.$store.watch(
+                    (state)=>{
+                        return this.$store.getters.getPaginatePage
+                    },
+                    (val)=>{
+                        this.paginate__page=this.$store.getters.getPaginatePage;
+                        this.getAll();
+                    });
             },
+
+            monitornFrom:function() {
+                // this.monitorCards(this.monitor.access_point_id);
+                console.log('fdsf');
+            },
+
+            monitornTo:function() {
+                // this.monitorCards(this.monitor.access_point_id);
+                console.log('12345');
+
+            },
+
+            monitorSearch:function() {
+                console.log('fasdas');
+            }
         },
 
         methods:{
@@ -252,6 +339,11 @@
                 this.modal.btnConfigRelay=false;
             },
 
+            modalMonitors:function(accessPoint_id) {
+
+                this.monitor.access_point_id=accessPoint_id;
+            },
+
             modalConfigRelay:function(idAccessPoint) {
                 // this.AccessPointId=idAccessPoint;
                 this.btnSavedRelay=true;
@@ -282,6 +374,44 @@
                 this.details.updated_at=null;
                 this.details.version={};
                 this.details.version_id=null;
+            },
+
+            checkinsAccessPoint() {
+                this.$http.post('/getCheckIns/'+accessPoint_id,this.checkins)
+                    .then(response => {
+                        console.log(response.data);
+                        this.checkinsData=response.data.data;
+
+                        this.pagination.current_page=response.data.current_page;
+                        this.pagination.from=response.data.from;
+                        this.pagination.last_page=response.data.last_page;
+                        this.pagination.per_page=response.data.per_page;
+                        this.pagination.to=response.data.to;
+                        this.pagination.total=response.data.total
+                        // this.getAll();
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    }); 
+            },
+
+            monitorCards:function(accessPoint_id) {
+                this.$http.post('/getMonitors/'+accessPoint_id,this.monitor)
+                    .then(response => {
+                        console.log(response.data);
+                        this.monitorsData=response.data.data;
+
+                        // this.pagination.current_page=response.data.current_page;
+                        // this.pagination.from=response.data.from;
+                        // this.pagination.last_page=response.data.last_page;
+                        // this.pagination.per_page=response.data.per_page;
+                        // this.pagination.to=response.data.to;
+                        // this.pagination.total=response.data.total
+                        // this.getAll();
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
             },
         },
     }

@@ -204,6 +204,72 @@
 				}
 			}
 		}
+
+		.monitor--accessPoint {
+			width: 100%;
+			margin: 0px 0px 20px 0%;
+			height: auto;
+			// background-color: red;
+			float: left;
+			.element {
+				width: 33%;
+				height: auto;
+
+				float: left;
+				.name {
+					width: 25%;
+					float: left;
+					text-align: right;
+					padding-right: 5px;
+					padding-top: 2px;
+					// margin-right: 10px;
+				}
+
+				.value {
+					width: 70%;
+					// float: left;
+					// margin-right: 25%;
+				}
+			}
+		}
+
+		.table--monitor {
+			height: 500px;
+		}
+
+		.block_checkins-data {
+			float: left;
+			height: 450px;
+			background-color: #f6f5f5;
+			overflow-x:auto;
+			overflow-y:auto;
+			border:1px solid #acb3b9; 
+			font-size: 14px;
+			width: 100%;
+			margin-bottom: 10px;
+
+			ul {
+				flex-direction: row;
+				justify-content: flex-start; 
+				list-style: none;
+				padding: 0;
+				white-space: nowrap;
+				
+				.row_checkins{
+					margin-left: 15px;
+					float: left;
+
+					.time_created {
+						color:grey;
+						margin-right: 5px;
+					}
+
+					.data {
+
+					}
+				}
+			}
+		}
 	}
 
 	// .footer_modal {
@@ -213,4 +279,86 @@
 	.details--accessPoint {
 		@extend .details-form;
 	}
+}
+
+
+.tab__view-list--monitor {
+    width: 100%;
+    font-size: 14px;
+
+    thead {
+    	display: block;
+        width: 100%;
+        margin-right: 10px;
+
+        tr {
+            width: 100%;
+            display: inline-table;
+
+			th {
+				min-width: 25%;
+				max-width: auto;
+				display: inline-block;
+			}
+				
+			.action {
+				width: 25%;
+				text-align: center;
+				display: inline-block;
+				// margin-right: 2%;
+			}
+        }
+    }
+
+    tbody {
+
+        display:block;
+        height: 420px;
+		overflow: auto;
+        overflow-x: hidden;
+
+        tr {
+        	width: 100%;
+            display: inline-table;
+            
+            td {
+                width: 25%;
+                display: inline-block;
+                word-wrap: break-word;
+            }
+            
+            .action {
+				text-align: center;
+                width: 25%;
+                display: inline-block;
+            }
+            .last_connect {
+            	color:black;
+            	font-weight: 1000;
+            }
+            .insert {
+            	color:green;
+            }
+
+            .delete {
+            	color:red;
+            }
+        }
+    }
+}
+
+@media only screen and (min-height: 700px) {
+    /* For mobile phones: */
+    .table--monitor {
+    	height: 740px !important;
+    	.tab__view-list--monitor {
+	    	tbody {
+	    		height: 660px !important;
+	    	}
+	    }
+    }
+
+    .block_checkins-data {
+    	height: 680px !important;
+    }
 }
