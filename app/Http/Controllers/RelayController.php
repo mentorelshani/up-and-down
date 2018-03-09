@@ -22,11 +22,19 @@ class RelayController extends Controller
         $this->relayService = $relayService;
     }
 
+    /**
+     * @param $access_point_id
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getRelays($access_point_id){
 
         return Relay::where('access_point_id',$access_point_id)->orderBy('relay')->get();
     }
 
+    /**
+     * @param $elevator_id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     */
     public function getRelaysByElevatorId($elevator_id){
         $access_points = Access_point::where('elevator_id',$elevator_id)->get(['id']);
 
@@ -76,6 +84,7 @@ class RelayController extends Controller
 
         $relays = Relay::where('access_point_id',$access_point_id)->orderBy('relay')->get();
         $card_accesses = Card_access::where('card_id',$card_id)->select('relay_id')->get();
+        $array = [];
 
         for($i = 0; $i < count($card_accesses); $i++){
             $array[$i] = $card_accesses[$i]->relay_id;
