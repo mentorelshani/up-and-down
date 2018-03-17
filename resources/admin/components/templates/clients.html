@@ -2,6 +2,31 @@
 	<div class="tab__view--header">
 		<p class="subtitle">Clients List</p>
 		<button class="btn_add btn" data-toggle="modal" data-target="#addClient" @click="modalAdd()">Add new</button>
+
+		<div>
+			<div class="row search_by--inside-tabs">    
+		        <div class="col-xs-8 col-xs-offset-2">
+				    <div class="input-group ">
+		                <div class="input-group-btn search-panel search_key">
+		                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+		                    	<span id="search_concept">{{searchBy}}</span> <span class="caret"></span>
+		                    </button>
+		                    <ul class="dropdown-menu " role="menu">
+		                      	<li @click="changeSearchKey('client')" >Client</li>
+		                      	<li @click="changeSearchKey('clients.email')">Email</li>
+		                      	<li @click="changeSearchKey('clients.phone_number')">Phone number</li>
+		                      	<li class="divider"></li>
+		                      	<li @click="changeSearchKey('everything')">Everything</li> <!-- -->
+		                    </ul>
+		                </div>
+		                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="inputSearch" @keyup='getAll()'>
+
+		                <span class="input-group-btn">
+		                </span>
+		            </div>
+		        </div>
+			</div>
+		</div>
 	</div>
 
 	<div class="tab__view--body">
@@ -9,9 +34,9 @@
 			<thead>
 			<tr>
 				<th>Client</th>
-				<th>Phone number</th>
+				<th>Ph. number</th>
 				<th>Email</th>
-				<th>Door Apartment</th>
+				<th>Door Apar.</th>
 				<th class="action">Action</th>
 			</tr>
 			</thead>
@@ -32,6 +57,9 @@
 		</table>
 	</div>
 
+	<menu-item-footer v-if="pagination.total > 10" :length="dataLength" sitePage="building_cards" :pagination="pagination"></menu-item-footer>
+
+
 	<div class="modal fade" id="addClient" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
 		<div class="modal-dialog ">
 			<div class="modal-content">
@@ -44,36 +72,43 @@
 
 						<div class="element">
 							<span class="name">First name</span>
-							<input class="value" v-model="details.firstname">
+							<input :class="{value:true, error_value:error.firstname}" v-model="details.firstname">
+							<span class="error_message" v-if="error.firstname">{{error.firstname[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Last name</span>
-							<input class="value" v-model="details.lastname">
+							<input :class="{value:true, error_value:error.lastname}" v-model="details.lastname">
+							<span class="error_message" v-if="error.lastname">{{error.lastname[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Phone number</span>
-							<input class="value" v-model="details.phone_number">
+							<input :class="{value:true, error_value:error.phone_number}" v-model="details.phone_number">
+							<span class="error_message" v-if="error.phone_number">{{error.phone_number[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Email</span>
-							<input class="value" type="email" v-model="details.email">
+							<input :class="{value:true, error_value:error.email}" type="email" v-model="details.email">
+							<span class="error_message" v-if="error.email">{{error.email[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Apartment door number</span>
-							<input class="value" v-model="details.door_number" >
+							<input :class="{value:true, error_value:error.door_number}" v-model="details.door_number" >
+							<span class="error_message" v-if="error.door_number">{{error.door_number[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Birthday</span>
-							<input class="value " type="date" v-model="details.birthday">
+							<input :class="{value:true, error_value:error.birthday}" type="date" v-model="details.birthday">
+							<span class="error_message" v-if="error.birthday">{{error.birthday[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Gender</span>
-							<div class="value">
+							<div class="value_for-radio">
 								<input type="radio" value="M" v-model="details.gender" class="value-radio">
 								<span>M</span>
 								<input type="radio" value="F" v-model="details.gender">
 								<span>F</span>
 							</div>
+							<span class="error_message" v-if="error.gender">{{error.gender[0]}}</span>
 						</div>
 					</div>
 				</div>

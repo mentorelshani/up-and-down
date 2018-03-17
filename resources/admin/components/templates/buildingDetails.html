@@ -1,0 +1,142 @@
+<div class="building__details--body details_body">
+    <div :class="{'tabs__section':show_info, 'tabs__section_full':!show_info, }" >
+        <div class="info_bar" v-if="show_info-entry">
+            <div class="element">
+                <label class="title">Entry:</label>
+                <span class="value">Hyeja 21</span>
+            </div>
+
+            <div class="element">
+                <label class="title">Nr. of floors:</label>
+                <span class="value">21</span>
+            </div>
+
+            <div class="element">
+                <label class="title">Nr. of apartments:</label>
+                <span class="value">80</span>
+            </div>
+
+            <button class="btn_add btn">Edit</button>
+
+        </div>
+        <div class="tab_section">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#accessPoints">Access point</a></li>
+                <li><a data-toggle="tab" href="#elevators">Elevators</a></li>
+                <li><a data-toggle="tab" href="#clients">Clients</a></li>
+                <li><a data-toggle="tab" href="#cards">Cards</a></li>
+                <li><a data-toggle="tab" href="#payments">Payments</a></li>
+            </ul>
+
+            <div class="tab-content tab__menu">
+                <div id="accessPoints" class="tab-pane fade in active tab__view--content">
+                    <access-points-tab :entryId="idEntry"></access-points-tab>
+                </div>
+                <div id="elevators" class="tab-pane fade tab__view--content">
+                    <elevators-tab :entryId="idEntry"></elevators-tab>
+                </div>
+                <div id="clients" class="tab-pane fade tab__view--content">
+                    <clients-tab :entryId="idEntry"></clients-tab>
+                </div>
+                <div id="cards" class="tab-pane fade tab__view--content">
+                    <cards-tab :entryId="idEntry"></cards-tab>
+                </div>
+                <div id="payments" class="tab-pane fade">
+                    <h3>Menu 3</h3>
+                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entriesBuilding">
+        <div class="list__entry" v-if="detailsBuilding">
+            <h4 class="building__subtitle">Entries</h4>
+
+            <div :class="{'entry__link':true, 'entry__link-active':( entry.id === idEntry )}"  @click="getEntryDetails(entry.id)"  v-for="entry in detailsBuilding.entries">
+                <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                <span class="entry__name">Hyrja {{entry.name}}</span>
+            </div>
+
+            <div class="entry__link-new"  @click="modalAdd()" data-toggle="modal" data-target="#addEntry" >
+                <span class="glyphicon glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                <span class="entry__name">New entry</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="infoBuilding">
+        <div class="profile__building" v-if="detailsBuilding">
+            <h4 class="building__name" @click="showDetailsBuilding = !showDetailsBuilding">More: {{detailsBuilding.name}}</h4>
+            <!-- <button class="btn btn-default" @click="show=!show">-</button> -->
+            <img class="building__logo" src="/image/dumnica_logo.png" v-show="showDetailsBuilding">
+            <div class="address__item" v-show="showDetailsBuilding">
+                <label  >Company: </label>
+                <span  >{{detailsBuilding.company}}</span>
+            </div>
+            <div class="address__item" v-show="showDetailsBuilding">
+                <label  >City: </label>
+                <span  >{{detailsBuilding.address.city.name}}</span>
+            </div>
+            <div class="address__item" v-show="showDetailsBuilding" >
+                <label  >Neighborhood: </label>
+                <span  >{{detailsBuilding.address.neighborhood}}</span>
+            </div>
+            <div class="address__item" v-show="showDetailsBuilding">
+                <label  >Street: </label>
+                <span  >{{detailsBuilding.address.street}}</span>
+            </div>
+            <div class="address__item" v-show="showDetailsBuilding">
+                <label  >Number: </label>
+                <span  >302</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal_entry--add"> 
+        <div class="modal fade" id="addEntry" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">{{modalEntry.title}}</h4>
+                    </div>
+                    <div class="modal-body body_modal">
+                        <div class="form--entry ">
+
+                            <div class="element">
+                                <span class="name">Building</span>
+                                <select :class="{value__select:true, error_value:error_entry.building_id}"  v-model=detailsEntry.building_id>
+                                    <option v-for="building in buildings" :value="building.id">{{building.name}}</option>
+                                </select>
+                                <span class="error_message" v-if="error_entry.building_id">{{error_entry.door_number[0]}}</span>                   
+                            </div>
+                            <div class="element">
+                                <span class="name">Name</span>
+                                <input :class="{value:true, error_value:error_entry.name}" v-model="detailsEntry.name">
+                                <span class="error_message" v-if="error_entry.name">{{error_entry.name[0]}}</span>                  
+                            </div>
+                            <div class="element">
+                                <span class="name">Number of floors</span>
+                                <input :class="{value:true, error_value:error_entry.number_of_floors}" v-model="detailsEntry.number_of_floors">
+                                <span class="error_message" v-if="error_entry.number_of_floors">{{error_entry.number_of_floors[0]}}</span>                    
+                            </div>
+                            <div class="element">
+                                <span class="name">Number of apartments</span>
+                                <input :class="{value:true, error_value:error_entry.number_of_apartments}" v-model="detailsEntry.number_of_apartments">
+                                <span class="error_message" v-if="error_entry.number_of_apartments">{{error_entry.number_of_apartments[0]}}</span>                    
+                            </div> 
+
+                        </div>
+                    </div>
+                    <div class="modal-footer footer_modal">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" @click="edit()" v-if="modalEntry.btnEdit" >Update</button>
+                        <button type="button" class="btn btn-default" @click="addEntry()" v-if="modalEntry.btnAdd" >Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

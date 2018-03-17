@@ -11,8 +11,8 @@
                 //data for list of buildings
                 show__items:"20",
                 paginate__page:1,
-                key__search:'buildings.company',
-                input__search:null,
+                keySearch:['buildings.company'],
+                inputSearch:null,
                 ascending:true,
                 orderBy:'buildings.company',
                 
@@ -31,25 +31,16 @@
                     neighborhood:'',
                     location:'(42,21)',
                     entries:[],
-
                 },  
+
+                pagination:{},
 
                 error__add_objBuilding:{
                     company:null,
                     building:null
-
                 },
 
                 success__add_building:null,
-
-                //data for paginate
-                deactivate__min:true,
-                deactivate__prev:true,
-                deactivate__max:false,
-                deactivate__next:false,
-                
-                //class css params
-
 
                 //button show and hide
                 addButton:false,
@@ -64,7 +55,6 @@
         },
 
         created() {
-
             this.$store.watch(
                 (state)=>{
                     return this.$store.getters.getShowItem
@@ -86,7 +76,8 @@
 
         mounted() {
             this.Buildings();
-            this.existingAddress();    
+            this.existingAddress(); 
+            console.log(this.setLengthBuildings);   
         },
 
         computed: {
@@ -96,8 +87,8 @@
         },
 
         watch: {
-            key__search: function() {
-                this.input__search=null;
+            keySearch: function() {
+                this.inputSearch=null;
                 this.paginate__page=1;
                 this.Buildings();
             },
@@ -113,17 +104,24 @@
                 this.buildingsSite={
                     limit:this.show__items,
                     page:this.paginate__page,
-                    relation:this.key__search,
-                    value:this.input__search,
+                    relation:this.keySearch,
+                    value:this.inputSearch,
                     asce:this.ascending,
                     orderBy:this.orderBy, 
 
                 };     
 
-                axios.post(`/getBuildings`,this.buildingsSite)
+                this.$http.post(`/getBuildings1`,this.buildingsSite)
                 .then(response => {
                     this.setBuildings=response.data.buildings;
                     this.setLengthBuildings=response.data.count;
+
+                    // this.pagination.current_page=response.data.current_page;
+                    // this.pagination.from=response.data.from;
+                    // this.pagination.last_page=response.data.last_page;
+                    // this.pagination.per_page=response.data.per_page;
+                    // this.pagination.to=response.data.to;
+                    // this.pagination.total=response.data.total;
                 })
                 .catch(e => {
                     console.log(e);
@@ -131,11 +129,12 @@
             },
 
             existingAddress:function() {
-                axios.get(`/getExistingAddresses`)
+                this.$http.get(`/getExistingAddresses`)
                 .then(response => {
                     this.companies=response.data.companies;
                     this.cities=response.data.cities;
-                    this.neighborhoods=response.data.neighborhoods;           
+                    this.neighborhoods=response.data.neighborhoods;   
+                    console.log(response.data);        
                 })
                 .catch(e => {
                     console.log(e);
@@ -143,7 +142,7 @@
             },
 
             addBuilding:function() {
-                axios.post(`/addBuilding`,
+                this.$http.post(`/addBuilding`,
                     this.details__building,
                 )
                 .then(response => {
@@ -169,7 +168,7 @@
                 this.addButton=false;
                 this.clearButton=false;
 
-                axios.get(`/getBuilding/`+param_id)
+                this.$http.get(`/getBuilding/`+param_id)
                 .then(response => {
                     this.details__building.company=response.data.company;
                     this.details__building.name=response.data.name;
@@ -184,7 +183,7 @@
             },
 
             updateBuilding:function() {
-                axios.post(`/updateBuilding`,
+                this.$http.post(`/updateBuilding`,
                    this.details__building,
                 )
                 .then(response => {
@@ -217,16 +216,10 @@
                         this.error__add_objBuilding.neighborhood=e.response.data.neighborhood[0];
                     }
                 });
-
-                // this.details__building.company=response.data.company;
-                // this.details__building.name=response.data.building;
-                // this.details__building.city_id=response.data.city_id;
-                // this.details__building.street=response.data.street;
-                // this.details__building.neighborhood=response.data.neighborhood;
             },
 
             deleteBuilding:function(param_id) {
-                axios.delete(`/deleteBuilding/`+param_id)
+                this.$http.delete(`/deleteBuilding/`+param_id)
                 .then(response => {
                     console.log('U fshi me sukses');
                     this.Buildings();
@@ -237,11 +230,10 @@
             },
 
             detailsBuilding:function(param_id) {
-                axios.get(`/getBuilding/`+param_id)
+                this.$http.get(`/getBuilding/`+param_id)
                     .then(response => {
 
                         this.details__building = response.data;
-                        console.log("");
                         console.log(response.data);
                     })
                     .catch(e => {
@@ -283,8 +275,17 @@
             },
 
             changeSearchKey:function(searchKey) {
+                this.keySearch=[];
                 console.log(searchKey);
-                this.key__search=searchKey;
+                
+                if(searchKey=="anything")
+                {
+                    this.keySearch=['buildings.company','buildings.name','cities.name','addresses.street','addresses.neighborhood'];
+                }
+                else 
+                {
+                    this.keySearch=[searchKey];
+                }
             },
 
             showFrmAdd:function(){
@@ -294,10 +295,6 @@
 
                 this.clearBuilding();
             }, 
-
-            // updateShowItems:function(show__items) {
-            //     this.$emit('input',show__items);
-            // },  
         },
     }
 </script>

@@ -7,28 +7,27 @@
 	<div class="tab__view--body" v-if="elevators">
 		<table class="table tab__view-list">
 			<thead>
-			<tr>
-				<th>Identifier</th>
-				<th>Type</th>
-				<th>Made in</th>
-				<th>Company</th>
-				<th class="action">Action</th>
-			</tr>
+				<tr>
+					<th>Identifier</th>
+					<th>Type</th>
+					<th>Made in</th>
+					<th>Company</th>
+					<th class="action">Action</th>
+				</tr>
 			</thead>
 			<tbody>
-			<tr v-for="elevator in elevators">
-				<td>{{elevator.identifier}}</td>
-				<td>{{elevator.type}}</td>
-				<td>{{elevator.made_in}}</td>
-				<td>{{elevator.company}}</td>
-				<td class="action">
-					<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click="getDetails(elevator.id); modalEdit(elevator.identifier)"></span>
-					<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(elevator.id)"></span>
-					<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator" @click="getDetails(elevator.id)"></span>
-				</td>
-			</tr>
+				<tr v-for="elevator in elevators">
+					<td>{{elevator.identifier}}</td>
+					<td>{{elevator.type}}</td>
+					<td>{{elevator.made_in}}</td>
+					<td>{{elevator.company}}</td>
+					<td class="action">
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click="getDetails(elevator.id); modalEdit(elevator.identifier)"></span>
+						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(elevator.id)"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator" @click="getDetails(elevator.id)"></span>
+					</td>
+				</tr>
 			</tbody>
-
 		</table>
 	</div>
 
@@ -44,19 +43,23 @@
 
 						<div class="element">
 							<span class="name">Identifier</span>
-							<input class="value" v-model="details.identifier">
+							<input :class="{value:true, error_value:error.identifier}" v-model="details.identifier">
+							<span class="error_message" v-if="error.identifier">{{error.identifier[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Type</span>
-							<input class="value" v-model="details.type">
+							<input :class="{value:true, error_value:error.type}" v-model="details.type">
+							<span class="error_message" v-if="error.type">{{error.type[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Made in</span>
-							<input class="value" v-model="details.made_in">
+							<input class="value" :class="{value:true, error_value:error.made_in}" v-model="details.made_in">
+							<span class="error_message" v-if="error.made_in">{{error.made_in[0]}}</span>
 						</div>
 						<div class="element">
 							<span class="name">Company</span>
-							<input class="value" v-model="details.company">
+							<input class="value" :class="{value:true, error_value:error.company}" v-model="details.company">
+							<span class="error_message" v-if="error.company">{{error.company[0]}}</span>
 						</div>
 
 					</div>

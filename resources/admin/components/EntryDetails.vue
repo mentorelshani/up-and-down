@@ -100,7 +100,6 @@
 
         methods: {
             show__info_address : function() {
-
                  this.show__address_block = !this.show__address_block;
             },
 
@@ -110,7 +109,6 @@
             },
 
             show__info_accessPoint_addEdit: function() {
-
                 this.show__accessPoint_addEdit_block = !this.show__accessPoint_addEdit_block;
             },
 
@@ -158,7 +156,6 @@
                 // .catch(e => {
                 //     console.log(e);
                 // });
-
             },
 
             chooseVersion:function() {
@@ -256,7 +253,7 @@
     }
 </script>
 
-<template src="./templates/entry_details.html">
+<template src="./templates/entryDetails.html">
 
 </template>
 

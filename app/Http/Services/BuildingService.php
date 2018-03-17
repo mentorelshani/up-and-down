@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 use App\Models\Address;
+use Illuminate\Support\Facades\Auth;
 
 class BuildingService
 {
@@ -30,7 +31,7 @@ class BuildingService
         $building->name = $request->name;
         $building->company = $request->company;
         $building->location = $request->location;
-        $building->created_by = 1; //Auth::user()->id;
+        $building->created_by = Auth::user()->id;
         $building->save();
     }
 
@@ -40,7 +41,6 @@ class BuildingService
         $building->name = $request->name;
         $building->company = $request->company;
         $building->location = $request->location;
-        $building->created_by = 1; //Auth::user()->id;
         $building->update();
     }
 

@@ -1,0 +1,9 @@
+.client {
+	.form--client {
+		@extend .form--input;
+	}
+
+	.details--client {
+		@extend .details-form;
+	}
+}

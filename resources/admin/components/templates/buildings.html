@@ -2,27 +2,37 @@
 	<div class="section__header">
 		<h2 class="menu__item-title">Buildings</h2>
 
+		<button class="button__add--item btn btn-default" data-toggle="modal" data-target="#building__add-edit" @click="showFrmAdd()">
+			<span class="glyphicon glyphicon-plus-sign"></span> Add Building
+		</button>
+
 		<ul class="breadcrumb-with-root_element">
 		    <li><router-link to="home">Home</router-link></li>
 		    <li>Buildings</li>
 		</ul>
+		<!-- <div class="block__add">
+			<span class="glyphicon glyphicon-th-list button__view-left "></span>
+			<span class="glyphicon glyphicon-th button__view-left "></span>
+		</div> -->
+	</div>
 
+	<div class="block__table">
 		<div class="row search_by">    
 	        <div class="col-xs-8 col-xs-offset-2 col-right">
 			    <div class="input-group ">
-	                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="input__search"  @keyup='Buildings()'>
+	                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="inputSearch"  @keyup='Buildings()'>
 	                <div class="input-group-btn search-panel search_key">
 	                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 	                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
 	                    </button>
 	                    <ul class="dropdown-menu " role="menu">
-	                      	<li @click="changeSearchKey('buildings.company')" >Company</li>
-	                      	<li @click="changeSearchKey('buildings.name')" >Building</li>
+	                      	<li @click="changeSearchKey('buildings.company')" >Companies</li>
+	                      	<li @click="changeSearchKey('buildings.name')" >Buildings</li>
 	                      	<li @click="changeSearchKey('cities.name')" >City</li>
 	                      	<li @click="changeSearchKey('addresses.street')" >Street</li>
-	                      	<li @click="changeSearchKey('addresses.neighborhood')" >Neighorhood</li>
+	                      	<li @click="changeSearchKey('addresses.neighborhood')">Neighorhood</li>
 	                      	<li class="divider"></li>
-	                      	<li >Anything</li> <!-- -->
+	                      	<li @click="changeSearchKey('anything')">Anything</li>
 	                    </ul>
 	                </div>     
 	                <span class="input-group-btn">
@@ -32,27 +42,6 @@
 	        </div>
 		</div>
 
-<!-- 	<input type="text" class="search__input" placeholder="Search" v-model="input__search"  @keyup='Buildings()'>
-
-		<select class="search__key" v-model="key__search" @change='Buildings()'>
-			<option value="buildings.company">Company</option>
-			<option value="buildings.name">Building</option>
-			<option value="cities.name">City</option>
-			<option value="addresses.street">Street</option>
-			<option value="addresses.neighborhood">Neighorhood</option>
-		</select> -->
-	</div>
-
-	<div class="block__add">
-		<span class="glyphicon glyphicon-th-list button__view-left "></span>
-		<span class="glyphicon glyphicon-th button__view-left "></span>
-
-		<button class="button__add--item btn btn-default" data-toggle="modal" data-target="#building__add-edit" @click="showFrmAdd()">
-			<span class="glyphicon glyphicon-plus-sign"></span> Add Building
-		</button>
-	</div>
-
-	<div class="block__table">
 		<table class="table__model_1 table">
 			<thead>
 				<tr>
@@ -67,7 +56,7 @@
 			<tbody>
 				<tr class="table__row" v-for="building of objBuildings">
 					<td>{{building.company}}</td>
-					<td><router-link :to="{ name: 'buildingDetails', params: { id: building.id } }">{{building.name}}</router-link></td>
+					<td><router-link :to="{ name: 'buildingDetails', params: { id: building.id }}">{{building.name}}</router-link></td>
 					<!-- <td><a href="" data-toggle="modal" data-target="#buildingInfo" @click="detailsBuilding(building.id)">{{building.name}}</a></td> -->
 					<td>{{building.city}}</td>
 					<td>{{building.street}}</td>
@@ -79,10 +68,9 @@
 				</tr>	
 			</tbody>	
 		</table>
+
+		<menu-item-footer :lengthBuildings="setLengthBuildings" sitePage="buildings" v-if="setLengthBuildings"></menu-item-footer>
 	</div>
-
-
-	<menu-item-footer :lengthBuilding="setLengthBuildings"></menu-item-footer>
 
 	<div class="modal fade" id="buildingInfo" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 	 	<div class="modal-dialog">
@@ -171,4 +159,5 @@
 		    </div>
 	 	</div>
 	</div>
+	
 </div>

@@ -2,69 +2,75 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\addRelayRequest;
+use App\Http\Requests\giveAccessToCardRequest;
+use App\Http\Requests\updateCardAccessRequest;
+use App\Http\Requests\updateRelayRequest;
+use App\Http\Services\RelayService;
+use App\Models\Card;
+use App\Models\Card_access;
 use Illuminate\Http\Request;
 use App\Models\Relay;
 use App\Models\Access_point;
 
 class RelayController extends Controller
 {
+    private $relayService;
+
+    public function __construct(RelayService $relayService){
+
+        $this->relayService = $relayService;
+    }
+
+    /**
+     * @param $access_point_id
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getRelays($access_point_id){
-        return Relay::where('access_point_id',$access_point_id)->get();
+
+        return Relay::where('access_point_id',$access_point_id)->orderBy('relay')->get();
+    }
+
+    /**
+     * @param $elevator_id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     */
+    public function getRelaysByElevatorId($elevator_id){
+        $access_points = Access_point::where('elevator_id',$elevator_id)->get(['id']);
+
+        return Relay::whereIn('access_point_id',$access_points)->whereNotNull('floor')->orderBy('relay')->get();
     }
 
     public function getRelay($id){
+
         return Relay::whereId($id)->first();
     }
 
-    public function add(Request $request){
+    public function findRelay($access_point_id, $relay){
 
-        $this->validate($request,[
-            'access_point_id' => 'required|exists:access_points,id',
-            'relay' => 'required|max:30',
-            'floor' => 'required|max:30',
-            'pulse_time' => 'required|numeric',
-        ]);
+        return Relay::where('access_point_id', $access_point_id)->where('relay',$relay)->first();
+    }
 
-        $access_point_id = $request->access_point_id;
-        $relay_name = $request->relay;
-        $floor = $request->floor;
-        $pulse_time = $request->pulse_time;
+    public function add(addRelayRequest $request){
 
         $relay = new Relay();
-        $relay->access_point_id = $access_point_id;
-        $relay->relay = $relay_name;
-        $relay->floor = $floor;
-        $relay->pulse_time = $pulse_time;
-        $relay->save();
+
+        $this->relayService->add($request, $relay);
 
         return $relay;
     }
 
-    public function update(Request $request){
+    public function update(updateRelayRequest $request){
 
-        $this->validate($request,[
-            'id' => 'required|exists:relays',
-            'relay' => 'required|max:30',
-            'floor' => 'required|max:30',
-            'pulse_time' => 'required|numeric',
-        ]);
+        $relay = Relay::find($request->id);
 
-        $id = $request->id;
-        $relay_name = $request->relay;
-        $floor = $request->floor;
-        $pulse_time = $request->pulse_time;
-
-        $relay = Relay::whereId($id)->first();
-
-        $relay->relay = $relay_name;
-        $relay->floor = $floor;
-        $relay->pulse_time = $pulse_time;
-        $relay->update();
+        $this->relayService->update($request, $relay);
 
         return $relay;
     }
 
     public function destroy($id){
+
         $relay = Relay::find($id);
 
         if ($relay != null) {
@@ -72,6 +78,23 @@ class RelayController extends Controller
             return "u fshi";
         }
         return "Nuk ekziston";
+    }
+
+    public function getRelaysOfAccessPointForCard($access_point_id, $card_id){
+
+        $relays = Relay::where('access_point_id',$access_point_id)->orderBy('relay')->get();
+        $card_accesses = Card_access::where('card_id',$card_id)->select('relay_id')->get();
+        $array = [];
+
+        for($i = 0; $i < count($card_accesses); $i++){
+            $array[$i] = $card_accesses[$i]->relay_id;
+        }
+
+        foreach ($relays as $relay){
+            $relay->setAttribute('checked', in_array($relay->id, $array));
+        }
+
+        return $relays;
     }
 
 }

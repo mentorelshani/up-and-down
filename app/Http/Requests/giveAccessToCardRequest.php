@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApartmentRequest extends FormRequest
+class giveAccessToCardRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class ApartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'entry_id' => 'required|integer',
-            'door_number' => 'required|integer',
+            'card_id' => 'exists:cards,id',
+            'relay_id' => 'required|array',
+            'relay_id.*' => 'distinct|exists:relays,id'
         ];
     }
 }

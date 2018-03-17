@@ -26,7 +26,7 @@ class addAccessPointRequest extends FormRequest
         return [
             'elevator_id' => 'exists:elevators,id',
             'version_id' => 'exists:versions,id',
-            'IMEI' => 'required|integer',
+            'imei' => 'required|digits_between:3,20',
             'phone_number' => 'required',
         ];
     }

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\addEntryRequest;
+use App\Http\Requests\PaginateRequest;
+use App\Http\Requests\updateEntryRequest;
+use App\Http\Services\EntryService;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Access_point;
@@ -10,8 +14,15 @@ use App\Models\Elevator;
 
 class EntryController extends Controller
 {
+    private $entryService;
+
+    public function __construct(EntryService $entryService){
+
+        $this->entryService = $entryService;
+    }
+
 	public function getEntry($id){
-		return Entry::where('id',$id)->with('building.address.city','elevators','apartments.clients')->first();
+		return Entry::where('id',$id)->with('building.address.city','elevators.access_points','apartments.clients')->first();
 	}
 
     public function getEntries(Request $request){
@@ -32,7 +43,6 @@ class EntryController extends Controller
                         ->join('cities','cities.id','=','addresses.city_id')
                         ->orderBy($orderBy,$asc);
 
-
     	if ($relation == "IMEI") {
     		$entries = $entries->whereIn('entries.id',
 		    				Elevator::whereIn('elevators.id',
@@ -49,60 +59,66 @@ class EntryController extends Controller
     	$result = $entries->skip($skip)->take($limit)
     					  ->get(['entries.*','buildings.name as building','cities.name as city','addresses.street','addresses.neighborhood']);
 
-    	return array('count' => $count, 'entries' => $result);				  
-
-
+    	return array('count' => $count, 'entries' => $result);
     }
 
-    public function add(Request $request){
+    public function index(PaginateRequest $request){
 
-        $this->validate($request,[
-            'building_id' => 'exists:buildings,id',
-            'name' => 'required',
-            'number_of_floors' => 'integer',
-            'number_of_apartments' => 'integer'
-        ]);
+        // return entries where Auth::user() has permission
 
-        $building_id = $request->building_id;
-        $name = $request->name;
-        $number_of_floors = $request->number_of_floors;
-        $number_of_apartments = $request->number_of_apartments;
+        $orderBy = $request->orderBy;
+        $limit = (int) $request->limit;
+        $page = (int) $request->page;
+        $relation = $request->relation;
+        $value = $request->value;
+        $asc = (bool)$request->asce  ? 'asc' : 'desc';
+
+        $skip = ($page - 1) * $limit;
+
+        $entries = Entry::join('buildings','buildings.id','=','entries.building_id')
+            ->join('addresses','addresses.id','=','buildings.address_id')
+            ->join('cities','cities.id','=','addresses.city_id')
+            ->orderBy($orderBy,$asc);
+
+            foreach ($relation as $i) {
+                if ($i == "IMEI"){
+                    $entries = $entries->orWhereIn('entries.id',
+                        Elevator::whereIn('elevators.id',
+                            Access_point::where('imei','ilike',"$value%")->select('elevator_id')->get()
+                        )->select('entry_id')->get()
+                    );
+                }
+                else {
+                    $entries = $entries->orWhere($i,'ilike',"%$value%");
+                }
+            }
+
+            $entries = $entries->select(['entries.*','buildings.name as building','cities.name as city','addresses.street','addresses.neighborhood'])
+                               ->orderBy($orderBy,$asc);
+
+            return $entries->paginate($limit);
+    }
+
+    public function getEntriesByBuilding($building_id){
+        return Entry::where('building_id',$building_id)->get();
+    }
+
+    public function add(addEntryRequest $request){
 
         $entry = new Entry();
-        $entry->building_id = $building_id;
-        $entry->name = $name;
-        $entry->number_of_floors = $number_of_floors;
-        $entry->number_of_apartments = $number_of_apartments;
-        $entry->save();
+
+        $this->entryService->add($request, $entry);
 
         return $entry;
     }
 
-    public function update(Request $request){
+    public function update(updateEntryRequest $request){
 
-        $this->validate($request,[
-            'id' => 'exists:entries',
-            'building_id' => 'exists:buildings,id',
-            'name' => 'required',
-            'number_of_floors' => 'integer',
-            'number_of_apartments' => 'integer'
-        ]);
+        $entry = Entry::find($request->id);
 
-        $id = $request->id;
-        $building_id = $request->building_id;
-        $name = $request->name;
-        $number_of_floors = $request->number_of_floors;
-        $number_of_apartments = $request->number_of_apartments;
-
-        $entry = Entry::whereId($id)->first();
-        $entry->building_id = $building_id;
-        $entry->name = $name;
-        $entry->number_of_floors = $number_of_floors;
-        $entry->number_of_apartments = $number_of_apartments;
-        $entry->update();
+        $this->entryService->update($request, $entry);
 
         return $entry;
-
     }
 
     public function destroy($id){

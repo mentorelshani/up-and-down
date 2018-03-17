@@ -89,19 +89,22 @@ gulp.task('cssPlugins', function () {
       'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
       'bower_components/font-awesome/css/font-awesome.min.css',
       'bower_components/toastr/toastr.min.css',
-      'bower_components/sweetalert/dist/sweetalert.css',
-      'bower_components/wow/css/libs/animate.css'
-    ])
+      'bower_components/sweetalert2/dist/sweetalert2.css',
+      'bower_components/wow/css/libs/animate.css',
+
+      'node_modules/vue-multiselect/dist/vue-multiselect.min.css',
+      ])
     .pipe(concat('build.min.css'))
     .pipe(gulp.dest('public/css'))
 });
+
 
 gulp.task('jsPlugins', function () {
     return gulp.src([
         'bower_components/jquery/dist/jquery.min.js',
         'bower_components/bootstrap/dist/js/bootstrap.min.js',
         'bower_components/toastr/toastr.min.js',
-        'bower_components/sweetalert/dist/sweetalert.min.js',
+        'bower_components/sweetalert2/dist/sweetalert2.min.js',
         'bower_components/wow/dist/wow.min.js',
         'bower_components/rellax/rellax.min.js'
       ])
@@ -110,7 +113,6 @@ gulp.task('jsPlugins', function () {
     .pipe(gulp.dest('public/js'))
 });
 
-
 gulp.task('watch', ['browser-sync'], function () {
     gulp.watch(["./resources/app/scss/**/*.scss"], ['sass']);
     gulp.watch("./resources/admin/scss/**/*.scss", ['adminScss']);
@@ -118,7 +120,10 @@ gulp.task('watch', ['browser-sync'], function () {
           "./resources/views/index.blade.php",
           "./resources/views/admin/dashboard.blade.php", 
           "./resources/app/components/*.vue", 
-          "./resources/admin/components/**/*.vue", 
+          "./resources/admin/components/**/*.vue",
+          "./resources/admin/components/service/*.js",
+          "./resources/admin/main.admin.js",
+          "gulpfile.js",
           "./resources/app/components/templates/*.html",  
           "./resources/admin/components/templates/*.html"], 
           ['build.index', 'webpack']).on('change', bs.reload);

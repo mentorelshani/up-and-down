@@ -17,9 +17,10 @@ class CreateAccessPointsTable extends Migration
             $table->increments('id');
             $table->integer('elevator_id');
             $table->integer('version_id');
-            $table->string('IMEI');
+            $table->string('imei');
             $table->string('phone_number');
             $table->string('notes')->nullable();
+            $table->boolean('active');
             $table->foreign('elevator_id')->references('id')->on('elevators')->onDelete('cascade');            
             $table->foreign('version_id')->references('id')->on('versions')->onDelete('cascade');
             $table->timestamps();

@@ -19,36 +19,18 @@ class BuildingController extends Controller
         $this->buildingService = $buildingService;
     }
 
-    public function getBuildings (PaginateRequest $request){
+    public function getAllBuildings (){
 
-        // return Buildings where Auth::user() has permission
-//        return $request->rules();
-
-    	$orderBy = $request->orderBy;
-    	$limit = (int) $request->limit;
-    	$page = (int) $request->page;
-    	$relation = $request->relation;
-    	$value = $request->value;
-    	$asc = (bool)$request->asce  ? 'asc' : 'desc';
-
-
-    	$skip = ($page - 1) * $limit;
-
-    	$buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
+        $buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
                         ->join('cities','cities.id','=','addresses.city_id')
-                        ->where($relation,'ilike','%'.$value.'%')
                         ->whereHasAccess()
-                        ->orderBy($orderBy,$asc);
+                        ->get();
 
-
-        $count = $buildings->get()->count();
-
-        $result = $buildings->skip($skip)->take($limit)
-                            ->get(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood']);
-
-        return array('count' => $count, 'buildings' => $result);
+        return $buildings;
     }
+
     public function index(PaginateRequest $request){
+        DB::enableQueryLog();
 
         $orderBy = $request->orderBy;
         $limit = $request->limit;
@@ -57,15 +39,33 @@ class BuildingController extends Controller
         $value = $request->value;
         $asc = $request->asce  ? 'asc' : 'desc';
 
+        $skip = ($page - 1) * $limit;
+
         $buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
             ->join('cities','cities.id','=','addresses.city_id')
-            ->where($relation,'ilike','%'.$value.'%')
-            ->whereHasAccess()
-            ->orderBy($orderBy,$asc)
-            ->select(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood'])
-            ->paginate($limit);
+            ->join('entries','buildings.id','=','entries.building_id')
+            ->join('apartments','entries.id','=','apartments.entry_id')
+            ->join('clients','apartments.id','=','clients.apartment_id')
+            ->join('cards','clients.id','=','cards.client_id')
+            ->join('elevators','entries.id','=','elevators.entry_id')
+            ->join('access_points','elevators.id','=','access_points.elevator_id');
 
-        return $buildings;
+
+        $buildings = $buildings->where(function ($query) use ($relation, $value){
+            foreach ($relation as $i)
+                $query->orWhereRaw("cast($i as text) ilike '%$value%'");
+        });
+
+        $buildings = $buildings->whereHasAccess()
+            ->select(['buildings.*','cities.name as city','addresses.street','addresses.neighborhood'])
+            ->distinct()
+            ->orderBy($orderBy,$asc);
+
+        $count = $buildings->get()->count();
+
+        $result = $buildings->skip($skip)->take($limit)->get();
+
+        return array('count' => $count, 'buildings' => $result);
     }
 
     public function getBuilding($id){
@@ -79,8 +79,20 @@ class BuildingController extends Controller
 
         $this->buildingService->add($request, $building);
 
-        return $building;
+        if($request->hasFile('file')){
 
+            $this->validate($request,[
+                'file' => 'image'
+            ]);
+
+            $image = $request->file('file');
+
+            $fileName = "$building->id.png";
+
+            $image->move(public_path("/uploads"), $fileName);
+        }
+
+        return $building;
     }
 
     public function update(updateBuildingRequest $request){

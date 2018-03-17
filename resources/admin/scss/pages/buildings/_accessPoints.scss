@@ -1,0 +1,423 @@
+.accessPoints {
+	.body_modal {
+		float: left;
+
+		.form--accessPoint {
+			@extend .form--input;
+		}
+
+		.addEdit__accessPoint--mainData {
+			position: relative;
+			width: 30%;
+			// opacity: 0;
+			// cursor: default;
+			// margin-right:;
+			float: left;
+			margin-top: 15px;
+			margin-left:15px;
+
+			.details__element {
+				float: left;
+				width: 100%;
+				margin-bottom: 5px;
+				top: 0;
+				position: relative;
+
+				.element__label {
+					width:40%;
+					text-align: right;
+					margin-right: 10px;
+					position: relative;
+					float: left;
+					top: 0;
+				}
+
+				.element__input {
+					width:50%;
+					outline: none;
+					border: 0;
+					outline: 0;
+					background: transparent;
+					border-bottom: 1px solid $borderInput;
+					padding-left: 5px;
+
+				}
+
+				.element__textarea {
+					width:50%;
+					outline: none;
+					border: 0;
+					border-bottom: 1px solid $borderInput;
+					padding-left: 5px;
+					resize: none;
+
+				}
+
+				.content {
+					width: 50%; 
+				}
+				.content-note {
+					width:100%;
+					float: left;
+					padding-left: 5px;
+				}
+			}
+		}
+
+		.addEdit__accessPoint--relay {
+			float: left;
+			width: 45%;
+			padding-bottom: 30px;
+			top: 0;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+
+			.relay__button {
+				padding-top: 15px;
+				text-align: center;
+
+				.relay {
+					background: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
+ 					border: 1px solid #ccc;
+					min-width: 80px;
+					width: 22%;
+					margin: 3px;
+					text-align: center;
+					height: 30px;
+					font-size: 15px;
+
+					&:hover {
+						opacity: 0.8;
+						color:black; 
+					}
+				}
+
+				.relay_config {
+					@extend .relay;
+					background: #2ecc71;
+ 					
+				}
+			}
+
+			.relay__details {
+				// text-align: center;
+				width: 90%;
+				margin-left: 5%;
+				margin-right: 5%;
+				margin-top: 15px;
+
+				.relay__details--space {
+					width: 100%;
+					display: block;
+
+					border-width: 2px;
+					border-style: groove;
+					border-color: $borderInput;
+					border-image: initial;
+
+					.relay__name {
+						display: block;
+						width: auto;
+						margin-left: 10px;
+						border-style: none;
+						border-color: $borderInput;
+						font-size: 18px !important;
+					}
+
+					.details__element {
+						float: left;
+						width: 100%;
+						margin-bottom: 10px;
+						height: auto;
+
+						.element__label {
+							width:auto;
+							text-align: right;
+							margin: 0px 0px 0px 10px;
+							float: left;
+
+						}
+
+						.element__input {
+							width: calc( 100% - 7px);
+							outline: none;
+							border: 0;
+							outline: 0;
+							// background: transparent;
+							border-radius: 4px;
+							border: 1px solid $borderInput;
+							margin:0px 3.5px;
+							padding:0px 3.5px;
+							padding-left: 10px;
+							height: 34px;
+							font-size: 15px;
+
+						}
+
+						.element__input-small {
+							width:30%;
+							outline: none;
+							border: 0;
+							outline: 0;
+							// background: transparent;
+							border-bottom: 1px solid $borderInput;
+							padding-left: 5px;
+							height: 30px;
+							font-size: 15px;
+
+						}
+
+						.element__select {
+							width: calc( 100% - 7px);
+							float: left;
+							outline: none;
+							border: 0;
+							outline: 0;
+							margin:0px 3.5px;
+							font-size: 15px;
+
+							// padding: 5px;
+						}
+					}
+
+					.controll_relays {
+						width:100%;
+						float: right;
+						margin-bottom: 0px;
+						padding: 20px 10px;
+						.save_config {
+							float: left;
+							background: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
+							border: 1px solid $borderButton;
+						}
+
+						.save_config_ok {
+							background: #27ae60;
+						}
+
+						.save_config_error {
+							background: #e74c3c;
+						}
+
+						.save_config_empty {
+							// background-color: ;
+						}
+
+						.previous_relay {
+							width: 40px;
+							float: right;
+							margin-right: 5px;
+						}
+
+						.next_relay {
+							width: 40px;
+							float: right;
+
+						}
+					}
+				}
+			}
+		}
+
+		.addEdit__accessPoint--relation {
+			width: 20%;
+			height: auto;
+			float: left;
+			padding-top: 10px;
+			padding-left:15px;
+
+			.subtitle {
+
+			}
+
+			li {
+				list-style-type: none;
+			}
+		}
+
+		.monitor--accessPoint {
+			width: 100%;
+			margin: 0px 0px 20px 0%;
+			height: auto;
+			// background-color: red;
+			float: left;
+			.element {
+				width: 33%;
+				height: auto;
+
+				float: left;
+				.name {
+					width: 25%;
+					float: left;
+					text-align: right;
+					padding-right: 5px;
+					padding-top: 2px;
+					// margin-right: 10px;
+				}
+
+				.value {
+					width: 70%;
+				}
+
+				.error {
+					border:1px solid red;
+				}
+
+				.error_message {
+					width: 100%;
+					float: left;
+					text-align:center;
+					color: red;
+				}
+			}
+		}
+
+		.table--monitor {
+			height: 500px;
+		}
+
+		.block_checkins-data {
+			float: left;
+			height: 450px;
+			background-color: #f6f5f5;
+			overflow-x:auto;
+			overflow-y:auto;
+			border:1px solid #acb3b9; 
+			font-size: 14px;
+			width: 100%;
+			margin-bottom: 10px;
+
+			ul {
+				flex-direction: row;
+				justify-content: flex-start; 
+				list-style: none;
+				padding: 0;
+				white-space: nowrap;
+				
+				.row_checkins{
+					margin-left: 15px;
+					float: left;
+
+					.time_created {
+						color:grey;
+						margin-right: 5px;
+					}
+
+					.data {
+
+					}
+				}
+			}
+		}
+	}
+
+	// .footer_modal {
+	// 	border-color: transparent !important;
+	// }
+
+	.details--accessPoint {
+		@extend .details-form;
+	}
+}
+
+
+.tab__view-list--monitor {
+    width: 100%;
+    font-size: 14px;
+
+    thead {
+    	display: block;
+        width: 100%;
+        margin-right: 10px;
+
+        tr {
+            width: 100%;
+            display: inline-table;
+
+			th {
+				min-width: 25%;
+				max-width: auto;
+				display: inline-block;
+			}
+				
+			.action {
+				width: 25%;
+				text-align: center;
+				display: inline-block;
+				// margin-right: 2%;
+			}
+        }
+    }
+
+    tbody {
+        display:block;
+        height: 420px;
+		overflow: auto;
+        overflow-x: hidden;
+
+        tr {
+        	width: 100%;
+            display: inline-table;
+            
+            td {
+                width: 25%;
+                display: inline-block;
+                word-wrap: break-word;
+            }
+            
+            .action {
+				text-align: center;
+                width: 25%;
+                display: inline-block;
+            }
+            .last_connect {
+            	color:black;
+            	font-weight: 1000;
+            }
+            .insert {
+            	color:green;
+            }
+
+            .delete {
+            	color:red;
+            }
+        }
+    }
+}
+
+@media only screen and (min-height: 850px) {
+    .table--monitor {
+    	height: 740px !important;
+    	transition: all 0.5s linear;
+    	.tab__view-list--monitor {
+	    	tbody {
+	    		height: 660px !important;
+	    		transition: all 0.5s linear;
+	    	}
+	    }
+    }
+
+    .cards{
+		.modal-body {
+			height: 700px;
+    	}    	
+    }
+
+
+    .block_checkins-data {
+    	height: 680px !important;
+    }
+}
+
+
+
+@media only screen and (max-width: 600px) {
+
+	.monitor--accessPoint {
+		.element {
+			width: 100% !important;
+		}
+	}
+
+}

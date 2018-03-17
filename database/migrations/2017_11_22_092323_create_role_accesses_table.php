@@ -17,7 +17,7 @@ class CreateRoleAccessesTable extends Migration
             $table->increments('id');
             $table->integer('role_id');
             $table->integer('building_id');
-            $table->char('permission');
+            $table->char('permission',1);
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
             $table->timestamps();

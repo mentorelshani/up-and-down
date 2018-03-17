@@ -1,6 +1,6 @@
 	<div class="footer__paginat">
 		<!-- <input type="text" :value="show__items" @input="updateShowItems($event.target.value)"> -->
-		<div class="pagination-model">
+		<div class="pagination-model" v-if="showPaginate">
 			<a  @click="Pagination('min')">&Lang;</a>
 		    <a  @click="Pagination('prev')">&lang;</a>
 		    
@@ -15,8 +15,8 @@
 			<select @change="setParams()" v-model="showItem">
 				<option>10</option>
 				<option>20</option>
-				<option>30</option>
-				<option value="10000">All</option>
+				<option :value="40">40</option>
+				<option :value="1000">All</option>
 			</select>
 		</div>
 	</div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ApartmentRequest;
+use App\Http\Requests\addApartmentRequest;
 use App\Http\Requests\updateApartmentRequest;
 use Illuminate\Http\Request;
 use App\Models\Apartment;
@@ -27,7 +27,7 @@ class ApartmentController extends Controller
         return Apartment::where('entry_id',$entry_id)->get();
     }
 
-    public function add(ApartmentRequest $request){
+    public function add(addApartmentRequest $request){
 
         $apartment = new Apartment();
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\addAccessPointRequest;
 use App\Http\Requests\updateAccessPointRequest;
+use App\Models\Relay;
+use App\Models\Version;
 use Illuminate\Http\Request;
 use App\Models\Access_point;
 use App\Models\Elevator;
@@ -20,7 +22,7 @@ class AccessPointController extends Controller
 
     public function getAccessPoint($id){
 
-        return Access_point::whereId($id)->with(['elevator','version'])->first();
+        return Access_point::whereId($id)->with(['elevator','version','relays'])->first();
     }
 
     public function getAccessPointsByEntry($entry_id){
@@ -32,13 +34,27 @@ class AccessPointController extends Controller
         return $access_points;
     }
 
+    public function getAccessPointsByElevator($elevator_id){
+
+        return Access_point::where('elevator_id', $elevator_id)->get();
+    }
+
     public function add(addAccessPointRequest $request){
 
         $access_point = new Access_point();
 
         $this->accessPointService->add($request, $access_point);
 
-        return $access_point;
+        $version = Version::find($request->version_id);
+
+        for ($i = 0; $i < $version->number_of_relays; $i++){
+            $relay = new Relay();
+            $relay->access_point_id = $access_point->id;
+            $relay->relay = $i+1;
+            $relay->save();
+        }
+
+        return Access_point::whereId($access_point->id)->with(['elevator','version','relays'])->first();
     }
 
     public function update(updateAccessPointRequest $request){

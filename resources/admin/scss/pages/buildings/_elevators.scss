@@ -1,0 +1,9 @@
+.elevators {
+	.form--elevator {
+		@extend .form--input;
+	}
+
+	.details--elevator {
+		@extend .details-form;
+	}
+}

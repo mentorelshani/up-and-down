@@ -39,8 +39,7 @@ Route::get('/getCities','CityController@getCities');
 Route::get('/getCompanies','CityController@getCompanies');
 Route::get('/getNeighborhoods','CityController@getNeighborhoods');
 
-
-Route::post('/getBuildings','BuildingController@getBuildings');
+Route::get('/getAllBuildings','BuildingController@getAllBuildings');
 Route::post('/getBuildings1','BuildingController@index'); // new
 Route::post('/addBuilding','BuildingController@add');
 Route::get('/getBuilding/{id}','BuildingController@getBuilding');
@@ -48,7 +47,9 @@ Route::post('/updateBuilding','BuildingController@update');
 Route::delete('/deleteBuilding/{id}','BuildingController@destroy');
 
 Route::get('/getEntry/{id}','EntryController@getEntry');
+Route::get('/getEntries/{building_id}','EntryController@getEntriesByBuilding');
 Route::post('/getEntries','EntryController@getEntries');
+Route::post('/getEntries1','EntryController@index');// new
 Route::post('/addEntry','EntryController@add');
 Route::post('/updateEntry','EntryController@update');
 Route::delete('/deleteEntry/{id}','EntryController@destroy');
@@ -65,14 +66,19 @@ Route::post('/addVersion','VersionController@add');
 Route::get('/getAccessPoint/{id}','AccessPointController@getAccessPoint');
 Route::post('/addAccessPoint','AccessPointController@add');
 Route::get('/getAccessPoints/{entry_id}','AccessPointController@getAccessPointsByEntry');
+Route::get('/getAccessPointsByElevator/{elevator_id}','AccessPointController@getAccessPointsByElevator');
 Route::post('/updateAccessPoint','AccessPointController@update');
 Route::delete('/deleteAccessPoint/{id}','AccessPointController@destroy');
 
 Route::get('/getRelays/{access_point_id}','RelayController@getRelays');
+Route::get('/getRelaysByElevatorId/{elevator_id}','RelayController@getRelaysByElevatorId');
+Route::get('/getRelay/{access_point_id}/{relay}','RelayController@findRelay');
 Route::get('/getRelay/{id}','RelayController@getRelay');
 Route::post('/addRelay','RelayController@add');
 Route::post('/updateRelay','RelayController@update');
 Route::delete('/deleteRelay/{id}','RelayController@destroy');
+Route::get('/getRelays/{access_point_id}/{card_id}','RelayController@getRelaysOfAccessPointForCard');
+Route::post('updateCardAccess','RelayController@updateCardAccess');
 
 Route::get('/getApartment/{id}','ApartmentController@getApartment');
 Route::get('/getApartments/{entry_id}','ApartmentController@getApartmentsByEntry');
@@ -83,7 +89,7 @@ Route::delete('/deleteApartment/{id}','ApartmentController@destroy');
 Route::get('/getClient/{id}','ClientController@getClient');
 Route::post('/getClients','ClientController@getClients');
 Route::post('/getClients/{entry_id}','ClientController@getClientsByEntryId');
-Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId1');//to be deleted
+Route::get('/getClients/{entry_id}','ClientController@getClientsByEntryId1');
 Route::post('/addClient','ClientController@add');
 Route::post('/updateClient','ClientController@update');
 Route::delete('/deleteClient/{id}','ClientController@destroy');
@@ -94,18 +100,54 @@ Route::post('/addPayment','PaymentController@add');
 Route::post('/updatePayment','PaymentController@update');
 Route::delete('/deletePayment/{id}','PaymentController@destroy');
 
+Route::post('/getCards/{entry_id}','CardController@getCardsByEntry');
+Route::get('/getCardAccess/{id}','CardController@getCardAccess');
+Route::post('/addCard','CardController@add');
+Route::post('/updateCard','CardController@update');
+Route::delete('/deleteCard/{id}','CardController@destroy');
+Route::post('updateCardAccess','CardController@updateCardAccess');
+Route::post('/giveAccessToCard','CardController@giveAccess');
+Route::delete('/deleteAccessFromCard/','CardController@deleteAccess');
+Route::delete('/deleteAllAccessesFromCard/{card_id}','CardController@deleteAllAccesses');
+
+Route::post('/getCheckIns/{access_point_id}','CheckInController@getCheckIns');
+Route::post('/getMonitors/{access_point_id}','MonitorController@getMonitors');
+
 Route::get('getUsers','UserController@index');
+Route::post('addUser','UserController@add');
 
-Route::get('test',function (){
+Route::get('getRoles','RoleController@getRoles');
+Route::get('getRole/{id}','RoleController@getRole');
+Route::get('getRoleAccesses/{role_id}','RoleController@getAccesses');
+Route::post('addRole','RoleController@addRole');
+Route::delete('deleteAccessFromRole/{role_access_id}','RoleController@deleteAccessFromRole');
+Route::post('giveAccessToRole','RoleController@giveAccessToRole');
 
-    return Auth::user()->creator;
+Route::get('test1','RoleController@asd');
 
-    return Building::whereRaw("cast(id as text) like '1%'")->get();
+Route::get('test', function (){
 
-//    return Auth::user()->id;
-//    return Building::find(2)->creator->id;
-//    return Building::get();
-//    return $a->buildings()->with('address')->get();
+    $request = \Illuminate\Http\Request::create('localhost:8000/test1', 'POST', ['param1' => 'value1', 'param2' => 'value2']);
+//    $request = Request::create('test1', 'GET');
+    return $request;
+
+    return "done";
+
+    $request = Request::create('localhost:8000/test1', 'POST', array('id'=> 23));
+
+    return;
+
+    $apartment = new Apartment();
+    $apartment->door_number = 12;
+    $entry = Entry::find(2);
+    $entry->apartments()->save($apartment);
+    return $entry->apartments;
+
+    $access_point = Access_point::find(2);
+    $version = Version::find(2);
+    $elevator = Elevator::find(3);
+    $version->access_points()->attach($elevator);
+    return count($version->access_points);
 
 });
 
