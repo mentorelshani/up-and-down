@@ -111,7 +111,6 @@ Route::delete('/deleteAccessFromCard/','CardController@deleteAccess');
 Route::delete('/deleteAllAccessesFromCard/{card_id}','CardController@deleteAllAccesses');
 
 Route::post('/getCheckIns/{access_point_id}','CheckInController@getCheckIns');
-
 Route::post('/getMonitors/{access_point_id}','MonitorController@getMonitors');
 
 Route::get('getUsers','UserController@index');

@@ -7,28 +7,27 @@
 	<div class="tab__view--body" v-if="elevators">
 		<table class="table tab__view-list">
 			<thead>
-			<tr>
-				<th>Identifier</th>
-				<th>Type</th>
-				<th>Made in</th>
-				<th>Company</th>
-				<th class="action">Action</th>
-			</tr>
+				<tr>
+					<th>Identifier</th>
+					<th>Type</th>
+					<th>Made in</th>
+					<th>Company</th>
+					<th class="action">Action</th>
+				</tr>
 			</thead>
 			<tbody>
-			<tr v-for="elevator in elevators">
-				<td>{{elevator.identifier}}</td>
-				<td>{{elevator.type}}</td>
-				<td>{{elevator.made_in}}</td>
-				<td>{{elevator.company}}</td>
-				<td class="action">
-					<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click="getDetails(elevator.id); modalEdit(elevator.identifier)"></span>
-					<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(elevator.id)"></span>
-					<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator" @click="getDetails(elevator.id)"></span>
-				</td>
-			</tr>
+				<tr v-for="elevator in elevators">
+					<td>{{elevator.identifier}}</td>
+					<td>{{elevator.type}}</td>
+					<td>{{elevator.made_in}}</td>
+					<td>{{elevator.company}}</td>
+					<td class="action">
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addElevator" @click="getDetails(elevator.id); modalEdit(elevator.identifier)"></span>
+						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(elevator.id)"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoElevator" @click="getDetails(elevator.id)"></span>
+					</td>
+				</tr>
 			</tbody>
-
 		</table>
 	</div>
 

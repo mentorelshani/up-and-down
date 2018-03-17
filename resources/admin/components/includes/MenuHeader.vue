@@ -11,7 +11,7 @@
     }
 </script>
 
-<template src="../templates/menu_header.html">
+<template src="../templates/menuHeader.html">
 </template>
 
 <style>

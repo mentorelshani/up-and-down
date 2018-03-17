@@ -3,7 +3,7 @@
 	 	data: function() {
 	        return {
 	   
-	        	showItem:10,
+	        	showItem:20,
 	        	paginatePage:1,
                 totalPage:null,
                 activePage:true,
@@ -188,7 +188,7 @@
   	}
 </script>
 
-<template src="../templates/menu_itemsFooter.html">
+<template src="../templates/menuItemsFooter.html">
 
 </template>
 

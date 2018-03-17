@@ -1,4 +1,6 @@
 <script>
+    import alert from '../components/service/sweetAlert.js'
+
     export default {
         data() {
             return {
@@ -68,30 +70,35 @@
                         console.log(response.data);
                         this.getAll();
                         this.error={};
-                    })
+                        swal({ title:"Success!", text:null, type:"success" });
+                                            })
                     .catch(e => {
                         console.log(e.body);
                         this.error=e.body;
-                        // if(e.body != null)
-                        // {
-
-                        // }       
+                        swal({ title:"Error!", text:'This row has not been added!', type:"error" });
                     });
             },
 
             edit:function() {
-                this.$http.post('/updateElevator',this.details)
-                    .then(response => {
-                        console.log(response.data);
-                        this.getAll();
+                let vm=this;
 
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
+                alert.modify(function() {
+                    vm.$http.post('/updateElevator',vm.details)
+                        .then(response => {
+                            vm.getAll();
+                            vm.error={};
+                        })
+                        .catch(e => {
+                            swal({ title:"Error!", text:'This row has not been updated!', type:"error" });
+                            vm.error=e.body;
+                        });
+                });
             },
 
             getDetails:function(idElevator) {
+
+                this.error={};
+                
                 this.$http.get(`/getElevator/`+idElevator)
                     .then(response => {
                         this.details=response.data;
@@ -103,15 +110,18 @@
             },
 
             destroy:function(idElevator) {
-                this.$http.delete(`/deleteElevator/`+idElevator)
-                    .then(response => {
-                        console.log('U fshi me sukses');
-                        this.getAll();
+                let vm=this;
 
-                    })
-                    .catch(e => {
-                        console.log(e.respone);
-                    });
+                alert.delete(function() {
+                    vm.$http.delete(`/deleteElevator/`+idElevator)
+                        .then(response => {
+                            vm.getAll();
+                        })
+                        .catch(e => {
+                            alert.information("Error",'This row has not been removed!',"error");
+                        });
+                });
+                
             },
 
             modalAdd:function() {

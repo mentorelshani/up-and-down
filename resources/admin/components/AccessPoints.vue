@@ -1,5 +1,10 @@
 <script>
+    
+    import alert from '../components/service/sweetAlert.js'
+    // const alert =new sweetAlert();
+
     export default {
+        // components: { Multiselect },
         data() {
             return {
                 accessPoints:{},
@@ -45,9 +50,10 @@
                     value:null,
                     asc:true,
                     totelRecord:null,
-                    limit:20,
+                    limit:100,
                     page:1,
                 },
+                errorMonitor:{},
 
                 checkins:{
                     from:null,
@@ -64,8 +70,30 @@
 
                 pagination:{},
 
-                monitorsData:null,
-                checkinsData:null,
+                monitorsData:{},
+                checkinsData:{},
+
+                buildingFloor:[
+                   'Hyrja',
+                    'Garazha',
+                    'Kati -2',
+                    'Kati -1',
+                    'Kati 0',
+                    'Kati 1',
+                    'Kati 2',
+                    'Kati 3',
+                    'Kati 4',
+                    'Kati 5',
+                    'Kati 6',
+                    'Kati 7',
+                    'Kati 8',
+                    'Kati 9',
+                    'Kati 10',
+                    'Kati 11',
+                    'Vip 1',
+                    'Vip 2',
+                    'None',
+                ],
             }
         },
 
@@ -80,7 +108,7 @@
         },
 
         created() {
-            
+            this.getDate();
         },
 
         mounted() {
@@ -97,7 +125,12 @@
 
             monitorSearch:function() {
                 return this.monitor.value;
-            },        },
+            },  
+
+            objVersion:function() {
+                return this.versions.map(g => ({label:g.name, value: g}));
+            }, 
+        },
 
         watch: {
             keySearch: function() {
@@ -162,12 +195,18 @@
                     });
             },
 
-            getDetails:function(idAccessPoint) {
-                this.$http.get('/getAccessPoint/'+idAccessPoint)
+            getDetails:function(accessPoint_id) {
+         
+                this.monitor.access_point_id=accessPoint_id;
+                this.monitorCards(accessPoint_id);
+                this.errorAccessPoint={};
+
+                this.$http.get('/getAccessPoint/'+accessPoint_id)
                     .then(response => {
                         this.details=response.data;
                         this.numberOfRelays=response.data.version.number_of_relays;
-                        console.log(this.numberOfRelays);
+                        this.errorAccessPoint={};
+
                     })
                     .catch(e => {
                         console.log(e);
@@ -188,42 +227,57 @@
 
                         this.getAll();
                         this.setRelayDetails(response.data.relays[0].id);
+                        this.errorAccessPoint={};
+                        swal({ title:"Success!", text:null, type:"success" });
 
                     })
                     .catch(e => {
-                        console.log("Access Point u shtua me sukses = false");
+                        swal({ title:"Error!", text:'This row has not been added!', type:"error" });
                         this.errorAccessPoint=e.body;
                     });
             },
 
             edit:function() {
-                this.$http.post('/updateAccessPoint',this.details)
+                let vm=this;
+
+                alert.modify(function() {
+                    vm.$http.post('/updateAccessPoint',vm.details)
                     .then(response => {
-                        console.log(response.data);
-                        this.getAll();
+                        // swal({ title:"Success!", text:null, type:"success" });
+                        vm.getAll();
+                        vm.errorAccessPoint={};
                     })
                     .catch(e => {
-                        console.log(e);
+                        swal({ title:"Error!", text:'This row has not been updated!', type:"error" });
+                        vm.errorAccessPoint=e.body;
+
                     });
+                }) 
             },
 
-            destroy:function(idAccessPoint) {
-                this.$http.delete(`/deleteAccessPoint/`+idAccessPoint)
-                    .then(response => {
-                        console.log('U fshi me sukses');
-                        this.getAll();
-                    })
-                    .catch(e => {
-                        console.log(e.respone);
-                    });
+            destroy:function(accessPoint_id) {
+                let vm=this;
+
+                alert.delete(function () {
+                    vm.$http.delete(`/deleteAccessPoint/`+accessPoint_id)
+                        .then(response => {
+                            vm.getAll();
+                        })
+                        .catch(e => {
+                            alert.information("Error",'This row has not been removed!',"error");
+                        });
+                });
             },
 
             getVersion: function() {
                 this.$http.get(`/getVersions`)
                     .then(response => {
                         this.versions=response.data;
-                        this.details.version=this.versions[0];
-                        this.chooseVersion();
+                        // this.details.version=this.versions[0];
+                        // this.chooseVersion();
+                        // for (var key in this.versions) {
+                        //     console.log(this.versions[key].selectedRoles);
+                        // }
 
                     })
                     .catch(e => {
@@ -277,15 +331,15 @@
                     });
             },
 
-            getRelaysAccessPoint:function(idAccessPoint) {
+            getRelaysAccessPoint:function(accessPoint_id) {
                 this.modalAddRelays();
-                this.AccessPointId=idAccessPoint;
+                this.AccessPointId=accessPoint_id;
 
                 this.relays=[];
                 var vm = this;
 
-                this.getDetails(idAccessPoint);
-                this.$http.get('/getRelays/'+idAccessPoint)
+                this.getDetails(accessPoint_id);
+                this.$http.get('/getRelays/'+accessPoint_id)
                     .then(response => {
                         console.log(response.data);
                         this.relays = response.data;
@@ -344,8 +398,8 @@
                 this.monitor.access_point_id=accessPoint_id;
             },
 
-            modalConfigRelay:function(idAccessPoint) {
-                // this.AccessPointId=idAccessPoint;
+            modalConfigRelay:function(accessPoint_id) {
+                // this.AccessPointId=accessPoint_id;
                 this.btnSavedRelay=true;
 
                 this.modal.title="Edit relays configuration!";
@@ -354,8 +408,8 @@
                 this.modal.btnConfigRelay=false;
             },
 
-            modalAddRelays:function(idAccessPoint) {
-                // this.AccessPointId=idAccessPoint;
+            modalAddRelays:function(accessPoint_id) {
+                // this.AccessPointId=accessPoint_id;
 
                 this.modal.title="Relays configuration!";
                 this.modal.btnAdd=false;
@@ -375,6 +429,32 @@
                 this.details.version={};
                 this.details.version_id=null;
             },
+
+            getDate:function() {
+
+                this.today = new Date();
+                this.year = this.today.getFullYear();
+                this.month =this.today.getMonth()+1;
+                this.day =this.today.getDate();
+                this.dayFrom=this.today.getDate()-1;
+
+                if(this.day < 10) {
+                     this.day='0'+this.day;
+                }
+                
+                if(this.month < 10 ) {
+                    this.month='0'+this.month;
+                }
+
+                if(this.dayForm < 10) {       
+                    this.dayFrom='0'+this.dayFrom;
+                }
+
+                this.monitor.to=this.year+'-'+this.month+'-'+this.day;
+                this.monitor.from=this.year+'-'+this.month+'-'+this.dayFrom;
+
+                console.log(this.today);
+            }, 
 
             checkinsAccessPoint() {
                 this.$http.post('/getCheckIns/'+accessPoint_id,this.checkins)
@@ -396,11 +476,11 @@
             },
 
             monitorCards:function(accessPoint_id) {
-                this.$http.post('/getMonitors/'+accessPoint_id,this.monitor)
+                this.$http.post('/getMonitors/'+80,this.monitor)
                     .then(response => {
                         console.log(response.data);
                         this.monitorsData=response.data.data;
-
+                        this.errorMonitor={};
                         // this.pagination.current_page=response.data.current_page;
                         // this.pagination.from=response.data.from;
                         // this.pagination.last_page=response.data.last_page;
@@ -410,7 +490,10 @@
                         // this.getAll();
                     })
                     .catch(e => {
-                        console.log(e);
+                        console.log(e.body);
+                        this.errorMonitor=e.body;
+                        this.monitorsData=null;
+
                     });
             },
         },

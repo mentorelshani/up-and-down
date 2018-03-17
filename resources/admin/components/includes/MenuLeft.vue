@@ -9,7 +9,7 @@ export default {
 }
 </script>
 
-<template src="../templates/menu_left.html">
+<template src="../templates/menuLeft.html">
 </template>
 
 <style>

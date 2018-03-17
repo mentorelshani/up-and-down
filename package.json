@@ -63,8 +63,10 @@
     "install": "^0.10.1",
     "npm": "^5.3.0",
     "vue-focus": "^2.1.0",
+    "vue-multiselect": "^2.0.8",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.1.1",
+    "vue-select": "^2.4.0",
     "vue2-google-maps": "^0.8.0",
     "vuex": "^2.3.1"
   }

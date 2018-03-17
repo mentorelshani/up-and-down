@@ -7,19 +7,19 @@
 			<div class="row search_by--inside-tabs">    
 		        <div class="col-xs-8 col-xs-offset-2">
 				    <div class="input-group ">
-		                <div class="input-group-btn search-panel search_key">
+		                <div class="input-group-btn search-panel search_key" >
 		                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		                    	<span id="search_concept">Filter by</span> <span class="caret"></span>
+		                    	<span id="search_concept">{{searchBy}}</span> <span class="caret"></span>
 		                    </button>
-		                    <ul class="dropdown-menu " role="menu">
+		                    <ul class="dropdown-menu " role="menu" @blur="vee()">
 		                      	<li @click="changeSearchKey('client')" >Client</li>
 		                      	<li @click="changeSearchKey('cards.site_code')" >Site Code</li>
 		                      	<li @click="changeSearchKey('cards.site_number')" >Site Number</li>
 		                      	<li class="divider"></li>
-		                      	<li @click="changeSearchKey('anything')">Everything</li> <!-- -->
+		                      	<li @click="changeSearchKey('everything')">Everything</li> <!-- -->
 		                    </ul>
 		                </div>
-		                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="inputSearch" @keyup='getAll()'>
+		                <input type="text" class="form-control search_value" name="x" placeholder="Search..."  v-model="inputSearch" @keyup='getAll()' >
 
 		                <span class="input-group-btn">
 		                </span>
@@ -55,11 +55,12 @@
 						<span class="glyphicon glyphicon-copyright-mark manipulate__button" data-toggle="modal" data-target="#infoCard" @click="getCardAccess(card.id); getDetails(card)"></span>
 					</td>
 				</tr>
+
 			</tbody>
 		</table>
 	</div>
 
-	<menu-item-footer :lengthCardsEntry="setLengthCardsEntry" sitePage="building_cards" :pagination="pagination"></menu-item-footer>
+	<menu-item-footer v-if="pagination.total > 10" :length="dataLength" sitePage="building_clients" :pagination="pagination"></menu-item-footer>
 
 	<div class="modal fade" id="addCard" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true" >
 		<div class="modal-dialog modal-lg">
@@ -72,9 +73,12 @@
 					<div class="form--card" v-show="showCardData">
 						<div class="element" v-if="clients">
 	                        <span class="name">Client</span>
-	                        <select :class="{value__select:true, error_value:error.client_id}" v-model="details.client_id" @change="chooseClient(details.client_id)" v-bind:disabled="disabledCardInfo">
+
+	                        <multiselect :class="{value__select:true, error_value:error.client_id}" v-model="details.client" :options="clients" :custom-label="labelClient" placeholder="Choose Client" :limit="10" @input="chooseClient()" ></multiselect>
+
+	                       <!--  <select :class="{value__select:true, error_value:error.client_id}" v-model="details.client_id" @change="chooseClient(details.client_id)" v-bind:disabled="disabledCardInfo">
 	                            <option class="option_value" v-for="client in clients" :value="client.id" >{{client.firstname}} {{client.lastname}}</option>
-	                        </select>
+	                        </select> -->
 	                        <span class="error_message" v-if="error.client_id">{{error.client_id[0]}}</span>
 	                    </div>
 						<div class="element">
@@ -89,9 +93,10 @@
 						</div>
 						<div class="element">
 							<span class="name">Active</span>
-							<div class="value">
-								<i class="fa fa-toggle-on  btn_active" v-if="details.active == true" @click="changeStatus();"></i>
-							    <i class="fa fa-toggle-on fa-rotate-180 btn_inactive" v-if="details.active == false" @click="changeStatus();"></i>
+							<div class="value_for-switch">
+								<i class="fa fa-toggle-on  btn_active" v-if="details.active == true" @click="showDetailsAccessCard()"></i>
+								<i class="fa fa-toggle-on fa-rotate-180 btn_inactive" v-if="details.active == false" @click="showDetailsAccessCard()"></i>
+
 							</div>
 							<span class="error_message" v-if="error.gender">{{error.active[0]}}</span>
 						</div>
@@ -109,23 +114,32 @@
 
 						<div class="element" v-if="entriesBuilding">
 	                        <span class="name">Entry</span>
-	                        <select :class="{value__select:true, error_value:false}" v-model="cardAccesses.entry_id" @change="chooseEntry(cardAccesses.entry_id)">
+
+	                        <multiselect :class="{value__select:true, error_value:false}" v-model="cardAccesses.entry" :options="entriesBuilding"  label="name" placeholder="Choose Entry" :limit="10" @input="chooseEntry()" ></multiselect>
+
+	                        <!-- <select :class="{value__select:true, error_value:false}" v-model="cardAccesses.entry_id" @change="chooseEntry(cardAccesses.entry_id)">
 	                            <option class="option_value" v-for="entry in entriesBuilding" :value="entry.id" >{{entry.name}}</option>
-	                        </select>
+	                        </select> -->
 	                    </div>
 
 						<div class="element" v-if="elevatorsEntry" >
 	                        <span class="name">Elevator</span>
-	                        <select :class="{value__select:true, error_value:false}" v-model="cardAccesses.elevator_id" @change="chooseElevator(cardAccesses.elevator_id)" >
+	                         
+	                         <multiselect :class="{value__select:true, error_value:false}" v-model="cardAccesses.elevator" :options="elevatorsEntry"  label="identifier" placeholder="Choose Elevator" :limit="10" @input="chooseElevator()" ></multiselect>
+
+	                        <!-- <select :class="{value__select:true, error_value:false}" v-model="cardAccesses.elevator_id" @change="chooseElevator(cardAccesses.elevator_id)" >
 	                            <option class="option_value" v-for="elevator in elevatorsEntry" :value="elevator.id" >{{elevator.identifier}}</option>
-	                        </select>
+	                        </select> -->
 	                    </div>
 
 	                    <div class="element" v-if="accessPointsElevator" >
 	                        <span class="name">Access Points</span>
-	                        <select :class="{value__select:true, error_value:false}" v-model="cardAccesses.access_point_id" @change="chooseAccessPoint(cardAccesses.access_point_id); addNewAccess()" >
+	                        
+	                        <multiselect :class="{value__select:true, error_value:false}" v-model="cardAccesses.accessPoint" :options="accessPointsElevator" label="imei" placeholder="Choose Access point" :limit="10" @input="chooseAccessPoint()" ></multiselect>
+
+	                        <!-- <select :class="{value__select:true, error_value:false}" v-model="cardAccesses.access_point_id" @change="chooseAccessPoint(cardAccesses.access_point_id); addNewAccess()" >
 	                            <option class="option_value" v-for="accessPoint in accessPointsElevator" :value="accessPoint.id" >{{accessPoint.imei}}</option>
-	                        </select>
+	                        </select> -->
 	                    </div>
 
 	                    <div class="floors__accessPoint">
@@ -144,7 +158,7 @@
 									<span v-for="(elevator,indexEl) in entry.elevators">
 										<span v-for="(access_point,indexAP) in elevator.access_points" >
 
-											<span class="building_access" @click="showDetailsBuilding(indexEl+1,access_point.id,elevator.id,entry.id); getRealyDetailsConfig(access_point.id)">{{indexEl+1}}. B:{{building.name}}/ E:{{entry.name}}/ AP:{{access_point.imei}}
+											<span class="building_access" @click="showDetailsBuilding(indexEl+1,access_point.id,elevator.id,entry.id); getRealyDetailsConfig(access_point.id)"> Bu:{{building.name}}/ El:{{entry.name}}/ AP:{{access_point.imei}}
 											</span>
 
 											<!-- <span v-for="(relay,indexR) in access_point.relays">
@@ -177,7 +191,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">Information</h4>
+					<h4 class="modal-title" id="myModalLabel">Information Card Access</h4>
 				</div>
 
 				<div class="modal-body body_modal">
@@ -197,19 +211,23 @@
 	                        <span class="name"><b>Site Number:</b> {{details.site_number}}</span>
 	                        <!-- <span class="value">{{}}124123</span> -->
 	                    </div>
-
-	                    <div class="element" v-show="false">
-	                        <span class="name"><b>Building:</b> Dumnica Grup</span>
+	                   	<hr>
+	                    <div class="element">
+	                        <span class="name" v-if="cardAccesses.entry"><b>Building:</b> {{cardAccesses.entry.building.name}}</span>
 	                        <!-- <span class="value">{{}}1234123</span> -->
 	                    </div>
 
-	                    <div class="element" v-show="false">
-	                        <span class="name"><b>Entry:</b> labore</span>
+	                    <div class="element" >
+	                        <span class="name" v-if="cardAccesses.entry"><b>Entry:</b> {{cardAccesses.entry.name}}</span>
 	                        <!-- <span class="value">{{}}42134123</span> -->
 	                    </div>
 
-	                    <div class="element" v-show="false">
-	                        <span class="name"><b>Elevator:</b> Elevator123</span>
+	                    <div class="element" v-if="cardAccesses.elevator">
+	                        <span class="name"><b>Elevator:</b> {{cardAccesses.elevator.identifier}}</span></span>
+	                    </div>
+
+	                    <div class="element" >
+	                        <span class="name" v-if="cardAccesses.accessPoint"><b>Access point:</b> {{cardAccesses.accessPoint.imei}}</span>
 	                        <!-- <span class="value">{{}}1234421</span> -->
 	                    </div>
 
@@ -238,7 +256,7 @@
 										<span class="building-access" v-for="(access_point,indexAP) in elevator.access_points" >
 											<span class="address-access" >
 
-												<span class="building_access" @click=" getRealyDetailsConfig(access_point.id) ">{{indexEl+1}}. B:{{building.name}}/ E:{{entry.name}}/ AP:{{access_point.imei}}
+												<span class="building_access" @click=" getRealyDetailsConfig(access_point.id) "> B:{{building.name}}/ E:{{entry.name}}/ AP:{{access_point.imei}}
 												</span>
 
 												<!-- <span v-for="(relay,indexR) in access_point.relays">
@@ -259,7 +277,6 @@
 				<div class="modal-footer footer_modal">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-default" @click="accessCardEdit()">Save</button>
-
 				</div>
 			</div>
 		</div>

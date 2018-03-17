@@ -2,8 +2,8 @@
 	.modal-body{
 		position: relative;
 		float: left;
-		max-height: 400px;
-		min-height: 400px;
+		// max-height: 400px;
+		min-height: 500px;
 		
 		.form--card {
 			width:60%;
@@ -17,7 +17,7 @@
 			width: 50%;
 			float: left !important;
 			overflow-y: scroll;
-			max-height: 380px;
+			min-height: 480px;
 			@extend .form--input;
 			overflow: auto;
 

@@ -3,7 +3,8 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 import axios from 'axios'
 import date from 'vue-date-filter'
- 
+import vSelect from 'vue-select'
+import Multiselect from 'vue-multiselect'
 
 
 import notification from './services/notification';
@@ -14,10 +15,16 @@ import App from './components/App.vue'
 import Home from './components/Home.vue'
 import Buildings from './components/Buildings.vue'
 import Entries from './components/Entries.vue'
-import EntryDetails from './components/Entry_Details.vue'
-import BuildingDetails from './components/Building_Details.vue'
+import EntryDetails from './components/EntryDetails.vue'
+import BuildingDetails from './components/BuildingDetails.vue'
 
 import { store } from './vuex/store.js';
+
+
+//Component
+
+Vue.component('v-select', vSelect)
+Vue.component('Multiselect',Multiselect)
 
 
 // Install plugins

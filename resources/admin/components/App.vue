@@ -3,16 +3,14 @@
 	import TextEditor from './helpers/TextEditor.vue'
 	import Vue from 'vue'
 
-
-
 	//Impost Component
-	import Menu_Header from '../components/includes/Menu-Header.vue'
-	import Menu_itemsFooter from '../components/includes/Menu-itemsFooter.vue'
+	import Menu_Header from '../components/includes/MenuHeader.vue'
+	import Menu_itemsFooter from '../components/includes/MenuItemsFooter.vue'
 	import AccessPoints from '../components/AccessPoints.vue'
 	import Elevator from '../components/Elevators.vue'
 	import Clients from '../components/Clients.vue'
 	import Cards from '../components/Cards.vue'
-	import MenuLeft from  '../components/includes/Menu-Left.vue'
+	import MenuLeft from  '../components/includes/MenuLeft.vue'
 
 
 	//Call Component
@@ -24,7 +22,7 @@
 	Vue.component('CardsTab', Cards);
 	Vue.component('MenuLeft',MenuLeft);
 
-
+	
 	export default {
 		name: 'app',
 		components: {

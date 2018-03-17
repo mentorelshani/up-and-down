@@ -253,7 +253,7 @@
     }
 </script>
 
-<template src="./templates/entry_details.html">
+<template src="./templates/entryDetails.html">
 
 </template>
 

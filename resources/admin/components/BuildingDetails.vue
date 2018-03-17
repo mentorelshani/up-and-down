@@ -163,7 +163,7 @@
     }
 </script>
 
-<template src="./templates/building_details.html">
+<template src="./templates/buildingDetails.html">
 
 </template>
 

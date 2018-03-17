@@ -16,23 +16,23 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr v-for="accessPoint in accessPoints">
-				<td>{{accessPoint.imei}}</td>
-				<td>{{accessPoint.phone_number}} </td>
-				<td>{{accessPoint.version.name}}</td>
-				<td>{{accessPoint.elevator.identifier}}</td>
-				<td class="action">
-					<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click="getDetails(accessPoint.id); modalEdit()"></span>
-					<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
-					<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
-					<span class="glyphicon glyphicon-registration-mark manipulate__button" @click="getRelaysAccessPoint(accessPoint.id)" data-toggle="modal" data-target="#config__relays"></span>
+				<tr v-for="accessPoint in accessPoints">
+					<td>{{accessPoint.imei}}</td>
+					<td>{{accessPoint.phone_number}} </td>
+					<td>{{accessPoint.version.name}}</td>
+					<td>{{accessPoint.elevator.identifier}}</td>
+					<td class="action">
+						<span class="glyphicon glyphicon-pencil manipulate__button" data-toggle="modal" data-target="#addAccessPoint" @click="getDetails(accessPoint.id); modalEdit()"></span>
+						<span class="glyphicon glyphicon-remove manipulate__button" @click="destroy(accessPoint.id)"></span>
+						<span class="glyphicon glyphicon-info-sign manipulate__button" data-toggle="modal" data-target="#infoAccessPoint" @click="getDetails(accessPoint.id)"></span>
+						<span class="glyphicon glyphicon-registration-mark manipulate__button" @click="getRelaysAccessPoint(accessPoint.id)" data-toggle="modal" data-target="#config__relays"></span>
 
 
-					<span class="glyphicon glyphicon-eye-open manipulate__button" data-toggle="modal" data-target="#monitor" @click="getDetails(accessPoint.id); modalMonitors(accessPoint.id)"></span>
-					<span class="glyphicon glyphicon-credit-card manipulate__button" data-toggle="modal" data-target="#checkins" @click="getDetails(accessPoint.id); "></span>
+						<span class="glyphicon glyphicon-eye-open manipulate__button" data-toggle="modal" data-target="#monitor" @click="getDetails(accessPoint.id); modalMonitors(accessPoint.id)"></span>
+						<span class="glyphicon glyphicon-credit-card manipulate__button" data-toggle="modal" data-target="#checkins" @click="getDetails(accessPoint.id); "></span>
 
-				</td>
-			</tr>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
@@ -68,17 +68,17 @@
 
 						<div class="element" v-if="versions">
 							<label class="name">Version</label>
-							<select :class="{value__select:true, error_value:errorAccessPoint.version_id}" v-model="details.version" @change="chooseVersion()">
-								<option v-for="version in versions" :value="version" v-if="version">{{version.name}}</option>
-							</select>
+							
+							<multiselect :class="{value__select:true, error_value:errorAccessPoint.version_id}" v-model="details.version" :options="versions" label="name" :limit="10" placeholder="Choose floor!" @input="chooseVersion()"></multiselect>
+
 							<span class="error_message" v-if="errorAccessPoint.version_id">{{errorAccessPoint.version_id[0]}}</span>
 						</div>
 
 						<div class="element" v-if="elevators">
 							<label class="name">Elevator</label>
-							<select :class="{value__select:true, error_value:errorAccessPoint.elevator_id}" v-model="details.elevator" @change="chooseElevator()">
-								<option v-for="elevator in elevators" :value="elevator" >{{elevator.identifier}}</option>
-							</select>
+
+							<multiselect :class="{value__select:true, error_value:errorAccessPoint.elevator_id}" v-model="details.elevator" :options="elevators" label="identifier" :limit="10" @input="chooseElevator()"></multiselect>
+
 							<span class="error_message" v-if="errorAccessPoint.elevator_id">{{errorAccessPoint.elevator_id[0]}}</span>
 						</div>
 
@@ -139,7 +139,7 @@
 
 						<div class="details__element">
 							<label class="element__label">Notes:</label>
-							<span cols="15" rows="5" class="content">{{details.notes}}</span>
+							<span cols="15" rows="5" class="content-note">{{details.notes}}</span>
 						</div>
 					</div>
 
@@ -153,42 +153,43 @@
 								<legend class="relay__name">Relay {{relayDetails.relay}}</legend>
 
 								<div class="details__element">
-									<label class="element__label">Name</label>
-									<select class="element__select" v-model="relayDetails.floor">
-										<option value="Garage">Garage</option>
-										<option v-for="n in 6" :value="'Floor'+n">Floor {{n}}</option>
-										<option value="vipFloor">Vip floor</option>
-										<option>Other</option>
-									</select>
-
-									<input type="text" class="element__input-small">
+									<label class="element__label">Floor</label>
+									<multiselect class="element__select" v-model="relayDetails.floor" :options="buildingFloor" :limit="10"  placeholder="Choose floor!"></multiselect>
 								</div>
-
+								
 								<div class="details__element">
 									<label class="element__label">Pulse time</label>
 									<input type="email" v-model="relayDetails.pulse_time" class="element__input" >
 								</div>
+
 								<div class="controll_relays">
 									<button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="editRelay()" v-if="btnSavedRelay">
 										<span class="glyphicon glyphicon-saved"></span> Save
 									</button>
-									<!--      <button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="editRelay()"  v-if="!btnSavedRelay">
-                                             <span class="glyphicon glyphicon-edit"></span> Edit
-                                         </button> -->
+									
+									<button type="button" class="btn btn-sm " :class="{save_config:true, save_config_ok:false}" @click="editRelay()"  v-if="!btnSavedRelay">
+                                        <span class="glyphicon glyphicon-edit"></span> Edit
+                                    </button>
 
 									<button class="btn btn-default next_relay" @click="nextRelay()">&raquo;</button>
 									<button class="btn btn-default previous_relay" @click="previousRelay()">&laquo;</button>
 								</div>
+
 							</fieldset>
 						</div>
 					</div>
 
-
+					<div class="addEdit__accessPoint--relation">
+						<h3 class="subtitle">Relay -> Floor</h3>
+						
+						<li v-for="(relay,index) in relays" v-if="relay.floor != null">Relay {{relay.relay}} -> {{relay.floor}} </li>
+						
+					</div>
 				</div>
 
 				<div class="modal-footer footer_modal">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-default">Save</button >
+					<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default">Save</button > -->
 				</div>
 			</div>
 		</div>
@@ -245,6 +246,9 @@
 					</div>
 				</div>
 
+				<div class="modal-footer footer_modal">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -260,25 +264,25 @@
 					<div class="monitor--accessPoint">
 						<div class="element">
 							<label class="name">From:</label>
-							<input type="date" :class="{value:true}" v-model="monitor.from">
-							<!-- <span class="error_message" v-if="errorAccessPoint.imei">{{errorAccessPoint.imei[0]}}</span> -->
+							<input type="date" :class="{value:true , error:errorMonitor.from}" v-model="monitor.from" @input="monitorCards(this.monitor.access_point_id)">
+							<span class="error_message" v-if="errorMonitor.from">{{errorMonitor.from[0]}}</span>
 						</div>
 
 						<div class="element">
 							<label class="name">To:</label>
-							<input type="date"  :class="{value:true}" v-model="monitor.to" @input="monitorCards(this.monitor.access_point_id)">
-							<!-- <span class="error_message" v-if="errorAccessPoint.phone_number">{{errorAccessPoint.phone_number[0]}}</span> -->
+							<input type="date"  :class="{value:true , error:errorMonitor.to}" v-model="monitor.to" @input="monitorCards(this.monitor.access_point_id)">
+							<span class="error_message" v-if="errorMonitor.to">{{errorMonitor.to[0]}}</span>
 						</div>
 
 						<div class="element">
 							<label class="name">Search:</label>
-							<input type="text"  :class="{value:true}" v-model="monitor.value" placeholder="Card number">
-							<!-- <span class="error_message" v-if="errorAccessPoint.phone_number">{{errorAccessPoint.phone_number[0]}}</span> -->
+							<input type="text"  :class="{value:true , error:errorMonitor.value}" v-model="monitor.value" placeholder="Card number">
+							<span class="error_message" v-if="errorMonitor.value">{{errorMonitor.value[0]}}</span>
 						</div>
 					</div>
 
 					<div class="table--monitor" >
-						<table class="table tab__view-list--monitor" v-if="monitorsData">
+						<table class="table tab__view-list--monitor" v-if="monitorsData != null">
 							<thead>
 							<tr>
 								<th>Site Code</th>
@@ -288,12 +292,12 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr v-for="monitor in monitorsData">
-								<td>{{monitor.site_code}}</td>
-								<td>{{monitor.site_number}} </td>
-								<td :class="{'insert' : (monitor.type === 'insert'), 'delete' : (monitor.type === 'delete')}">{{monitor.type}}</td>
-								<td :class="{last_connect:true}">{{monitor.created_at }}</td>
-							</tr>
+								<tr v-for="monitor in monitorsData">
+									<td>{{monitor.site_code}}</td>
+									<td>{{monitor.site_number}} </td>
+									<td :class="{'insert' : (monitor.type === 'insert'), 'delete' : (monitor.type === 'delete')}">{{monitor.type}}</td>
+									<td :class="{last_connect:true}">{{monitor.created_at }}</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -441,3 +445,4 @@
 	</div>
 
 </div>
+

@@ -1,14 +1,13 @@
 <script>
-    import sweetAlert from '../components/service/sweetAlert.js'
-    const alert =new sweetAlert();
+    import alert from '../components/service/sweetAlert.js'
+    // const alert =new sweetAlert();
 
     export default {
         data() {
             return {
                 cards:{},
                 details:{
-                    active:true,
-                    client:{},
+                    active:null,
                     site_code:null,
                     site_number:null,
                 },
@@ -26,20 +25,20 @@
                     relay_id:[],
                 },
 
-                show__items:"10",
+                show__items:"20",
                 paginate__page:1,
                 keySearch:["cards.site_code","cards.site_number"],
                 inputSearch:null,
                 ascending:true,
                 orderBy:'cards.site_code',
                 
-                buildings:{},
-                entriesBuilding:{},
-                elevatorsEntry:{},
-                accessPointsElevator:{},
+                buildings:[],
+                entriesBuilding:[],
+                elevatorsEntry:[],
+                accessPointsElevator:[],
                 relays:{},
                 relaysConfig:{},
-                clients:{},
+                clients:[],
 
                 cardHaveAccess:{},
                 detailsCardAccess:{},// look maybe this var should delete 
@@ -75,6 +74,9 @@
                 details_access:true,
                 showBuilding:0,
                 disabledCardInfo:false,
+
+                searchBy:'Filter by',
+                // isAddNewCard:null,
             }
         },
 
@@ -113,23 +115,34 @@
                 return this.cardAccesses.relay_id.length;
             },
 
+            idClient() {
+                return this.details.client.id;
+            },
+
+            siteCode() {
+                return this.details.site_code;
+            },
+
+            cardCode() {
+                return this.details.site_number;
+            }
         },
 
         watch: {
             keySearch: function() {
                 this.inputSearch=null;
                 this.paginate__page=1;
-                // this.getAll();
+                this.getAll();
             },
 
             show__items: function() {
-                this.paginate__page=2;
-                // this.getAll();
+                this.paginate__page=1;
+                this.getAll();
             },
 
             entryId:function(){
                 this.getAll();
-                this.getClients();
+                // this.getClients();
                 
                 this.$store.watch(
                     (state)=>{
@@ -154,7 +167,7 @@
                 if(this.error != null) {
                     if(this.error.client_id != null || this.error.site_code != null || this.error.site_number != null ) {
 
-                        this.showCardData=!this.showCardData;
+                        // this.showCardData=!this.showCardData;
                         this.modal.btnAdd=false;
                         this.modal.btnEdit=false;
                         this.modal.btnConfigAccess=true;
@@ -170,17 +183,6 @@
                         this.cardAccesses.relay_id[j++]=this.relaysConfig[i].id;
                     }
                 }
-
-                // if(j==0 || this.showCardData==false) {
-                //     this.modal.btnAddAccess=true;
-                //     this.modal.btnEdit=false;
-                //     // this.disabledCardInfo = true;
-                // }
-                // else {
-                //     this.modal.btnAddAccess=false;
-                //     this.modal.btnEdit=true;
-                //     // this.disabledCardInfo = true;
-                // }
             },
 
             relayChecked:function() {
@@ -190,13 +192,6 @@
                     }
                 }
             },
-
-            // relayCheckedLength:function() {
-            //     if(this.relayCheckedLength ==0.) {
-
-            //     }
-            //     console.log();
-            // },
 
             deleteRelays:function() {
                 if(this.deleteRelayObj.relay_id.length !=0)
@@ -208,9 +203,33 @@
                     this.insterAccessCard();
             },
 
+            // idClient:function() {
+            //     this.modal.btnAddAccess=false;
+            //     this.modal.btnAdd=true;
+            // },
+
+            // siteCode:function() {
+            //     this.modal.btnAddAccess=false;
+            //     this.modal.btnAdd=true;
+            // },
+
+            // cardCode:function() {
+            //     this.modal.btnAddAccess=false;
+            //     this.modal.btnAdd=true;
+            // },
         },
 
         methods: {
+
+            vee:function(){
+                // this.searchBy="Filter by";
+                console.log('daaads');
+            },
+
+            labelClient:function(option) {
+                return `${option.firstname} ${option.lastname}`; 
+            },
+
             getAll:function() {
                 this.cardsSite={
                     limit:this.show__items,
@@ -219,13 +238,13 @@
                     value:this.inputSearch,
                     asce:this.ascending,
                     orderBy:this.orderBy, 
+                }; 
 
-                };   
                 this.$http.post('/getCards/'+this.entryId,this.cardsSite)
                     .then(response => {
                         this.cards=response.data.data;
 
-                        this.setLengthCardsEntry=response.data.total;
+                        this.dataLength=response.data.total;
 
                         this.pagination.current_page=response.data.current_page;
                         this.pagination.from=response.data.from;
@@ -240,51 +259,68 @@
             },
 
             add:function() {
-                this.$http.post('/addCard',this.details)
-                    .then(response => {
-                        this.cardAccesses.card_id=response.data.id;
-                        console.log(this.details);
-                        console.log("Card u regjistrua me sukses = !false");
-                        this.error={};
-                        this.giveAccess();
-                    })
-                    .catch(e => {
-                        console.log("Klienti u regjistrua me sukses = false");
-                        console.log(e.body);
-                        this.error=e.body;
-                    });
+                let vm=this;
+
+                alert.add(function() {
+                    vm.$http.post('/addCard',vm.details)
+                        .then(response => {
+                            vm.cardAccesses.card_id=response.data.id;
+                            vm.error={};
+                            vm.showCardData=!vm.showCardData;
+
+                            vm.modal.btnAddAccess=true;
+                            vm.modal.btnAdd=false;
+
+                        
+                            // swal({ title:"Card hes been added!", text:null, type:"success" });
+                        })
+                        .catch(e => {
+                            swal({ title:"Error!", text:'This row has not been added!', type:"error" });
+                            vm.error=e.body;
+                        });
+                }); 
             },
 
             giveAccess:function() {
-                 this.$http.post('/giveAccessToCard',this.cardAccesses)
-                    .then(response => {
-                        this.error_AccessCard={};
-                        this.getAll();
-                        this.getCardAccess(this.Card_id);
-                        this.modal.btnAddAccess=true;
-                        this.modal.btnAdd=false;
 
-                        this.cardAccesses.relay_id=[];
-                    })
-                    .catch(e => {
-                        console.log("Access u dha me sukses = false");
-                        console.log(e.body);
-                        this.error_AccessCard=e.body;
-                    });    
+                if(this.cardAccesses.entry_id!=null && this.cardAccesses.elevator_id!=null && this.cardAccesses.access_point_id!=null) {
+                    this.$http.post('/giveAccessToCard',this.cardAccesses)
+                        .then(response => {
+                            this.error_AccessCard={};
+                            this.getAll();
+                            this.getCardAccess(this.cardAccesses.card_id);
+                            // this.modal.btnAddAccess=true;
+                            // this.modal.btnAdd=false;
+
+                            this.cardAccesses.relay_id=[];
+                            swal({ title:"The access in card hes been added!", text:null, type:"success" });
+                            // }
+                        })
+                        .catch(e => {
+                            this.error_AccessCard=e.body;
+                            swal({ title:"Select floor!", text:null, type:"error" });
+                        }); 
+                }   
+                else {
+                    swal({ title:"Choose Entey, Elevator and Access Point!", text:null, type:"warning" });
+                }
             },
 
             edit:function() {
-                this.$http.post('/updateCard',this.details)
-                    .then(response => {
-                        console.log("Klienti u përditsua me sukses = !false");
-                        this.detailsCopy=this.details;
-                        this.error={};
-                        this.getAll();
-                    })
-                    .catch(e => {
-                        console.log("Klienti u përditsua me sukses = false");
-                        console.log(e.body);
-                        this.error=e.body;
+                let vm=this;
+
+                alert.modify(function() {
+                    vm.$http.post('/updateCard',vm.details)
+                        .then(response => {
+                            console.log("Klienti u përditsua me sukses = !false");
+                            vm.detailsCopy=vm.details;
+                            vm.error={};
+                            vm.getAll();
+                        })
+                        .catch(e => {
+                            swal({ title:"Error!", text:'This row has not been updated!', type:"error" });
+                            vm.error=e.body;
+                        });
                     });
             },
 
@@ -293,15 +329,17 @@
             },
 
             destroy:function(idCard) {
-                this.$http.delete(`/deleteCard/`+idCard)
-                    .then(response => {
-                        console.log("Klienti u fshi me sukses = !false");
-                        this.getAll();
+                let vm=this;
+
+                alert.delete(function() {
+                     vm.$http.delete(`/deleteCard/`+idCard)
+                        .then(response => {
+                            vm.getAll();
+                        })
+                        .catch(e => {
+                            alert.information("Error",'This row has not been removed!',"error");
+                        });
                     })
-                    .catch(e => {
-                        console.log("Klienti u fshi me sukses = false");
-                        console.log(e.body);
-                    });
             },
 
             getBuilding: function() {
@@ -393,6 +431,7 @@
                 this.$http.get('/getAccessPoint/'+accessPoint_id)
                     .then(response => {
                         this.cardAccesses.accessPoint=response.data;
+                        console.log(response.data);
                     })
                     .catch(e => {
                         console.log(e);
@@ -401,18 +440,19 @@
 
             getRealyDetailsConfig:function(accessPoint_id){
 
+
                 if(this.modal.title!="Add new card!") {
                     this.cardAccesses.relay_id=[];
                     this.$http.get('/getRelays/'+accessPoint_id+'/'+this.Card_id)
                         .then(response => {
                             this.relaysConfig=response.data;
+                            console.log(response.data);
+
+                            this.getAccessPoint(accessPoint_id);
                             this.cardAccesses.access_point_id=response.data[0].access_point_id;
 
-                            if(this.modal.title == "Edit card!") {
-                                this.relays=this.relaysConfig;
-                                this.cardAccesses.access_point_id=accessPoint_id;
-                                // this.cardAccesses.access_point_id=this.relaysConfig[0].access_point_id;
-                            }
+                            this.relays=this.relaysConfig;
+                            this.cardAccesses.access_point_id=accessPoint_id;
                         })
                         .catch(e => {
                             console.log(e);
@@ -458,17 +498,17 @@
                 this.cardHaveAccess={};
                 this.Card_id=idCard;
 
-                this.deleteRelayObj.card_id=idCard;
-                this.insertRelayObj.card_id=idCard;
+                // this.deleteRelayObj.card_id=idCard;
+                // this.insertRelayObj.card_id=idCard;
 
                 this.$http.get(`/getCardAccess/`+idCard)
                     .then(response => {
                         this.cardHaveAccess=response.data;
                         this.detailsCardAccess=this.cardHaveAccess[0];
 
-                        this.chooseEntry(response.data[0].id);
-                        this.chooseElevator(response.data[0].entries[0].elevators[0].id);
-                        this.chooseAccessPoint(response.data[0].entries[0].elevators[0].access_points[0].id);
+                        this.getEntry(response.data[0].id);
+                        this.getElevator(response.data[0].entries[0].elevators[0].id);
+                        this.getAccessPoint(response.data[0].entries[0].elevators[0].access_points[0].id);
                         this.getRealyDetailsConfig(response.data[0].entries[0].elevators[0].access_points[0].id);
                     })
                     .catch(e => {
@@ -477,24 +517,37 @@
             },
 
             changeSearchKey:function(searchKey) {
+                this.getAll();
                 this.keySearch=[];
                 console.log(searchKey);
                 
-                if(searchKey=="anything") {
+                if(searchKey=="everything") {
                     this.keySearch=['clients.firstname','clients.lastname','cards.site_code','cards.site_number'];
+                    this.searchBy="Everything";
                 }
                 else if(searchKey=="client") {
                     this.keySearch=['clients.firstname','clients.lastname'];
+                    this.searchBy="Client";
                 }
                 else {
                     this.keySearch=[searchKey];
+                    if(searchKey=="cards.site_code") {
+                        this.searchBy="Site Code";
+                    }
+
+                    if(searchKey=="cards.site_number") {
+                        this.searchBy="Card Code";
+                    }
                 }
             },
 
             modalAdd:function() {
                 this.details={};
                 this.details.active=true;
-                this.details.client={};
+
+                if(this.details.client=={}) {
+                    this.details.client={};
+                }
 
                 this.cardHaveAccess={};
                 this.cardAccesses={};
@@ -510,34 +563,37 @@
                 this.cardAccesses.card_id=null;
                 this.cardAccesses.relay_id=[];
                 this.relays={};
-                this.elevatorsEntry={};
+                this.elevatorsEntry=[];
 
             
                 this.modal.title="Add new card!";
 
                 this.showCardData=true;
-                this.modal.btnAdd=false;
+                this.modal.btnAdd=true;
                 this.modal.btnEdit=false;
-                this.modal.btnConfigAccess=true;
+                this.modal.btnConfigAccess=false;
                 this.modal.btnCard=false;
                 this.modal.btnAddAccess=false;
-                this.accessPointsElevator={};
+                this.accessPointsElevator=[];
                 this.getClients();
                 this.getAll();
             },
 
             modalEdit:function(card) {
+                console.log(card);
                 this.Card_id=card.id;
                 this.modal.title="Edit card!";
                 this.modal.btnCard=false;
                 this.modal.btnAdd=false;
-                this.modal.btnEdit=false;
-                this.modal.btnConfigAccess=true;
+                this.modal.btnEdit=true;
+                this.modal.btnConfigAccess=false;
                 this.modal.btnAddAccess=false;
 
                 this.cardAccesses.card_id=card.id;
                 this.showCardData=true;
                 this.error={};
+                this.getClient(card.client_id);
+
                 this.details=card;
                 // this.detailsCopy=card;
                 console.log(card);
@@ -547,7 +603,7 @@
 
             modalConfig:function() {
                 this.showCardData=!this.showCardData;
-                this.modal.btnEdit=false;
+                // this.modal.btnEdit=false;
                 this.modal.btnConfigAccess=false;
                 this.modal.btnCard=true;
 
@@ -583,6 +639,7 @@
                 this.$http.get('/getClients/'+this.entryId)
                     .then(response => {
                         this.clients=response.data;
+                        // this.clients=
                     })
                     .catch(e => {
                         console.log(e.body);
@@ -590,18 +647,23 @@
             },
 
             accessCardEdit:function() {
-                this.cardAccesses.card_id=this.Card_id;
+                let vm=this;
 
-                this.$http.post('/updateCardAccess',this.cardAccesses)
-                    .then(response => {
-                        console.log(response.data);
-                        this.deleteRelayObj.relay_id=response.data.delete;
-                        this.insertRelayObj.relay_id=response.data.insert;
-                    })
-                    .catch(e => {
-                        console.log(e.body);
-                 
-                    });
+                vm.cardAccesses.card_id=vm.Card_id;
+
+                alert.modify(function() {
+                    vm.$http.post('/updateCardAccess',vm.cardAccesses)
+                        .then(response => {
+                            // this.deleteRelayObj.relay_id=response.data.delete;
+                            // this.insertRelayObj.relay_id=response.data.insert;
+                            vm.getCardAccess(vm.Card_id);
+
+
+                        })
+                        .catch(e => {
+                            swal({ title:"Error!", text:'This row has not been updated!', type:"error"});
+                        });
+                });
             },
 
             editCardAccess:function() {
@@ -609,46 +671,54 @@
                 this.accessCardEdit();
             },
 
-            chooseClient:function(client_id) {
-                this.getClient(client_id);
+            chooseClient:function() {
+                this.details.client_id=this.details.client.id;
+                this.getClient(this.details.client_id);
+                console.log(this.details.client_id);
             },
 
-            chooseEntry:function(entry_id) {
-                this.getEntry(entry_id);
-                this.cardAccesses.entry_id=entry_id;
+            chooseEntry:function() {
+                this.cardAccesses.entry_id=this.cardAccesses.entry.id;
+                this.getEntry(this.cardAccesses.entry_id);
 
-                this.getElevators(entry_id);
-                this.cardAccesses.elevator={};
+                this.getElevators(this.cardAccesses.entry_id);
+                this.cardAccesses.elevator=[];
                 this.cardAccesses.elevator_id=null;
 
-                this.cardAccesses.accessPoint={};
-                this.cardAccesses.access_point_id={};
+                this.cardAccesses.accessPoint=[];
+                this.cardAccesses.access_point_id=null;
 
                 this.relays={};
             },
 
-            chooseElevator:function(elevator_id) {
-                this.getElevator(elevator_id);
-                this.getAccessPoints(elevator_id);
-                this.cardAccesses.elevator_id=elevator_id;
+            chooseElevator:function() {
+                this.cardAccesses.elevator_id=this.cardAccesses.elevator.id;
+                this.getElevator(this.cardAccesses.elevator_id);
+                this.getAccessPoints(this.cardAccesses.elevator_id);
                 // this.getElevators(this.cardAccesses.access_point_id);
+
+                this.cardAccesses.accessPoint=[];
+                this.cardAccesses.access_point_id=null;
+
                 this.relays={};
             },
 
-            chooseAccessPoint:function(accessPoint_id) {
+            chooseAccessPoint:function() {
                 this.relays={};
-                this.getAccessPoint(accessPoint_id);
-                this.cardAccesses.access_point_id=accessPoint_id;
+                this.cardAccesses.access_point_id=this.cardAccesses.accessPoint.id;
+                this.getAccessPoint(this.cardAccesses.access_point_id);
                 // if(this.modal.title="Edit card!") {
                 // if(this.modal.title=="Add new card!") {
                 this.getRelay(this.cardAccesses.access_point_id);
                 // }
                 this.cardAccesses.relay_id=[]; 
 
-                if(this.modal.title=="Edit card!") {
-                    this.detailsConpy=this.details; 
-                    this.getRealyDetailsConfig(accessPoint_id);
-                }
+                // if(this.modal.title=="Edit card!") {
+                //     this.detailsConpy=this.details; 
+                //     this.getRealyDetailsConfig(accessPoint_id);
+                // }
+
+
                 // }
                 // this.modal.btnAdd=true;
                 // this.modal.btnEdit=false;
@@ -657,8 +727,8 @@
             changeStatus:function() {
                 console.log(this.details.active);
                 this.details.active=!this.details.active;
-                this.modalConfig();
-                this.prev();
+                // this.modalConfig();
+                // this.prev();
             },
 
             changeStatusCard:function(card) {
@@ -685,8 +755,11 @@
             },
 
             showDetailsAccessCard:function() {
-
-                this.details_access=!this.details_access;
+                let vm=this;
+                vm.details.active=!vm.details.active;
+                console.log('hej');
+                vm.showCardData=false;
+                vm.showCardData=true;
             },
 
             showDetailsBuilding:function(iElevator,accessPoint_id,elevator_id,entry_id) {
@@ -699,27 +772,26 @@
                     this.showBuilding=iElevator;
                 }
                 
-                if(this.modal.title="Edit card!") {
-                    this.chooseEntry(entry_id);
-                    this.chooseElevator(elevator_id);
-                    this.chooseAccessPoint(accessPoint_id);
-                    // this.getRealyDetailsConfig(accessPoint_id);
-                    // this.getCardAccess(this.Card_id);
+                // if(this.modal.title="Edit card!") {
+                //     this.chooseEntry(entry_id);
+                //     this.chooseElevator(elevator_id);
+                //     this.chooseAccessPoint(accessPoint_id);
+                //     // this.getRealyDetailsConfig(accessPoint_id);
+                //     // this.getCardAccess(this.Card_id);
 
-                    this.modal.btnAddAccess=false;
-                    this.modal.btnEdit=true;
-                    this.disabledCardInfo = false;
-                }
+                //     this.modal.btnAddAccess=false;
+                //     this.modal.btnEdit=true;
+                //     this.disabledCardInfo = false;
+                // }
             },
 
             addNewAccess:function() {
-                if(this.modal.title="Edit card!") {
+                if(this.modal.title=="Edit card!") {
                     this.modal.btnAddAccess=true;
                     this.modal.btnEdit=false;
                     this.disabledCardInfo = true;
                 }
             }
-
         }
     }
 

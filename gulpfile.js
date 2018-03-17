@@ -90,11 +90,14 @@ gulp.task('cssPlugins', function () {
       'bower_components/font-awesome/css/font-awesome.min.css',
       'bower_components/toastr/toastr.min.css',
       'bower_components/sweetalert2/dist/sweetalert2.css',
-      'bower_components/wow/css/libs/animate.css'
-    ])
+      'bower_components/wow/css/libs/animate.css',
+
+      'node_modules/vue-multiselect/dist/vue-multiselect.min.css',
+      ])
     .pipe(concat('build.min.css'))
     .pipe(gulp.dest('public/css'))
 });
+
 
 gulp.task('jsPlugins', function () {
     return gulp.src([
@@ -109,7 +112,6 @@ gulp.task('jsPlugins', function () {
     .pipe(uglify())
     .pipe(gulp.dest('public/js'))
 });
-
 
 gulp.task('watch', ['browser-sync'], function () {
     gulp.watch(["./resources/app/scss/**/*.scss"], ['sass']);
