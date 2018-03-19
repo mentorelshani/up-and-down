@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\Role_Access;
 use Illuminate\Http\Request;
-use Zjango\Laracurl\Laracurl;
 
 class RoleController extends Controller
 {
 
     public function getRole($id){
+
         return Role::whereId($id)->with('role_accesses')->first();
     }
 

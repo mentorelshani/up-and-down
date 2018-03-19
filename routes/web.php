@@ -127,6 +127,28 @@ Route::get('test1','RoleController@asd');
 
 Route::get('test', function (){
 
+    $url='http://twitter.com/statuses/user_timeline/16387631.json';
+
+    $opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
+//Basically adding headers to the request
+    $context = stream_context_create($opts);
+    $html = file_get_contents($url,false,$context);
+    $html = htmlspecialchars($html);
+    dd($html);
+    //rss link for the twitter timeline
+//dumps the content, you can manipulate as you wish to
+
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        dd($data);
+
+    dd($_GET['localhost:8000/getEntry/3']);
+
     $request = \Illuminate\Http\Request::create('localhost:8000/test1', 'POST', ['param1' => 'value1', 'param2' => 'value2']);
 //    $request = Request::create('test1', 'GET');
     return $request;
