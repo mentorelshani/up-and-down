@@ -18,6 +18,12 @@ class CreateRolesTable extends Migration
             $table->increments('id');
             $table->integer('created_by')->nullable();
             $table->string('name');
+            $table->boolean('payments');
+            $table->boolean('buildings');
+            $table->boolean('access_points');
+            $table->boolean('clients');
+            $table->boolean('cards');
+            $table->boolean('users');
             $table->timestamps();
         });
 
