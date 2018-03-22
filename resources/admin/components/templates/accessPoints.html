@@ -69,9 +69,26 @@
 						<div class="element" v-if="versions">
 							<label class="name">Version</label>
 							
-							<multiselect :class="{value__select:true, error_value:errorAccessPoint.version_id}" v-model="details.version" :options="versions" label="name" :limit="10" placeholder="Choose floor!" @input="chooseVersion()"></multiselect>
+							<multiselect :class="{value__select_version:true, error_value:errorAccessPoint.version_id}" v-model="details.version" :options="versions" label="name" :limit="10" placeholder="Choose floor!" @input="chooseVersion()"></multiselect> 
+
+							<button class="btn btn-default btn-sm add_version" @click="modalVersion()">
+					          	<span class="glyphicon glyphicon-plus-sign"></span> 
+					        </button>
 
 							<span class="error_message" v-if="errorAccessPoint.version_id">{{errorAccessPoint.version_id[0]}}</span>
+
+							<fieldset class="new_version" v-if="show_addVersion">
+								<div class="sub_element">
+									<label class="name">Name</label>
+									<input type="text" class="value" v-model="version.name">
+								</div>
+
+								<div class="sub_element">
+									<label class="name">Number of relays</label>
+									<input type="number" class="value" v-model="version.number_of_relays">
+								</div>
+								<button class="btn_save btn btn-default btn-sm" @click="addVersion()">Save</button>
+							</fieldset>
 						</div>
 
 						<div class="element" v-if="elevators">

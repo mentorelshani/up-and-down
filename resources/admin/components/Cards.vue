@@ -76,6 +76,9 @@
                 disabledCardInfo:false,
 
                 searchBy:'Filter by',
+                show_addAccess:false,
+                btnGiveAccess:false,
+                btnEditAccessPoint:false,
                 // isAddNewCard:null,
             }
         },
@@ -101,6 +104,18 @@
         computed: {
             relayChecked() {
                 return this.cardAccesses.relay_id;
+            },
+
+            accessPoint_id() {
+                return this.cardAccesses.access_point_id;
+            },
+
+            elevatorId() {
+                return this.cardAccesses.elevator_id;
+            },
+
+            entry_id() {
+                return this.cardAccesses.entry_id;
             },
 
             deleteRelays() {
@@ -203,6 +218,21 @@
                     this.insterAccessCard();
             },
 
+            accessPoint_id:function() {
+                // this.cardAccesses.elevator_id=this.cardAccesses.accessPoint.elevator_id;
+                // console.log('hejj hejj123');
+                // this.getElevator(this.cardAccesses.elevator_id);              
+            },
+
+            elevatorId:function() {
+                console.log('hejj hejj');
+            },
+
+            entry_id:function() {
+                // this.getEntry(this.cardAccesses.entry_id);              
+            },
+
+
             // idClient:function() {
             //     this.modal.btnAddAccess=false;
             //     this.modal.btnAdd=true;
@@ -220,13 +250,8 @@
         },
 
         methods: {
-
-            vee:function(){
-                // this.searchBy="Filter by";
-                console.log('daaads');
-            },
-
             labelClient:function(option) {
+
                 return `${option.firstname} ${option.lastname}`; 
             },
 
@@ -270,8 +295,7 @@
 
                             vm.modal.btnAddAccess=true;
                             vm.modal.btnAdd=false;
-
-                        
+      
                             // swal({ title:"Card hes been added!", text:null, type:"success" });
                         })
                         .catch(e => {
@@ -289,8 +313,12 @@
                             this.error_AccessCard={};
                             this.getAll();
                             this.getCardAccess(this.cardAccesses.card_id);
-                            // this.modal.btnAddAccess=true;
-                            // this.modal.btnAdd=false;
+
+                            this.modal.btnAdd=false;
+                            this.modal.btnEdit=false;
+                            this.modal.btnConfigAccess=false;
+                            this.modal.btnCard=false;
+                            this.modal.btnAddAccess=true;
 
                             this.cardAccesses.relay_id=[];
                             swal({ title:"The access in card hes been added!", text:null, type:"success" });
@@ -326,6 +354,9 @@
 
             getDetails:function(cardObj) {
                 this.details=cardObj;
+                console.log(cardObj);
+                this.cardAccesses.card_id=cardObj.id;
+                this.modal.title="Information Card Access";
             },
 
             destroy:function(idCard) {
@@ -410,6 +441,7 @@
             getEntry:function(entry_id) {
                 this.$http.get('/getEntry/'+entry_id)
                     .then(response => {
+                        this.cardAccesses.entry_id=entry_id;
                         this.cardAccesses.entry=response.data;
                     })
                     .catch(e => {
@@ -420,6 +452,7 @@
             getElevator:function(elevator_id) {
                 this.$http.get('/getElevator/'+elevator_id)
                     .then(response => {
+                        this.cardAccesses.elevator_id=elevator_id;
                         this.cardAccesses.elevator=response.data;
                     })
                     .catch(e => {
@@ -430,8 +463,16 @@
             getAccessPoint:function(accessPoint_id) {
                 this.$http.get('/getAccessPoint/'+accessPoint_id)
                     .then(response => {
+                        this.cardAccesses.access_point_id=accessPoint_id;
                         this.cardAccesses.accessPoint=response.data;
-                        console.log(response.data);
+
+                        // if(this.modal.titele="Information Card Access") {
+                        //     this.getElevator(response.data.elevator_id);
+                        //     this.getEntry(response.data.elevator.entry_id);
+                        // }
+
+                        console.log(this.cardAccesses);
+
                     })
                     .catch(e => {
                         console.log(e);
@@ -440,16 +481,22 @@
 
             getRealyDetailsConfig:function(accessPoint_id){
 
-
-                if(this.modal.title!="Add new card!") {
+                // if(this.modal.title!="Add new card!") {
                     this.cardAccesses.relay_id=[];
                     this.$http.get('/getRelays/'+accessPoint_id+'/'+this.Card_id)
                         .then(response => {
                             this.relaysConfig=response.data;
-                            console.log(response.data);
 
                             this.getAccessPoint(accessPoint_id);
-                            this.cardAccesses.access_point_id=response.data[0].access_point_id;
+                            this.cardAccesses.access_point_id=accessPoint_id;
+                            
+
+                            if(this.modal.title=="Information Card Access") {     
+                                this.show_addAccess=false;
+                                this.btnGiveAccess=false;
+                                this.btnEditAccessPoint=true;
+
+                            }
 
                             this.relays=this.relaysConfig;
                             this.cardAccesses.access_point_id=accessPoint_id;
@@ -458,7 +505,7 @@
                             console.log(e);
                             // this.errorDetailsBuilding="This building not found";
                         });
-                }
+                // }
             },
 
             deleteAccessCard:function(){
@@ -545,9 +592,9 @@
                 this.details={};
                 this.details.active=true;
 
-                if(this.details.client=={}) {
-                    this.details.client={};
-                }
+                // if(this.details.client=={}) {
+                //     this.details.client={};
+                // }
 
                 this.cardHaveAccess={};
                 this.cardAccesses={};
@@ -713,10 +760,10 @@
                 // }
                 this.cardAccesses.relay_id=[]; 
 
-                // if(this.modal.title=="Edit card!") {
-                //     this.detailsConpy=this.details; 
-                //     this.getRealyDetailsConfig(accessPoint_id);
-                // }
+                if(this.modal.title=="Information Card Access") {
+                    this.btnGiveAccess=true;
+                    this.btnEditAccessPoint=false;
+                }
 
 
                 // }
@@ -732,26 +779,24 @@
             },
 
             changeStatusCard:function(card) {
-                this.details=card;
-                this.details.active=!this.details.active;
+                let vm=this;
                 
-                swal({
-                    title: 'Are you sure?',
-                    text: "",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, seve it!'
-                }).then((result) => {
-                    if (result.value) {
-                        this.edit();
-                        alert.information("Success",null,"success");
-                    }
-                    else {
-                        this.details.active=!this.details.active;
-                    }
-                })
+                vm.details=card;
+                vm.details.active=!this.details.active;              
+
+                alert.modify(function() {
+                    vm.$http.post('/updateCard',vm.details)
+                        .then(response => {
+                            console.log("Klienti u përditsua me sukses = !false");
+                            vm.detailsCopy=vm.details;
+                            vm.error={};
+                            vm.getAll();
+                        })
+                        .catch(e => {
+                            swal({ title:"Error!", text:'This row has not been updated!', type:"error" });
+                            this.details.active=!this.details.active;
+                        });
+                    });
             },
 
             showDetailsAccessCard:function() {
@@ -791,7 +836,22 @@
                     this.modal.btnEdit=false;
                     this.disabledCardInfo = true;
                 }
-            }
+            },
+
+            newAccess:function() {
+                this.show_addAccess=true;
+
+                this.cardAccesses.access_point_id=null;
+                this.cardAccesses.elevator_id=null;
+                this.cardAccesses.accessPoint={};
+                this.cardAccesses.elevator={};
+                this.cardAccesses.entry_id={};
+                this.cardAccesses.entry=null;
+
+                this.relays={};
+                this.btnEditAccessPoint=false;
+                this.btnGiveAccess=true;
+            },
         }
     }
 

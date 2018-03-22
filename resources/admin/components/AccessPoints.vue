@@ -1,10 +1,8 @@
 <script>
     
     import alert from '../components/service/sweetAlert.js'
-    // const alert =new sweetAlert();
 
     export default {
-        // components: { Multiselect },
         data() {
             return {
                 accessPoints:{},
@@ -72,6 +70,12 @@
 
                 monitorsData:{},
                 checkinsData:{},
+
+                show_addVersion:false,
+                version:{
+                    name:null,
+                    number_of_relays:null,
+                },
 
                 buildingFloor:[
                    'Hyrja',
@@ -146,8 +150,6 @@
 
             entryId:function() {
                 this.getAll();
-                this.getElevator();
-                this.getVersion();
 
                 this.$store.watch(
                     (state)=>{
@@ -155,7 +157,7 @@
                     },
                     (val)=>{
                         this.show__items=this.$store.getters.getShowItem;
-                        this.getAll();
+                        // this.getAll();
                     });
 
                 this.$store.watch(
@@ -164,7 +166,7 @@
                     },
                     (val)=>{
                         this.paginate__page=this.$store.getters.getPaginatePage;
-                        this.getAll();
+                        // this.getAll();
                     });
             },
 
@@ -273,12 +275,6 @@
                 this.$http.get(`/getVersions`)
                     .then(response => {
                         this.versions=response.data;
-                        // this.details.version=this.versions[0];
-                        // this.chooseVersion();
-                        // for (var key in this.versions) {
-                        //     console.log(this.versions[key].selectedRoles);
-                        // }
-
                     })
                     .catch(e => {
                         console.log(e);
@@ -384,13 +380,21 @@
                 this.modal.btnAdd=true;
                 this.modal.btnEdit=false;
                 this.modal.btnConfigRelay=false;
+
+                this.show_addVersion=false;
+                this.version.name=null;
+                this.version.number_of_relays=null;
             },
 
             modalEdit:function() {
+                this.getElevator();
+                this.getVersion();
                 this.modal.title="Edit access points!";
                 this.modal.btnAdd=false;
                 this.modal.btnEdit=true;
                 this.modal.btnConfigRelay=false;
+
+                this.show_addVersion=false;
             },
 
             modalMonitors:function(accessPoint_id) {
@@ -428,6 +432,30 @@
                 this.details.updated_at=null;
                 this.details.version={};
                 this.details.version_id=null;
+            },
+
+            addVersion:function() {
+
+                this.$http.post('/addVersion',this.version)
+                    .then(response => { 
+                        console.log(response.data);
+                        swal({ title:"Success!", text:'Version is added!', type:"success" });
+                        this.show_addVersion=false;
+                        this.getVersion();
+                        this.details.version=response.data;
+                        this.version.name=null;
+                        this.version.number_of_relays=null;
+                    })
+                    .catch(e => {
+                        swal({ title:"Error!", text:'Version is not added!', type:"error" });
+
+                    });
+            },
+
+            modalVersion:function() {
+                this.show_addVersion=!this.show_addVersion;
+
+                this.$http.post()
             },
 
             getDate:function() {

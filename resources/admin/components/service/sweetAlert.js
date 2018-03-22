@@ -16,7 +16,7 @@ export default {
 		  	showCancelButton: true,
 		  	confirmButtonColor: '#3085d6',
   			cancelButtonColor: '#d33',
-		  	confirmButtonText: "Yes, delete it!",
+		  	confirmButtonText: "Confirm",
 		  	closeOnConfirm: false
 		})
 		.then((result) => {
@@ -38,7 +38,7 @@ export default {
 		  	showCancelButton: true,
 		  	confirmButtonColor: '#3085d6',
  			cancelButtonColor: '#d33',
-		  	confirmButtonText: "Yes, updated it!",
+		  	confirmButtonText: "Confirm",
 		  	closeOnConfirm: false
 		})
 		.then((result) => {
@@ -60,7 +60,7 @@ export default {
 		  	showCancelButton: true,
 		  	confirmButtonColor: '#3085d6',
   			cancelButtonColor: '#d33',
-		  	confirmButtonText: "Yes, add it!",
+		  	confirmButtonText: "Confirm",
 		  	closeOnConfirm: false
 		})
 		.then((result) => {

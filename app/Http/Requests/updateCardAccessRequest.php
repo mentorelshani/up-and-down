@@ -26,7 +26,7 @@ class updateCardAccessRequest extends FormRequest
         return [
             'card_id' => 'exists:cards,id',
             'access_point_id' => 'exists:access_points,id',
-            'relay_id' => 'required|array',
+            'relay_id' => 'array',
             'relay_id.*' => 'distinct|exists:relays,id'
         ];
     }

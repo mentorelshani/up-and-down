@@ -100,9 +100,13 @@
 	}
 
 	.footer_modal{
-		margin-left: 40%;
-		margin-top: 40px;
-		width:60%;
+		// margin-left: 40%;
+		// margin-top: 40px;
+		width:100%;
+
+		.new_access {
+			float: left;
+		}
 	}
 }
 

@@ -13,6 +13,8 @@ class VersionController extends Controller
 
     public function add(Request $request){
 
+        // return "Bott !";
+
         $this->validate($request,[
             'name' => 'required',
             'number_of_relays' => 'integer'

@@ -19,6 +19,10 @@
 		<span class="glyphicon glyphicon-home icon"></span>
 		<router-link to="/">Access Points</router-link>
 	</div>
+	<div :class="{'option_menu':true, 'option_menu-active':false}">
+		<span class="glyphicon 	glyphicon glyphicon-cog icon"></span>
+		<router-link to="/configuration">Configuration</router-link>
+	</div>
 </div>
 
 	<!-- <div :class="{'option_menu':true, 'option_menu-active':(entry.id === idEntry)}"> -->
