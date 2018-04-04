@@ -17,7 +17,8 @@ use App\Models\Monitor;
 use App\Models\Payment; 
 use App\Models\Product; 
 use App\Models\Relay; 
-use App\Models\Role_Access;
+use App\Models\Role_buildings;
+use App\Models\Role_modules;
 use App\Models\Role;
 use App\Models\Version;  
 use App\User;
@@ -47,6 +48,7 @@ class DatabaseSeeder extends Seeder
 		for ($i=0; $i < 20; $i++) { 
 			$role = new Role();
 			$role->name = $faker->word;
+			$role->created_by = 1;
 			$role->save();
 		}
 		 
@@ -73,18 +75,26 @@ class DatabaseSeeder extends Seeder
 		}
 
 		for ($i=0; $i < 60; $i++) { 
-			$role_access = new Role_Access();
+			$role_access = new Role_buildings();
 			$role_access->role_id = rand(3,20);
 			$role_access->building_id = rand(1,60);
-
-			if($i%3==0)
-				$role_access->permission = 'R';
-			else if ($i%3==1) 
-				$role_access->permission = 'W';
-			else
-				$role_access->permission = 'D';
+			$role_access->read = rand(1,2)%2==0;
+            $role_access->write = rand(1,2)%2==0;
+			$role_access->delete = rand(1,2)%2==0;
 			$role_access->save();
 		}
+
+		$array = ['users','payments','buildings'];
+
+        for ($i=0; $i < 60; $i++) {
+            $role_access = new Role_modules();
+            $role_access->role_id = rand(3,20);
+            $role_access->module = $array[rand(0,2)];
+            $role_access->read = rand(1,2)%2==0;
+            $role_access->write = rand(1,2)%2==0;
+            $role_access->delete = rand(1,2)%2==0;
+            $role_access->save();
+        }
 
 		for ($i=0; $i < 120 ; $i++) { 
 			$entry = new Entry();
@@ -155,8 +165,6 @@ class DatabaseSeeder extends Seeder
 		for ($i=0; $i < 60; $i++) { 
 			$product = new Product();
 			$product->name = $i%5<2?'Pagesa mujore':'Blerje e karteles';
-			$product->from = $faker->date;
-			$product->until = $faker->date;
 			$product->save();
 		}
 
@@ -165,6 +173,8 @@ class DatabaseSeeder extends Seeder
 			$payment->product_id = rand(1,60);
 			$payment->client_id = rand(1,1000);
 			$payment->price = rand(10, 30) / 10;
+            $payment->paid = rand(10, 30) > 20;
+            $payment->notes = $faker->firstName;
 			$payment->save();
 		}
 

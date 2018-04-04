@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\addUserRequest;
+use App\Http\Requests\updateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -39,23 +41,23 @@ class UserController extends Controller
      * @param Request $request
      * @return User
      */
-    public function store(Request $request)
+    public function store(addUserRequest $request)
     {
-
-        // $this->validate($request->input(), [
-        //     'email' => 'required|unique:users|max:255',
-        //     'password' => 'required',
-        // ]);
-
         $user = new User();
-
-        $user->email = $request->input('email');
-        $user->password =  bcrypt ($request->input('password'));
-
+        $user->username = $request->username;
+        $user->created_by = Auth::user()->id;
+        $user->gender = $request->gender;
+        $user->birthday = $request->birthday;
+        $user->password = bcrypt($request->password);
+        $user->email = $request->email;
+        $user->role_id = $request->role_id;
         $user->save();
+
+        $user->load('role.role_buildings','role.role_modules');
 
         return $user;
     }
+
 
     /**
      * Update user
@@ -64,17 +66,18 @@ class UserController extends Controller
      * @param $id
      * @return mixed
      */
-    public function update(Request $request, $id)
+    public function update(updateUserRequest $request)
     {
-        $user = User::findOrfail($id);
-
-        $user->email = $request->input('email');
-
-        if($request->input('password') != null){
-            $user->password = bcrypt($request->input('password'));
-        }
-
+        $user = User::findOrfail($request->id);
+        $user->username = $request->username;
+        $user->gender = $request->gender;
+        $user->birthday = $request->birthday;
+        $user->password = bcrypt($request->password);
+        $user->email = $request->email;
+        $user->role_id = $request->role_id;
         $user->update();
+
+        $user->load('role.role_buildings','role.role_modules');
 
         return $user;
     }

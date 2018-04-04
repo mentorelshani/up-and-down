@@ -18,7 +18,7 @@ use App\Models\Monitor;
 use App\Models\Payment; 
 use App\Models\Product; 
 use App\Models\Relay; 
-use App\Models\Role_Access;
+use App\Models\Role_buildings;
 use App\Models\Role;
 use App\Models\Version;
 use App\User;
@@ -69,6 +69,7 @@ Route::get('/getAccessPoints/{entry_id}','AccessPointController@getAccessPointsB
 Route::get('/getAccessPointsByElevator/{elevator_id}','AccessPointController@getAccessPointsByElevator');
 Route::post('/updateAccessPoint','AccessPointController@update');
 Route::delete('/deleteAccessPoint/{id}','AccessPointController@destroy');
+Route::post('cloneAccessPoint/{id}','AccessPointController@cloneAccessPoint');
 
 Route::get('/getRelays/{access_point_id}','RelayController@getRelays');
 Route::get('/getRelaysByElevatorId/{elevator_id}','RelayController@getRelaysByElevatorId');
@@ -118,14 +119,94 @@ Route::post('addUser','UserController@add');
 
 Route::get('getRoles','RoleController@getRoles');
 Route::get('getRole/{id}','RoleController@getRole');
-Route::get('getRoleAccesses/{role_id}','RoleController@getAccesses');
+Route::get('getRoleBuildings/{role_id}','RoleController@getAccesses');
 Route::post('addRole','RoleController@addRole');
+Route::post('updateRole','RoleController@updateRole');
 Route::delete('deleteAccessFromRole/{role_access_id}','RoleController@deleteAccessFromRole');
-Route::post('giveAccessToRole','RoleController@giveAccessToRole');
+Route::post('giveAccessToBuildings','RoleController@giveAccessToRole');
+
+Route::get('auth/user', function (){ return User::whereId(Auth::user()->id)->with('role.role_buildings','role.role_modules')->first();});
+Route::post('addUser','UserController@store');
+Route::get('getNrOfTotalPackets/{imei}','ListenerController@getNrOfTotalPackets');
 
 Route::get('test1','RoleController@asd');
 
-Route::get('test', function (){
+Route::post('test',function (Request $request){
+
+    return $request->name . $request->name . "asd";
+});
+Route::get('test',function (){
+
+
+//
+//    $payment = new Payment();
+//    $payment->product_id = 1;
+//    $payment->client_id = 1;
+//    $payment->price = 20.31;
+////            $payment->paid = false;
+//    $payment->save();
+//
+//    return $payment;
+
+
+    $a = ["triumf","mentor","edison","fjolla","elbaroza"];
+
+    return $a[rand(0,3)];
+
+    $user = User::whereId(2)->with(['role.role_accesses'])->first();
+
+    return $user;
+
+    return dd(Auth::user()->role);
+
+    $user = Auth::user()->role;
+    $user->role_id = 2;
+    $user->save();
+
+    $ra = new Role_buildings();
+    $ra->role_id = 2;
+    $ra->building_id = 2;
+    $ra->permission = "E";
+    $ra->save();
+
+//    $user = new User();
+//    $user->email = "asd@asd.com";
+//    $user->username = "asd";
+//    $user->password = bcrypt("admin");
+//    $user->gender = "M";
+//    $user->created_by = 2;
+//    $user->save();
+//
+//    return;//',1)->nullable();
+//    $table->date('birthday')->nullable();
+//    $table->integer('role_id')->nullable();
+//    $table->integer('created_by')->nullable();
+//    $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+//    $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+
+    return Building::find(2);
+
+    $url = 'http://twitter.com/statuses/user_timeline/16387631.json';
+
+    $opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
+//Basically adding headers to the request
+    $context = stream_context_create($opts);
+    $html = file_get_contents($url,false,$context);
+    $html = htmlspecialchars($html);
+    dd($html);
+    //rss link for the twitter timeline
+//dumps the content, you can manipulate as you wish to
+
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        dd($data);
+
+    dd($_GET['localhost:8000/getEntry/3']);
 
     $request = \Illuminate\Http\Request::create('localhost:8000/test1', 'POST', ['param1' => 'value1', 'param2' => 'value2']);
 //    $request = Request::create('test1', 'GET');

@@ -23,6 +23,7 @@ class CreateRolesTable extends Migration
 
         $role = new Role();
         $role->name = "Admin";
+        $role->created_by = 1;
         $role->save();
     }
 

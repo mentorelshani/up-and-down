@@ -12,7 +12,11 @@ class Role extends Model
         return $this->hasMany('App\User','role_id');
     }
 
-    public function role_accesses(){
-        return $this->hasMany('App\Models\Role_access','role_id');
+    public function role_buildings(){
+        return $this->hasMany('App\Models\Role_buildings','role_id');
+    }
+
+    public function role_modules(){
+        return $this->hasMany('App\Models\Role_modules','role_id');
     }
 }

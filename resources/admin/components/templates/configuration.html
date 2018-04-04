@@ -1,0 +1,93 @@
+<div class="sub__body">
+	<div class="section__header">
+
+	</div>
+
+	<div class="block__table">
+		<div class="new_role">
+			<div class="header_role">
+				<span class="name">User role:</span>
+				<input class="value" type="" name="">
+				<button class="btnSave btn">Save</button>
+			</div>
+			<div class="body">
+				<p>Chosse module!</p>
+
+				<div class="section_left">
+					<label class="module" v-for="(module,index) in modules.role_modules" v-if="!module.access" @click="giveAccess(index)">{{module.module}}</label>
+
+					<div class="module_buildings">
+						<label class="name">Building</label>
+						<button class="btn_showBuilding">
+							<span class="glyphicon glyphicon-chevron-up btn-sm" v-if="btnShowBuildings" @click="showModuleBuildings()"></span>
+							<span class="glyphicon glyphicon-chevron-down btn-sm" v-if="!btnShowBuildings" @click="showModuleBuildings()"></span>
+						</button>
+					</div>
+
+					<div class="module_building" v-show="btnShowBuildings">
+						<span class="building" v-for="(building,index) in buildings" @click="giveAccessBuilding(building.id,building.name,index)">{{building.name}}</span>
+					</div>
+				</div>
+
+				<div class="section_right">
+					<table class="table tbl_modules">
+						<thead>
+							<tr>
+								<th class="th_remove"></th>
+								<th class="th_module">Modules</th>
+								<th class="th_RWD">Read</th>
+								<th class="th_RWD">Write</th>
+								<th class="th_RWD">Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(module,index) in modules.role_modules" v-if="module.access">
+								<td class="th_remove">
+									<button type="button" class="btn-sm btn_remove" @click="removeAccess(index)">
+						          		<span class="glyphicon glyphicon-chevron-left"></span>
+						        	</button>
+								</td>
+								<td class="th_module">{{module.module}}</td>
+								<td class="btn_checkbox">
+									<i class="fa fa-toggle-on btn_active_sm" v-if="module.read == true" @click="activeRead(module,index)" ></i>
+									<i class="fa fa-toggle-on fa-rotate-180 btn_inactive_sm" v-if="module.read==false" @click="activeRead(module,index)"></i>
+								</td>
+								<td class="btn_checkbox">
+									<i class="fa fa-toggle-on btn_active_sm" v-if="module.write == true" @click="activeWrite(module,index)" ></i>
+									<i class="fa fa-toggle-on fa-rotate-180 btn_inactive_sm" v-if="module.write==false" @click="activeWrite(module,index)"></i>
+								</td>
+								<td class="btn_checkbox">
+									<i class="fa fa-toggle-on btn_active_sm" v-if="module.delete == true" @click="activeDelete(module,index)"></i>
+									<i class="fa fa-toggle-on fa-rotate-180 btn_inactive_sm" v-if="module.delete==false" @click="activeDelete(module,index)"></i>
+								</td>
+							</tr>
+
+							<tr v-for="(building,index) in buildingsAccess">
+								<td class="th_remove">
+									<button type="button" class="btn-sm btn_remove" @click="removeAccessBuilding(building.id,building.name,index)">
+						          		<span class="glyphicon glyphicon-chevron-left"></span>
+						        	</button>
+								</td>
+								<td class="th_module">B: {{building.name}}</td>
+								<td class="btn_checkbox">
+									<i class="fa fa-toggle-on btn_active_sm" v-if="building.read == true" @click="activeReadBuilding(building,index)"></i>
+									<i class="fa fa-toggle-on fa-rotate-180 btn_inactive_sm" v-if="building.read == false" @click="activeReadBuilding(building,index)"></i>
+								</td>
+								<td class="btn_checkbox">
+									<i class="fa fa-toggle-on btn_active_sm" v-if="building.write == true" @click="activeWriteBuilding(building,index)"></i>
+									<i class="fa fa-toggle-on fa-rotate-180 btn_inactive_sm" v-if="building.write == false" @click="activeWriteBuilding(building,index)"></i>
+								</td>
+								<td class="btn_checkbox">
+									<i class="fa fa-toggle-on btn_active_sm" v-if="building.delete == true" @click="activeDeleteBuilding(building,index)"></i>
+									<i class="fa fa-toggle-on fa-rotate-180 btn_inactive_sm" v-if="building.delete == false" @click="activeDeleteBuilding(building,index)"></i>
+								</td>
+							</tr>
+						</tbody>
+					</table>	
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
