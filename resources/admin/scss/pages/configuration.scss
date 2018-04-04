@@ -1,0 +1,166 @@
+.new_role {
+	padding: 20px;
+	.header_role {
+		width: 100%;
+		border-bottom: 1px solid $borderInput;
+		float: left;
+		padding-bottom: 5px;
+		margin-bottom: 20px;
+
+		.name {
+			font-size: 25px;
+		}
+
+		.value {
+			border: 0px solid $borderInput;
+			border-bottom: 1px solid $borderInput;
+			width: 35%;
+			outline: none;
+			font-size: 20px;
+			padding-left: 5px;
+		}
+
+		.btnSave {
+			float: right;
+		}
+	}
+
+	.body {
+		width: 100%;
+
+		.section_left {
+			width:40%;
+			margin-right: 20px;
+			border:1px solid $borderLightGrey;
+			height: 500px;
+			float: left;
+			padding: 10px;
+			font-size: 19px;
+			overflow-x:auto;
+			background-color: $whiteV1;
+
+			.module_buildings {
+				.name {
+					float: left;
+					width: auto;
+					margin-bottom: 5px;
+					cursor: default;
+				}
+
+				.btn_showBuilding {
+						background-color:transparent;
+						border-color: transparent;
+						outline: none;
+						width: 32px;
+						height: 32px;
+						padding: 0px;
+						border-radius: 50px;
+					}
+			}
+
+			.module_building {
+				width: calc(100%-20px);
+				margin-left: 20px;
+				float: left;
+
+				.building {
+					clear: left;
+					float: left;
+					cursor: pointer;
+					width: 100%;
+
+				}
+			}
+
+			.module {
+				float: left;
+				// clear: left;
+				// width: auto;
+				margin-bottom: 5px;
+				cursor: pointer;
+				display: inline;
+				width: 100%;
+			}
+		}
+
+		.section_right {
+			width: calc( 60% - 20px);
+			height: 500px;
+			border:1px solid $borderLightGrey;
+			background-color: $whiteV1;
+			float: left;
+
+			.tbl_modules{
+				height: 500px;
+    			display:block;
+    			margin-bottom: 0px;
+
+    			thead {
+			        display: inline-table ;
+			        height: 40px ;
+			        float: left;
+			        width: 100%;
+
+	    			.th_module {
+						text-align: left;
+						width:calc(55% - 25px);
+					}
+
+					.th_RWD {
+						text-align: center;
+						width: 15%
+					}
+
+					.th_remove {
+						padding-left: 0;
+					    padding-right: 0;
+					    width: 25px;
+					}
+
+			    }
+
+			    tbody {
+			        display: inline-block;
+			        height: 460px ;
+			        overflow: auto !important;
+			        width: 100%;
+			        float: left;
+
+			        tr {
+			        	width: 100%;
+			        	float: left;
+			        	display: inline-flex;
+			        	
+			        	.btn_checkbox {
+							text-align: center;
+							width: 15%;
+						}
+
+	    				.th_module {
+							text-align: left;
+							width:calc(55% - 25px);
+						}
+
+				        .th_remove {
+							padding-left: 0;
+						    padding-right: 0;
+						    width: 25px;
+
+						    .btn_remove {
+								border-radius: 20px;
+							    width: 25px;
+							    height: 25px;
+							    padding:0;
+							    border:0px;
+							    background-color: transparent;
+							}
+						}
+				    }
+			    }
+
+			        
+
+			}
+		}	
+	}
+}

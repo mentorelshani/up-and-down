@@ -1,0 +1,227 @@
+<div class="sub__body body__view">
+	<div class="myProfile">
+		<div class="myProfile_header">
+			<h3 class="title">User: Anita Anita</h3>
+			<span class="glyphicon glyphicon-plus view_data" @click="FrmDetails()" v-if="showMaxDetails"></span>
+			<span class="glyphicon glyphicon-minus view_data" @click="FrmDetails()" v-if="showMinDetails"></span>  
+		</div>
+
+		<div class="edit_myProfile" v-show="showFrmDetails">
+			<div class="dataProfile_left">
+				<div class="element">
+					<label class="name">First name</label>
+					<span class="value_info" v-if="showEditForm">Anita</span>
+					<input class="value" type="text" name="" v-if="!showEditForm">
+				</div>
+
+				<div class="element">
+					<label class="name">Last name</label>
+					<span class="value_info" v-if="showEditForm">Anita</span>
+					<input class="value" type="text" name="" v-if="!showEditForm">
+				</div>
+
+				<div class="element">
+					<label class="name">Gender</label>
+					<span class="value_info" v-if="showEditForm">F</span>
+					<input class="value" type="text" name="" v-if="!showEditForm">
+				</div>
+
+				<div class="element">
+					<label class="name">Birthday</label>
+					<span class="value_info" v-if="showEditForm">10/10/2031</span>
+					<input class="value" type="date" name="" v-if="!showEditForm">
+				</div>
+			</div>
+
+			<div class="dataProfile_right">
+				<div class="element">
+					<label class="name">Email</label>
+					<span class="value_info" v-if="showEditForm">anita_anita@gmail.com</span>
+					<input class="value" type="email" name="" v-if="!showEditForm">
+				</div>
+
+				<div class="element">
+					<label class="name">Phone number</label>
+					<span class="value_info" v-if="showEditForm">+38349123322</span>
+					<input class="value" type="text" name="" v-if="!showEditForm">
+				</div>
+
+				<div class="element">
+					<button type="button" class="change_password btn " data-toggle="modal" data-target="#changePassword" >Change password</button>
+				</div>
+
+				<div class="buttons">
+					<button type="button" class="edit btn"
+					@click="editModal()" v-if="showEditForm">Edit</button>
+					<button type="button" class="save btn" v-if="!showEditForm" @click="update()">Save</button>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="myProfile_header">
+			<h3 class="title">View your access!</h3>
+			<span class="glyphicon glyphicon-plus view_data" @click="FrmAccess()" v-if="showMaxAccess"></span>
+			<span class="glyphicon glyphicon-minus view_data" @click="FrmAccess()" v-if="showMinAccess"></span>    
+		</div>
+
+		<div class="dataAccess" v-show="showFrmAccess">
+
+			<table class="table tbl_MyAccess">
+				<thead>
+				<tr>
+					<th>Modules</th>
+					<th>Read</th>
+					<th>Write</th>
+					<th>Delete</th>
+
+				</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Services/Products</td>
+						<td>true</td>
+						<td>true</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Configuration</td>
+						<td>true</td>
+						<td>true</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Building</td>
+						<td>true</td>
+						<td>true</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Clients</td>
+						<td>true</td>
+						<td>true</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Cards</td>
+						<td>true</td>
+						<td>true</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Users</td>
+						<td>true</td>
+						<td>true</td>
+						<td>true</td>
+					</tr>
+
+				</tbody>
+			</table>	
+
+			<h3 class="subTitle">Building access!</h3>
+
+			<table class="table tbl_MyAccess">
+				<thead>
+				<tr>
+					<th>Building</th>
+					<th>Entry</th>
+					<th>IMEI</th>
+					<th>Read</th>
+					<th>Write</th>
+					<th>Delete</th>
+
+				</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Dumnica 1</td>
+						<td>Hyrja c1/2</td>
+						<td>12841231241</td>
+						<td>true</td>
+						<td>false</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Lesna 1</td>
+						<td>Hyrja c2/1</td>
+						<td>4123124123</td>
+						<td>true</td>
+						<td>false</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Dumnica Grup 1</td>
+						<td>Hyrja c1/2</td>
+						<td>12841231241</td>
+						<td>true</td>
+						<td>false</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Cufa A2</td>
+						<td>Hyrja L22</td>
+						<td>1231231431</td>
+						<td>true</td>
+						<td>true</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Dumnica 1</td>
+						<td>Hyrja c1/2</td>
+						<td>12841231241</td>
+						<td>true</td>
+						<td>false</td>
+						<td>true</td>
+					</tr>
+					<tr>
+						<td>Dumnica 1</td>
+						<td>Hyrja c1/2</td>
+						<td>12841231241</td>
+						<td>true</td>
+						<td>false</td>
+						<td>true</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="modal fade modal_myProfile" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+		<div class="modal-dialog modal_change_password">
+		    <div class="modal-content">
+			    <div class="modal-header">
+			    	<button type="button" class="close" data-dismiss="modal">&times;</button>
+          			<h4 class="modal-title">Change password</h4>
+		      	</div>
+		      	
+		      	<div class="modal-body modal_body">
+		        	<div class="element">
+		        		<label class="name">Old password</label>
+		        		<input :class="{value:true, error:true}" type="text" name="">
+		        		<span :class="{error_value:true}" >Error </span>
+		        	</div>
+
+		        	<div class="element">
+		        		<label class="name">New password</label>
+		        		<input :class="{value:true}" type="text" name="">
+		        		<span :class="{error_value:true}" >Error </span>
+		        				        	</div>
+
+		        	<div class="element">
+		        		<label class="name">Confirm password</label>
+		        		<input :class="{value:true}" type="text" name="">
+		        		<span :class="{error_value:true}" >Error </span>
+		        	</div>
+		      	</div>
+		      	
+		      	<div class="modal-footer">
+		        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        	<button type="button" class="btn btn-default">Save</button>
+		      	</div>
+		    </div>
+		</div>
+	</div>
+
+</div>
+
