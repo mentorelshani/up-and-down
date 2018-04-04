@@ -1,0 +1,157 @@
+.myProfile {
+	background-color: $colorWhite;
+	margin: 15px;
+	padding: 20px;
+	float: left;
+	width: calc( 100% - 30px );
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+	height: $mainBlockHeight;
+	overflow-y:auto;
+
+	.myProfile_header {
+		width: 100%;
+		float: left;
+		.title {
+			width: auto;
+			float: left;
+		}
+
+		.view_data {
+			float: right;
+			margin:20px 5px 10px 0px;
+		}
+	}
+
+	.edit_myProfile {
+		float: left;
+		width: 100%;
+		margin-bottom: 30px;
+
+		.dataProfile_left {
+			float: left;
+			width: calc( 50% - 20px );
+			margin-right: 20px;
+			margin-left: 10px;
+
+			.element{
+				width: 100%;
+				float: left;
+
+				.name {
+					width: 100%;
+				    float: left;
+				    margin-top: 10px;
+				    font-size: 18px;
+				}
+
+				.value {
+					width: 100%;
+				    text-align: left;
+				    float: left;
+				    padding-left: 12px;
+				    outline: 0;
+				    border-radius: 4px;
+				    border: 1px solid $borderInput;
+				    height: 34px;
+				    font-size: 15px;
+				}
+
+				.value_info {
+					@extend .value;
+					border:none;
+					border-radius:0px;
+					border-bottom: 1px solid $borderInput;
+    				font-size: 18px;
+				}
+
+			}
+
+			// .element_right {
+			// 	float: right;
+			// }
+		}
+
+		.dataProfile_right {
+			@extend .dataProfile_left;
+			float: right !important;
+			margin-right: 10px;
+			margin-left: 0px;
+
+			.change_password {
+				margin-top: 40px;
+				// height: 
+			}
+
+			.buttons {
+				margin-top:40px;
+				float: left;
+				text-align: right;
+				width: 100%;
+
+				.edit {
+
+				}
+			}
+
+		}
+	}
+
+	.dataAccess {
+		float: left;
+		width: 100%;
+		margin-top: 10px;
+
+		.tbl_MyAccess {
+			width: 97%;
+			margin: 0px 1.5% 30px;
+
+		}
+
+		.subTitle {
+			padding: 10px 0px 10px 1.5%;
+		}
+	}
+}
+
+.modal_myProfile {
+		.modal_body {
+			float: left;
+			width: calc( 100% - 40px);
+			margin:0px 20px 20px;
+			.element {
+				float: left;
+				width: 100% ;
+				.name {
+					width: 100%;
+				    float: left;
+				    margin-top: 10px;
+				    font-size: 18px;
+				}
+
+				.value {
+					width: 100%;
+				    text-align: left;
+				    float: left;
+				    padding-left: 12px;
+				    outline: 0;
+				    border-radius: 4px;
+				    border: 1px solid rgba(60,60,60,.26);
+				    height: 34px;
+				    font-size: 15px;
+				}
+
+				.error {
+					@extend .value;
+					border-color: red !important;
+				}
+
+				.error_value {
+					color: red;
+					font-size:15px;
+					float: left;
+					width: 100%;
+				}
+			}
+		}
+	
+}
