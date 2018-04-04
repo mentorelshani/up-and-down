@@ -18,17 +18,12 @@ class CreateRolesTable extends Migration
             $table->increments('id');
             $table->integer('created_by')->nullable();
             $table->string('name');
-            $table->boolean('payments')->nullable();
-            $table->boolean('buildings')->nullable();
-            $table->boolean('access_points')->nullable();
-            $table->boolean('clients')->nullable();
-            $table->boolean('cards')->nullable();
-            $table->boolean('users')->nullable();
             $table->timestamps();
         });
 
         $role = new Role();
         $role->name = "Admin";
+        $role->created_by = 1;
         $role->save();
     }
 

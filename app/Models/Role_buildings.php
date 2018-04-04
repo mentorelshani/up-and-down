@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role_Access extends Model
+class Role_buildings extends Model
 {
-    protected $table = 'role_accesses';
+    protected $table = 'role_buildings';
 
     public function role(){
         return $this->hasOne('App\Models\Role','id','role_id');

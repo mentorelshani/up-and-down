@@ -24,13 +24,12 @@ class BuildingController extends Controller
         $buildings = Building::join('addresses','addresses.id','=','buildings.address_id')
                         ->join('cities','cities.id','=','addresses.city_id')
                         ->whereHasAccess()
-                        ->get();
+                        ->get(['buildings.*', 'cities.name as city' ,'addresses.*']);
 
         return $buildings;
     }
 
     public function index(PaginateRequest $request){
-        DB::enableQueryLog();
 
         $orderBy = $request->orderBy;
         $limit = $request->limit;

@@ -18,6 +18,8 @@ class CreatePaymentsTable extends Migration
             $table->integer('product_id');
             $table->integer('client_id');
             $table->double('price', 6, 3);
+            $table->boolean('paid');
+            $table->string('notes')->nullable();
             $table->timestamps();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
