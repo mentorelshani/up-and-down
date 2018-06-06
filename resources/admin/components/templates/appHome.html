@@ -1,0 +1,24 @@
+<div class="home">
+	<div class="main__breadcrumb">
+		<ol class="breadcrumb breadcrumb__">
+			<li :class="{'breadcrumb-item':true }" v-for="link in breadcrumb.matched">
+				<router-link :to="link.path" :class="{'breadcrumb__link':true, 'breadcrumb__link--active':( breadcrumb.path == link.path), }">{{link.name | capitalize | replaceUnderLine | replaceLine}}</router-link>
+			</li>
+		</ol>
+	</div>
+
+	<div class="horizontal__line"></div>
+
+	<div class="filter" v-if="showFilter">
+		<span class="filter__description">Filter By:</span>
+		<div class="filter__button">
+			<router-link to="/AppHome/entries"><button :class="{'btn':true, 'btn-success': (this.$route.path == '/AppHome/entries'), 'btn-default':(this.$route.path != '/AppHome/entries')}">Entries</button></router-link>
+			<router-link to="/AppHome/clients"><button :class="{'btn':true, 'btn-success': (this.$route.path == '/AppHome/clients'), 'btn-default':(this.$route.path != '/AppHome/clients')}">Clients</button></router-link>
+			<router-link to="/AppHome/cards"><button :class="{'btn':true, 'btn-success': (this.$route.path == '/AppHome/cards'), 'btn-default':(this.$route.path != '/AppHome/cards')}">Cards</button></router-link>
+			<router-link to="/AppHome/access_points"><button :class="{'btn':true, 'btn-success': (this.$route.path == '/AppHome/access_points'), 'btn-default':(this.$route.path != '/AppHome/access_points')}">AccessPoints</button></router-link>
+		</div>
+	</div>
+
+	<div class="horizontal__line"></div>
+	<router-view ></router-view>	
+</div>

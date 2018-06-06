@@ -1,0 +1,10 @@
+.companies__body{
+	padding: 20px 16px 0px !important;
+	padding-top:  !important;
+}
+
+@media only screen and (max-width: 1487px) {
+	.companies> .content__filter--body> .table__main> .table__body> .table__row> .table__td--action> .dropdown> .icon__dropdown{
+		height: 58px;
+	}
+}

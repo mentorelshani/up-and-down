@@ -1,0 +1,310 @@
+<div class="content__filter configuration__body">
+	<div class="content__filter--header">
+		<div class="button__add--and--pagination">
+			<button class="btn btn-add">Add new</button>
+		</div>
+		<div class="filter__search">
+			<div class="search__row">
+			    <div class="input-group" id="adv-search">
+			        <input type="text" class="form-control" placeholder="Search ..." />
+			        <div class="input-group-btn">
+			            <div class="btn-group" role="group">
+			                <div class="dropdown">
+			                   	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+			                    <div class="dropdown-menu dropdown-menu-right dropdown__filter" role="menu">     
+			                	</div>
+			            	</div>
+				        </div>
+				    </div>
+			    </div>
+			</div>
+		</div>
+		<div class="horizontal__line"></div>
+	</div>
+
+	<div class="content__filter--body role__body">
+		<div class="section_left">
+			<!-- <div class="sub_new--role">
+				<label class="module">Role</label>
+			
+				<div class="module_buildings">
+					<label class="name">Buildings</label>
+					<button class="btn_showBuilding">
+						<span class="glyphicon glyphicon-chevron-up btn-sm"></span>
+						<span class="glyphicon glyphicon-chevron-down btn-sm"></span>
+					</button>
+				</div>
+
+				<div class="module_building">
+					<span class="building" v-for="(building,index) in 3" >  building.name</span>
+				</div>
+			</div> -->
+
+			<div class="sub_role--list">
+				<div class="body">
+					<div :class="{'role':true, 'role-active': false}" v-for="role in 5">
+						<label class="name" @click="getRole(role.id)">Admin</label>
+						<div class="td--action">
+						   	<div class="dropdown">
+						   		<div class="icon__dropdown dropdown-toggle" id="dropdownRowBuilding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						            <i class="fa fa-ellipsis-v"></i>
+						        </div>
+					            <ul class="dropdown-menu dropdown-menu-main dropdown-menu-right" aria-labelledby="dropdownRowBuilding">
+					              	<li class="dropdown__item">
+					                    	<div class="dropdown__item--icon"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+					                    	<span class="dropdown__item--description">Edit</span>
+					                </li>
+					                <li class="dropdown__item">
+					                    	<div class="dropdown__item--icon"><i class="fa fa-trash" aria-hidden="true"></i></div>
+					                    	<span class="dropdown__item--description">Delete</span>
+					                </li>
+					            </ul>
+					        </div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="sub_new--role" >
+				<label class="module" >module.module.name</label>
+			
+				<div class="module_buildings" >
+					<label class="name">Buildings</label>
+					<button class="btn_showBuilding">
+						<span class="glyphicon glyphicon-chevron-up btn-sm" ></span>
+						<span class="glyphicon glyphicon-chevron-down btn-sm" ></span>
+					</button>
+				</div>
+
+				<div class="module_building">
+					<span class="building">building.name</span>
+				</div>
+			</div> -->
+		</div>
+
+		<div class="section_right">
+			<table class="table tbl_modules">
+				<thead>
+					<tr>
+						<th class="th_remove"></th>
+						<th class="th_module">Modules</th>
+						<th class="th_RWD">Read</th>
+						<th class="th_RWD">Write</th>
+						<th class="th_RWD">Delete</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr v-for="(module,index) in 3" v-if="module.access">
+						<td class="th_remove">
+							<button type="button" class="btn-sm btn_remove">
+				          		<span class="glyphicon glyphicon-chevron-left"></span>
+				        	</button>
+						</td>
+						<td class="th_module">module.module.name</td>
+						<td class="btn_checkbox">
+							<i class="fa fa-toggle-on btn_active"></i>
+						</td>
+						<td class="btn_checkbox">
+							<i class="fa fa-toggle-on btn_active"></i>
+						</td>
+						<td class="btn_checkbox">
+							<i class="fa fa-toggle-on btn_active"></i>
+						</td>
+					</tr>
+
+					<tr v-for="(building,index) in 3">
+						<td class="th_remove">
+							<button type="button" class="btn-sm btn_remove" @click="removeAccessBuilding(building,index)">
+				          		<span class="glyphicon glyphicon-chevron-left"></span>
+				        	</button>
+						</td>
+						<td class="th_module">B: building.name</td>
+						<td class="btn_checkbox">
+							<i class="fa fa-toggle-on btn_active"></i>
+						</td>
+						<td class="btn_checkbox">
+							<i class="fa fa-toggle-on btn_active"></i>
+						</td>
+						<td class="btn_checkbox">
+							<i class="fa fa-toggle-on btn_active"></i>
+						</td>
+					</tr>
+				</tbody>
+			</table>	
+		</div>
+
+		<!-- <div class="roles__list">
+			<span class="role__card--descrition">Roles</span>
+			<div class="role__card--table">
+				<div class="table__main table__1c">
+					<div class="table__body">
+						<div class="table__row table__row--link" v-for="n in 10" @click="detailsRole()">
+							<div class='table__td--data'>
+								<div class='table__td'><label>Role: </label> Admin Dum</div>
+							</div>
+							<div class="table__td--action">
+							   	<div class="dropdown">
+							   		<div class="icon__dropdown dropdown-toggle"  id="dropdownRowBuilding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							            <i class="fa fa-ellipsis-v" ></i>
+							        </div>
+						            <ul class="dropdown-menu dropdown-menu-main dropdown-menu-right" aria-labelledby="dropdownRowBuilding">
+						                <li class="dropdown__item" data-toggle="modal" data-target="#addNew">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Info</span>
+						                </li>
+						              	<li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Edit</span>
+						                </li>
+						                <li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-trash" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Delete</span>
+						                </li>
+						            </ul>
+						        </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+
+		<!--<div class="role__details" v-if="showDetailsRole">
+			<span class="role__card--descrition">Admin role details</span>
+			<div class="role__card--table">
+				<div class="table__main table__4c--role">
+					<div class="table__header">
+						<div class="table__row">
+							<div class="table__th--data">
+								<div class="table__th--module">Modules/Buildings</div>
+								<div class="table__th">Read</div>
+								<div class="table__th">Write</div>
+								<div class="table__th">Delete</div>
+							</div>
+							<div class="table__th--action"></div>
+						</div>
+					</div>
+					<div class="table__body">
+						<div class="table__row table__row--link" >
+							<div class='table__td--data' >
+								<div class='table__td--module'>App Home</div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+							</div>
+							<div class="table__td--action">
+							   	<div class="dropdown">
+							   		<div class="icon__dropdown dropdown-toggle"  id="dropdownRowBuilding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							            <i class="fa fa-ellipsis-v" ></i>
+							        </div>
+						            <ul class="dropdown-menu dropdown-menu-main dropdown-menu-right" aria-labelledby="dropdownRowBuilding">
+						                <li class="dropdown__item" data-toggle="modal" data-target="#addNew">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Info</span>
+						                </li>
+						              	<li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Edit</span>
+						                </li>
+						                <li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-trash" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Delete</span>
+						                </li>
+						            </ul>
+						        </div>
+							</div>
+						</div>
+						<div class="table__row table__row--link" >
+							<div class='table__td--data' >
+								<div class='table__td--module'>App Paymant</div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+							</div>
+							<div class="table__td--action">
+							   	<div class="dropdown">
+							   		<div class="icon__dropdown dropdown-toggle"  id="dropdownRowBuilding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							            <i class="fa fa-ellipsis-v" ></i>
+							        </div>
+						            <ul class="dropdown-menu dropdown-menu-main dropdown-menu-right" aria-labelledby="dropdownRowBuilding">
+						                <li class="dropdown__item" data-toggle="modal" data-target="#addNew">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Info</span>
+						                </li>
+						              	<li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Edit</span>
+						                </li>
+						                <li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-trash" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Delete</span>
+						                </li>
+						            </ul>
+						        </div>
+							</div>
+						</div>
+						<div class="table__row table__row--link" >
+							<div class='table__td--data' >
+								<div class='table__td--module'>App Configuration</div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+							</div>
+							<div class="table__td--action">
+							   	<div class="dropdown">
+							   		<div class="icon__dropdown dropdown-toggle"  id="dropdownRowBuilding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							            <i class="fa fa-ellipsis-v" ></i>
+							        </div>
+						            <ul class="dropdown-menu dropdown-menu-main dropdown-menu-right" aria-labelledby="dropdownRowBuilding">
+						                <li class="dropdown__item" data-toggle="modal" data-target="#addNew">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Info</span>
+						                </li>
+						              	<li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Edit</span>
+						                </li>
+						                <li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-trash" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Delete</span>
+						                </li>
+						            </ul>
+						        </div>
+							</div>
+						</div>
+						<div class="table__row table__row--link" v-for="n in 7">
+							<div class='table__td--data' >
+								<div class='table__td--module'>Dumnica Grup</div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+								<div class='table__td'><i class="fa fa-toggle-on btn_active"></i></div>
+							</div>
+							<div class="table__td--action">
+							   	<div class="dropdown">
+							   		<div class="icon__dropdown dropdown-toggle"  id="dropdownRowBuilding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							            <i class="fa fa-ellipsis-v" ></i>
+							        </div>
+						            <ul class="dropdown-menu dropdown-menu-main dropdown-menu-right" aria-labelledby="dropdownRowBuilding">
+						                <li class="dropdown__item" data-toggle="modal" data-target="#addNew">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-info" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Info</span>
+						                </li>
+						              	<li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Edit</span>
+						                </li>
+						                <li class="dropdown__item">
+						                    	<div class="dropdown__item--icon"><i class="fa fa-trash" aria-hidden="true"></i></div>
+						                    	<span class="dropdown__item--description">Delete</span>
+						                </li>
+						            </ul>
+						        </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+	</div>
+</div>

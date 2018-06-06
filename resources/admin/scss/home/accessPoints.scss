@@ -1,0 +1,9 @@
+#accessPoints {
+	width: 100%;
+	float: left;
+	@extend .content__filter;
+}
+
+.input__textarea {
+	resize: none;
+}

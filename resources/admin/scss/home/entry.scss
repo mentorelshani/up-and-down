@@ -1,0 +1,19 @@
+.entry__view {
+	width: calc(100% - 300px);
+	float: left;
+	// height: 100px;
+	// background: lightblue;
+}
+
+#entries {
+	float: left;
+	width: 100%;
+
+	@extend .content__filter; //get from home/_element.scss
+
+	.entry__access_points{
+	}
+
+	.entry__clients{
+	}
+}

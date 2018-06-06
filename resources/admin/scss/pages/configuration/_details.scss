@@ -1,0 +1,87 @@
+.header_section {
+	width: 100%;
+	float: left;
+
+	border-radius: 4px;
+	margin-bottom: 10px;
+	height: 50px;
+	padding: 10px 10px;
+
+	.title {
+		width: auto;
+		float: left;
+		font-size: 22px;
+	}
+
+	.view_data {
+		float: right;
+		font-size: 16px;
+		margin-top:6px;
+		cursor: pointer;
+	}
+}
+
+.header_section--min {
+	
+	border:1px solid rgba(0,0,0,.12);
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+	width: 100%;
+	// padding: 10px;
+	float: left;
+	@extend .header_section;
+	margin-bottom: 10px !important;
+}
+
+.form_input--config {
+
+	.element{
+		width: 100%;
+		float: left;
+
+		.name {
+			width: 100%;
+		    float: left;
+			margin-top: 10px;
+			font-size: 18px;
+		}
+
+		.value {
+			width: 100%;
+		    text-align: left;
+		    float: left;
+		    padding-left: 12px;
+		    outline: 0;
+		    border-radius: 4px;
+		    border: 1px solid $borderInput;
+		    height: 42px;
+		    font-size: 17px;
+		}
+
+		.value_info {
+			@extend .value;
+			border:none;
+			border-radius:0px;
+			border-bottom: 1px solid $borderInput;
+    		font-size: 18px;
+		}
+
+		.value__select {
+			width: 100%;
+			border-radius: 4px;
+			border: 1px solid $borderInput;
+			float: left;
+			font-size: 15px ;
+		}
+
+		.error_value {
+			border: 1px solid $borderError;
+		}
+
+		.error_message {
+			color: $textError;
+			font-size: 14px;
+			float: left;
+			width: 100%;
+		}
+	}
+}

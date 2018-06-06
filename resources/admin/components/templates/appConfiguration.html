@@ -1,0 +1,50 @@
+<div class="configuration">
+	<div class="main__breadcrumb">
+		<ol class="breadcrumb breadcrumb__">
+		    <li class="breadcrumb-item"><a href="#">Configuration</a></li>
+		    <li class="breadcrumb-item active" aria-current="page">Users</li>
+		  </ol>
+	</div>
+	<div class="horizontal__line"></div>
+	<!-- left subMenu for Configuration -->
+	<div class="menu__configuration">
+		<div :class="{'list':true}">
+			<router-link to="/AppConfiguration/users" :class="{'list__tile--link':true}">
+				<div :class="{'list__tile__title':true}">
+					<span>Users</span>
+				</div>
+			</router-link>
+
+			<router-link to="/AppConfiguration/roles" :class="{'list__tile--link':true}">
+				<div :class="{'list__tile__title':true}">
+					<span>User roles</span>
+				</div>
+			</router-link>
+
+			<router-link to="/AppConfiguration/companies" :class="{'list__tile--link':true}">
+				<div :class="{'list__tile__title':true}">
+					<span>Companies</span>
+				</div>
+			</router-link>
+
+			<router-link to="/AppConfiguration/addreses" :class="{'list__tile--link':true}">
+				<div :class="{'list__tile__title':true}">
+					<span>Addresses</span>
+				</div>
+			</router-link>
+
+			<router-link to="/AppConfiguration/cities" :class="{'list__tile--link':true}">
+				<div :class="{'list__tile__title':true}">
+					<span>Cities</span>
+				</div>
+			</router-link>
+			<router-link to="/AppConfiguration/access_points_version" :class="{'list__tile--link':true}">
+				<div :class="{'list__tile__title':true}">
+					<span>AP Version</span>
+				</div>
+			</router-link>
+		</div>
+	</div>
+
+	<router-view class="configuration__content"></router-view>
+</div>

@@ -1,0 +1,67 @@
+@import 'configuration/roles';
+@import 'configuration/users';
+@import 'configuration/companies';
+
+.configuration {
+	padding: 0px !important;
+
+	.main__breadcrumb {
+		padding: 10px 0px;
+		.breadcrumb__ {
+			margin: 0px; 
+		}
+	}
+
+	.menu__configuration {
+		width: 200px;
+		float: left;
+		// height: 100vh;
+
+		.list {
+			background: inherit;
+			padding-top:4px;
+			padding-bottom: 4px;
+			float: left;
+
+			.list__tile--link {
+				width: 100%;
+				height: 40px;
+				float: left;
+				cursor: pointer;
+				color: $alphabetMenu;
+				padding: 0px 16px;
+				text-decoration: none;
+
+				.list__tile__icon {
+					float: left;
+					padding: 7px 0px;
+					display: flex;
+				    justify-content: flex-start;
+				    min-width: 56px;
+				    font-size: 26px
+				}
+
+				.list__tile__title{
+					font-size: 15px;
+					float: left;
+					font-weight: 500;
+					padding: 11px 0px;
+				}
+
+				&:hover {
+					background: $hoverItemMenu;
+				}
+			}
+		}
+	}
+
+	.configuration__body {
+		width: calc( 100% - 200px);
+	}
+}
+
+.configuration__content{
+	width: 100%;
+	float: left;
+	background: contentBackground;
+}

@@ -1,0 +1,187 @@
+#clients {
+	float: left;
+	width: 100%;
+}
+
+.modal__large {
+	width: 1300px;
+
+	.menu__client--entry {
+		width: auto;
+		display: inline;
+		float: left;
+		margin: -10px;
+
+		.menu__item {
+			width: 100px;
+			float: left;
+			text-align: center;
+			cursor: pointer;
+			padding: 10px;
+
+			&:hover {
+				background: $hoverItemMenu;
+			}
+		}
+	}
+}
+
+.modal__body--addNew {
+	width: 100%;
+	float: left;
+	text-align: right;
+	padding-bottom: 30px;
+	padding-right: 10px;
+}
+
+.modal__body--content {
+	float: left;
+	width: 100%;
+
+	.this__entry--access {
+
+	}
+
+	.others__entry--access {
+		float: left;
+		width: 100%;
+		padding-top: 40px;
+		padding-bottom: 50px;
+
+		.title {
+
+		}
+
+		.line {
+			margin-bottom: 10px;
+		}
+	}
+}
+
+#detailsCardAccess {
+
+	.modal__header--filter {
+		float: left;
+		width: 150px;
+		margin-right: 10px;
+		font-size: 16px;
+
+		.input__filter {
+			border-radius: 4px;
+			float: left;;width: 100%;
+			border:1px solid $borderInput;
+			padding: 5px 0px 5px 3px;
+		}
+
+		#address__list {
+			border:1px solid $borderInput;
+
+			
+		}
+	}
+
+	.container__right--padding-none {
+		padding-right: 0px !important; 
+	}
+
+	.modal__details--list {
+		width: 25%;
+		float: left;
+		margin-top: -16px;
+		margin-bottom: -16px;
+		margin-left: -32px;
+		border-right: 1px solid $borderMenu;
+		height: 480px;
+
+		.main__entry {
+			// font-size: 16px;
+			width: 100%;
+			float: left;
+			border-bottom: 1px solid $borderMenu;
+			padding: 16px; 
+			cursor: pointer;
+
+			// &:hover {
+			// 	background: $hoverItemMenu;
+			// }
+		}
+
+		.others__entries {
+			width: 100%;
+			float: left;
+
+			.entries__item {
+				width: 100%;
+				float: left;
+				padding: 6px 0px 6px 16px;
+				cursor: pointer;
+
+
+				&:hover {
+					background: $hoverItemMenu;
+				}
+			}
+		}	
+	}
+
+	.modal__details--floors {
+		width: calc( 75% + 32px);
+		float: left;
+		margin-top: -16px;
+		margin-bottom: -16px;
+		height: 480px;
+		overflow-x:auto;
+		overflow-y:hidden; 
+		padding-bottom: 20px; 
+
+		.modal__details--floors-header {
+			width: 100%;
+			float: left;
+			padding: 8px 0px 8px 16px;
+			cursor: default;
+
+			.select__all--floors {
+				width: auto;
+				float: left;
+
+				.btn_turn_on {
+					padding-top: 5px;
+				}
+			}
+
+			.btn__save {
+				width: auto;
+				float: right;
+				padding: 5px;
+				border-radius: 4px;
+				cursor: pointer;
+
+				&:hover {
+					background: $hoverItemMenu;
+				}
+			}
+
+		}
+
+		.modal__details--floors-body {
+			padding: 30px 15%;
+			width: 100%;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+
+			.subtitle{
+				font-size: 20px;
+				float: left;
+				width: 100%;
+			}
+
+			.floor {
+				width: 33%;
+				padding: 10px 3px 3px 10px;
+				cursor: default;
+			}
+
+		}
+	}
+}

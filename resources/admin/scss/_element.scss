@@ -1,0 +1,376 @@
+.content__filter {
+	float: left;
+	width: 100%;
+	background: $contentBackground;
+
+	.content__filter--header {
+		width: 100%;
+		float: left;
+
+		.button__add--and--pagination {
+			padding-right: 20px;
+			width: 100%;
+			float: left;
+			text-align: right;
+			padding-top: 10px;
+
+			.pagination__ {
+				width: auto;
+				float: right;
+				margin-right: 20px;
+				// padding: 4px;
+
+				.pagination-details {
+					float: left;
+					padding: 3px 5px;
+					border: 1px solid transparent;
+					cursor: pointer;
+
+					&:hover {
+						border:1px solid rgba(255,255,255,.2);
+						cursor: pointer;
+					}
+				}
+
+				.pagination-navigation {
+					float: left;
+
+					.btn__navigation {
+						width: 36px;
+						height: 34px;
+						float:left;
+						opacity: 0.6;
+						border-radius: 4px;
+						border: 1px solid $borderButton;
+						outline: none;
+						font-size: 20px;
+						
+						&:hover {
+							opacity: 1;
+						}
+
+					}
+				}
+			}
+
+			.btn__add {
+				float: right;
+			}
+		}
+
+		.filter__search {
+			width: 100%;
+			float: left;
+			padding: 10px 0px 10px;
+
+			.search__row {
+				width: 400px;
+				padding-right: 20px;
+				float: right;
+
+				.dropdown__filter {
+					width: 380px;
+					margin:0px;
+				}
+			}
+		}
+	}
+
+	.content__filter--body {
+		width: 100%;
+		float: left;
+		padding: 20px;
+	}
+}
+
+.table__main {
+	width: 96%;
+	float: left;
+	margin: 0px 2%;
+	border-radius: 4px;
+	background: white;
+
+	.table__header {
+		width: 100%;
+		float: left;
+		height: auto;
+		font-size: 16px;
+		font-weight: 800;
+
+		border: 1px solid rgba(0,0,0,.14);
+		margin-bottom: 1px;
+		border-radius: 4px;
+		box-shadow: 0 2px 5px 0 rgba(0,0,0,.1), 0 2px 10px 0 rgba(0,0,0,.1);
+
+		.table__row {
+			float: left;
+			width: 100%;
+			padding: 8px 0px;
+			height: 40px;
+			cursor: default;
+			.table__th--data {
+				width: calc( 100% - 20px );
+				float: left;
+
+				.table__th {
+					display: inline;
+					float: left;
+					padding-left: 3px;
+					word-wrap: break-word;
+				}
+			}
+
+			.table__th--action {
+				width: 20px;
+				padding: 8px;
+				display: inline;
+				float: left;
+			}
+		}
+	}
+
+	.table__body {
+		width: 100%;
+		float: left;
+		font-size: 14px;
+
+		.table__row {
+			float: left;
+			width: 100%;
+			border: 1px solid rgba(0,0,0,.14);
+			min-height: 40px;
+			margin-bottom: 1px;
+			border-radius: 4px;
+			box-shadow: 0 2px 5px 0 rgba(0,0,0,.1), 0 2px 10px 0 rgba(0,0,0,.1);
+
+			.table__td--data {
+				width: calc( 100% - 20px );
+				float: left;
+
+				.table__td {
+					display: inline;
+				    float: left;
+				    padding: 9px 0px;
+				    padding-left: 3px;
+				    word-wrap: break-word;
+				    cursor: pointer;
+				}
+			}
+
+			.table__td--action {
+				width: 20px;
+			    float: left;
+			    display: inline;
+			    cursor: pointer;
+
+			    .icon__dropdown {
+			    	padding: 10px 8px;
+			    }
+			}
+
+			.table__td--active {
+				float: left;
+				padding-left:12px;
+				padding-top: 4px;
+				cursor: default;
+			}
+
+			&:hover {
+				background: $hoverRowLink;
+				// cursor:pointer;
+			}
+		}
+	}
+}
+
+.table__6c {
+	@extend .table__main;
+
+	.table__header {
+		.table__th {
+			width: 16.6%;
+			display: inline;
+			float: left;
+			padding-left: 3px;
+		}
+	}
+
+	.table__body {
+		.table__td {
+			width: 16.6%;
+			display: inline;
+		    float: left;
+		    padding: 9px 0px;
+		    padding-left: 3px;
+
+			.table__td--active {
+		    	width: 16.6%;
+		    }
+		}
+	}
+}
+
+.table__5c {
+	@extend .table__main;
+
+	.table__header {
+		.table__th {
+			width: 20%  ;
+		}
+	}
+
+	.table__body {
+		.table__td {
+			width: 20%;
+		}
+
+		.table__td--active {
+		    width: 20%;
+		}
+	}
+}
+
+.table__4c {
+	@extend .table__main;
+
+	.table__header {
+		.table__th {
+			width: 25% ;
+		}
+	}
+
+	.table__body {
+		.table__td {
+			width: 25%;
+		}
+
+		.table__td--active {
+		    width: 25%;
+		}
+	}
+}
+
+.table__3c {
+	@extend .table__main;
+
+	.table__header {
+		.table__th {
+			width: 33.3%;
+		}
+	}
+
+	.table__body {
+		.table__td {
+			width: 33.3%;
+		}
+
+		.table__td--active {
+		    width: 33.3%;
+		}
+	}
+}
+
+.table__1c {
+	@extend .table__main;
+
+	.table__header {
+		.table__th {
+			width: 100%;
+		}
+	}
+
+	.table__body {
+		.table__td {
+			width: 100%;
+		}
+	}
+}
+
+.table__4c--role {
+	@extend .table__main;
+
+	.table__header {
+		.table__th {
+			width: 15%;
+			text-align: center;
+		}
+
+		.table__th--module {
+			width: 55%;
+			float: left;
+			padding-left: 4px;
+		}
+	}
+	.table__body {
+		.table__td {
+			width: 15%;
+			text-align: center;
+		}
+
+		.table__td--module {
+			width: 55%;
+			float: left;
+			padding: 9px 0px;
+			padding-left: 3px;
+		}
+	}
+}
+
+.main__breadcrumb {
+	padding: 10px 10px;
+
+	.breadcrumb__ {
+		margin: 0px; 
+
+		.breadcrumb__link {
+			text-decoration: none;
+		}
+
+		.breadcrumb__link--active {
+			color: $alphabetMenu;
+
+		}
+	}
+}
+
+.dropdown-menu-main {
+	top: 15px;
+	margin-bottom: 40px;
+
+    .dropdown__item {
+    	height: 30px;
+    	padding: 6px 0px 6px 5px;
+    	float: left;
+    	width: 100%;
+
+    	&:hover {
+			background: $hoverItemMenu;
+			cursor: pointer;
+    	}
+
+    	.dropdown__item--icon {
+    		width: 10%;
+    		padding-left: 2%;
+    		float: left;
+    	}
+
+    	.dropdown__item--description {
+    		padding-left: 5px;
+    		width: 90%;
+    		float: left;
+    	}
+    }
+}
+
+.horizontal__line{
+	background-color: $borderMenu;
+	width: 100%;
+	height: 1px;
+	float: left;
+}
+
+.btn-add {
+	background: $header;
+	color: white;
+}
+

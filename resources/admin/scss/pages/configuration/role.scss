@@ -1,0 +1,403 @@
+.new_user {
+	margin-bottom: 10px;
+	float: left;
+	width: 100% ;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+	border:1px solid rgba(0,0,0,.12);
+	border-radius: 4px;
+
+	.new_user_header {
+		@extend .header_section;
+	}
+
+	.data_user {
+		float: left;
+		padding-bottom: 40px;
+		
+		.dataProfile_left {
+			float: left;
+			width: calc( 50% - 20px );
+			margin-right: 20px;
+			margin-left: 10px;
+
+			@extend .form_input--config;
+		}
+
+		.dataProfile_right {
+			@extend .dataProfile_left;
+			float: right !important;
+			margin-right: 10px;
+			margin-left: 0px;
+
+			.change_password {
+				margin-top: 40px;
+				// height: 
+			}
+
+			.buttons {
+				margin-top:40px;
+				float: left;
+				text-align: right;
+				width: 100%;
+
+				.edit {
+
+				}
+			}
+
+		}
+	}
+}
+
+.new_role {
+	margin-bottom: 10px;
+	float: left;
+	width: 100% ;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+	border:1px solid rgba(0,0,0,.12);
+	border-radius: 4px;
+	
+	.new_role_header {
+		@extend .header_section;
+
+		.view_data {
+			float: left;
+			width:auto;
+		}
+
+	}
+
+	.data_role {
+		padding: 20px;
+		padding-bottom: 40px;
+
+		.body {
+			width: 100%;
+			float: left;
+			padding-bottom: 40px;
+			padding-top: 15px;
+
+			.select_role--new--list {
+				float: left;
+				width: 100%;
+				font-size: 22px;
+				padding:0px;
+				padding-bottom: 10px;
+
+				.btn_control {
+					float: left;
+					.list{
+						cursor: pointer;
+					}
+				}
+
+				.btn_addNew {
+					float: right;
+				}
+			}
+
+			.section_left {
+				width:40%;
+				margin-right: 20px;
+				border:1px solid $borderLightGrey;
+				height: 500px;
+				float: left;
+				// padding: 10px;
+				font-size: 18px;
+				overflow-x:auto;
+				background-color: $whiteV1;
+
+				.sub_new--role {
+					// padding: 10px;
+					padding-top: 5px;
+					float: left;
+					width: 100%;
+
+					.module {
+						float: left;
+						margin-bottom: 5px;
+						padding-left: 15px;
+						padding-top: 6px;
+						height: 36px;
+						width: 100%;
+						cursor: pointer;
+						display: inline;
+						transition-duration: 100ms;
+
+						&:hover {
+			                text-decoration: none;
+			                background-color: rgba($alphabeticalColor,.1);
+			            }
+			      	}
+
+					.module_buildings {
+						float: left;
+						width: 100%;
+						margin-bottom: 5px;
+						padding-left: 15px;
+						padding-top: 6px;
+						height: 36px;
+						transition-duration: 100ms;
+
+						&:hover {
+			                text-decoration: none;
+			                background-color: rgba($alphabeticalColor,.1);
+			            }
+						.name {
+							float: left;
+							width: auto;
+							margin-bottom: 5px;
+							cursor: default;
+						}
+
+						.btn_showBuilding {
+							background-color:transparent;
+							border-color: transparent;
+							outline: none;
+							width: 32px;
+							height: auto;
+							padding: 0px;
+							border-radius: 50px;
+							margin-top: -3px;
+						}
+					}
+
+					.module_building {
+						width: 100%;
+						float: left;
+
+						.building {
+							clear: left;
+							float: left;
+							cursor: pointer;
+							padding-left: 20px;
+							width: 100%;
+							width: 100%;
+							height: 36px;
+							padding-top: 6px;
+							transition-duration: 100ms;
+
+							&:hover {
+				                text-decoration: none;
+				                background-color: rgba($alphabeticalColor,.1);
+				            }
+						}
+					}
+				}
+
+				.sub_role--list {
+					.body {
+						padding-top:2px;
+						
+						.role {
+							float: left;
+							width: 100%;
+							padding-left: 15px;
+							height: 36px;
+							transition-duration: 100ms;
+
+							.name {
+								height: 30px;
+								margin-top: 6px;
+								cursor: pointer;
+								width: calc(100% - 42px);
+							}
+
+							.btn_delete {
+								float: right;
+								color: $alphabeticalColor;
+								padding: 9px 0px;
+								margin-right: 5px;
+								cursor: pointer;
+								width: 16px;
+
+								&:hover, &:focus, &:active {
+	                				color: rgba($alphabeticalColor,.7);	 
+	                			}
+							}
+
+							.btn_edit{
+								@extend .btn_delete;
+							}
+
+							&:hover, &:focus, &:active {
+	                			background-color: rgba($alphabeticalColor,.1);
+					        	border-left: 3px solid $alphabeticalColor;
+					        }
+						}
+
+						.role-active {
+							background-color: rgba($alphabeticalColor,.1);
+					        border-left: 3px solid $alphabeticalColor;
+						}
+					}
+				}
+			}
+
+			.section_right {
+				width: calc( 60% - 20px);
+				height: 500px;
+				border:1px solid $borderLightGrey;
+				background-color: $whiteV1;
+				float: left;
+
+				.tbl_modules{
+					height: 500px;
+	    			display:block;
+	    			margin-bottom: 0px;
+
+	    			thead {
+				        display: inline-table ;
+				        height: 40px ;
+				        float: left;
+				        width: 100%;
+
+		    			.th_module {
+							text-align: left;
+							width:calc(55% - 25px);
+						}
+
+						.th_RWD {
+							text-align: center;
+							width: 15%
+						}
+
+						.th_remove {
+							padding-left: 0;
+						    padding-right: 0;
+						    width: 25px;
+						}
+
+				    }
+
+				    tbody {
+				        display: inline-block;
+				        height: 460px ;
+				        overflow: auto !important;
+				        width: 100%;
+				        float: left;
+
+				        tr {
+				        	width: 100%;
+				        	float: left;
+				        	display: inline-flex;
+				        	
+				        	.btn_checkbox {
+								text-align: center;
+								width: 15%;
+							}
+
+		    				.th_module {
+								text-align: left;
+								width:calc(55% - 25px);
+							}
+
+					        .th_remove {
+								padding-left: 0;
+							    padding-right: 0;
+							    width: 25px;
+
+							    .btn_remove {
+									border-radius: 20px;
+								    width: 25px;
+								    height: 25px;
+								    padding:0;
+								    border:0px;
+								    background-color: transparent;
+								    outline: none;
+								}
+							}
+					    }
+				    }    
+				}
+			}	
+
+			.header_role {
+				width: 100%;
+				float: left;
+				padding-bottom: 5px;
+				margin-bottom: 10px;
+				margin-top: 10px;
+
+				.name {
+					font-size: 25px;
+					font-weight: 1000px;
+				}
+
+				.value {
+					border: 0px solid $borderInput;
+					border-bottom: 1px solid $borderInput;
+					width: 50%;
+					outline: none;
+					font-size: 20px;
+					padding-left: 5px;
+					width: calc(85% - 135px);
+				}
+
+				.btnSave {
+					float: right;
+					width: 15%;
+				}
+				.error_value { 
+					font-size: 15px;
+					color: red;
+				}
+			}
+		}
+	}
+}
+
+.users_list {
+	margin-bottom: 10px;
+	float: left;
+	width: 100%;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+	border:1px solid rgba(0,0,0,.12);
+	border-radius: 4px;
+
+	.users_list_header {
+		@extend .header_section;
+	}
+
+	.data_users_list {
+		.tbl_modules {
+			float: left;
+			thead {
+				th {}
+				.action {
+					text-align: center;
+				}
+			}
+
+			tbody {
+				td {}
+				.action {
+					text-align: center;
+					.btn_view_access {
+
+			            width: 20px;
+			            cursor: pointer;
+			            color:$alphabeticalColor;
+
+			            &:hover, &:focus {
+			                opacity: 0.8;
+			            }
+					}
+				}
+				
+			}
+
+		}
+	}
+}
+
+.td--action {
+	width: 20px;
+	float: left;
+	display: inline;
+	cursor: pointer;
+
+	.icon__dropdown {
+	   	padding: 10px 8px;
+	}
+}
